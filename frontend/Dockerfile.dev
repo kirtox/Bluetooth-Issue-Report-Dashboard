@@ -1,0 +1,18 @@
+FROM node:20
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+
+# Fix Vite's crypto problem
+ENV NODE_OPTIONS=--experimental-global-webcrypto
+
+# Fix permission denied problem
+RUN chmod +x node_modules/.bin/vite
+
+EXPOSE 5173
+
+CMD ["npm", "run", "dev"]
