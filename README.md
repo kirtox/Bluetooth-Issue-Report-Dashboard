@@ -1,6 +1,6 @@
 # Bluetooth Issue Report Dashboard (Wait to update)
 
-Developed by **Ernie**, this GUI tool is designed to assist in testing the behavior of classic Bluetooth devices on Intel PTL/WhP platform with respect to **diversity mode switching** (Single / Dual antenna mode). 
+Developed by **Ernie Wu**, this GUI tool is designed to assist in testing the behavior of classic Bluetooth devices on Intel PTL/WhP platform with respect to **diversity mode switching** (Single / Dual antenna mode). 
 It collects real-time data, visualizes it, screenshot while switching diversity, and generates detailed logs and reports.
 
 ## 🛠 Features
