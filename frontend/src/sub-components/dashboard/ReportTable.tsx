@@ -236,7 +236,7 @@ function ReportTable() {
         setDateRange={setDateRange}
         onClear={clearAllFilters}
       />
-      <div className="d-flex flex-wrap gap-2 align-items-center">
+      {/* <div className="d-flex flex-wrap gap-2 align-items-center">
         <input
           type="text"
           placeholder="Search..."
@@ -280,7 +280,7 @@ function ReportTable() {
           <option value="STOP">STOP</option>
           <option value="">(Empty)</option>
         </select>
-      </div>
+      </div> */}
     </Card.Header>
 
     <Table responsive className="text-nowrap">
