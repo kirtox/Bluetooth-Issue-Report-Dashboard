@@ -8,6 +8,12 @@
     "jsx": "react-jsx", // Or "react" / "react-jsxdev", depending on React version
     "module": "ESNext",
     "target": "ESNext",
-    "moduleResolution": "Node"
+    "moduleResolution": "Node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   }
 }

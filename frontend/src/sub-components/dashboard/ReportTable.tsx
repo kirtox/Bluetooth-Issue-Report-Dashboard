@@ -4,6 +4,19 @@ import { Link } from "react-router-dom";
 import { Card, Table, Dropdown, Image } from "react-bootstrap";
 import { MoreVertical } from "react-feather";
 
+// import ReportFilters from '@/sub-components/filters/ReportFilters';
+import ReportFilters from '../filters/ReportFilters';
+
+// import SearchInput from '../filters/SearchInput';
+// import DateRangePicker from '../filters/DateRangePicker';
+// import MultiSelect from '../filters/MultiSelect';
+// import ClearFiltersButton from '../filters/ClearFiltersButton';
+
+// import SearchInput from '@/sub-components/filters/SearchInput';
+// import DateRangePicker from '@/sub-components/filters/DateRangePicker';
+// import MultiSelect from '@/sub-components/filters/MultiSelect';
+// import ClearFiltersButton from '@/sub-components/filters/ClearFiltersButton';
+
 interface ReportTableProps {
   children: React.ReactNode;
   onClick: (e: React.MouseEvent<HTMLAnchorElement>) => void;
@@ -36,6 +49,19 @@ function ReportTable() {
   const [resultFilter, setResultFilter] = useState<string>('All');
   const [statusFilter, setStatusFilter] = useState<string>('All');
 
+  // For ReportFilters use
+  const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([]);
+  const [selectedResults, setSelectedResults] = useState<string[]>([]);
+  const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
+  const [dateRange, setDateRange] = useState<{ startDate: Date | null; endDate: Date | null }>({ startDate: null, endDate: null });
+
+  const clearAllFilters = () => {
+    setSearchTerm('');
+    setSelectedPlatforms([]);
+    setSelectedResults([]);
+    setSelectedStatuses([]);
+    setDateRange({ startDate: null, endDate: null });
+  };
 
   // useEffect(() => {
   //   fetch('http://localhost:8000/reports')
@@ -105,31 +131,31 @@ function ReportTable() {
   //     return 0;
   // });
 
-  const filteredReports = reports
-  .filter((item) => {
-    const matchesSearch =
-      item.op_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.platform.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.scenario.toLowerCase().includes(searchTerm.toLowerCase());
+  // const filteredReports = reports
+  // .filter((item) => {
+  //   const matchesSearch =
+  //     item.op_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //     item.platform.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //     item.scenario.toLowerCase().includes(searchTerm.toLowerCase());
 
-    const matchesPlatform =
-      platformFilter === 'All' || item.platform === platformFilter;
+  //   const matchesPlatform =
+  //     platformFilter === 'All' || item.platform === platformFilter;
 
-    const matchesResult =
-      resultFilter === 'All' || item.result?.toUpperCase() === resultFilter;
+  //   const matchesResult =
+  //     resultFilter === 'All' || item.result?.toUpperCase() === resultFilter;
 
-    const matchesStatus =
-      statusFilter === 'All' || item.current_status?.toUpperCase() === statusFilter;
+  //   const matchesStatus =
+  //     statusFilter === 'All' || item.current_status?.toUpperCase() === statusFilter;
 
-    return matchesSearch && matchesPlatform && matchesResult && matchesStatus;
-  })
-  .sort((a, b) => {
-    const fieldA = a[sortField];
-    const fieldB = b[sortField];
-    if (fieldA < fieldB) return sortOrder === 'asc' ? -1 : 1;
-    if (fieldA > fieldB) return sortOrder === 'asc' ? 1 : -1;
-    return 0;
-  });
+  //   return matchesSearch && matchesPlatform && matchesResult && matchesStatus;
+  // })
+  // .sort((a, b) => {
+  //   const fieldA = a[sortField];
+  //   const fieldB = b[sortField];
+  //   if (fieldA < fieldB) return sortOrder === 'asc' ? -1 : 1;
+  //   if (fieldA > fieldB) return sortOrder === 'asc' ? 1 : -1;
+  //   return 0;
+  // });
 
   const handleSort = (field: string) => {
     if (field === sortField) {
@@ -139,6 +165,43 @@ function ReportTable() {
       setSortOrder('asc');
     }
   };
+
+  const filteredReports = reports
+  .filter((item) => {
+    const matchesSearch =
+      item.op_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.platform.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.scenario.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesPlatform =
+      selectedPlatforms.length === 0 || selectedPlatforms.includes(item.platform);
+
+    const matchesResult =
+      selectedResults.length === 0 || selectedResults.includes(item.result?.toUpperCase() || '');
+
+    const matchesStatus =
+      selectedStatuses.length === 0 || selectedStatuses.includes(item.current_status?.toUpperCase() || '');
+
+    const reportDate = new Date(item.date);
+    const start = dateRange.startDate;
+    const end = dateRange.endDate? new Date(new Date(dateRange.endDate).setHours(23, 59, 59, 999)) : null;
+
+    const matchesDate = !start || !end || (reportDate >= start && reportDate <= end);
+    // const matchesDate =
+    //   !dateRange.startDate || !dateRange.endDate ||
+    //   (reportDate >= dateRange.startDate && reportDate <= dateRange.endDate);
+
+    return matchesSearch && matchesPlatform && matchesResult && matchesStatus && matchesDate;
+  })
+  .sort((a, b) => {
+    const fieldA = a[sortField];
+    const fieldB = b[sortField];
+    if (fieldA < fieldB) return sortOrder === 'asc' ? -1 : 1;
+    if (fieldA > fieldB) return sortOrder === 'asc' ? 1 : -1;
+    return 0;
+  });
+
+  
 
   return (
     <Card className="h-100">
@@ -157,6 +220,22 @@ function ReportTable() {
     </Card.Header> */}
     <Card.Header className="bg-white py-4">
       <h4 className="mb-2">Daily Reports</h4>
+      <ReportFilters
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        platformOptions={[...new Set(reports.map(r => r.platform))]}
+        selectedPlatforms={selectedPlatforms}
+        setSelectedPlatforms={setSelectedPlatforms}
+        resultOptions={['PASS', 'FAIL', '']}
+        selectedResults={selectedResults}
+        setSelectedResults={setSelectedResults}
+        statusOptions={['FINISH', 'RUNNING', 'STOP', '']}
+        selectedStatuses={selectedStatuses}
+        setSelectedStatuses={setSelectedStatuses}
+        dateRange={dateRange}
+        setDateRange={setDateRange}
+        onClear={clearAllFilters}
+      />
       <div className="d-flex flex-wrap gap-2 align-items-center">
         <input
           type="text"
