@@ -12,11 +12,6 @@ import ReportFilters from '../filters/ReportFilters';
 // import MultiSelect from '../filters/MultiSelect';
 // import ClearFiltersButton from '../filters/ClearFiltersButton';
 
-// import SearchInput from '@/sub-components/filters/SearchInput';
-// import DateRangePicker from '@/sub-components/filters/DateRangePicker';
-// import MultiSelect from '@/sub-components/filters/MultiSelect';
-// import ClearFiltersButton from '@/sub-components/filters/ClearFiltersButton';
-
 interface ReportTableProps {
   children: React.ReactNode;
   onClick: (e: React.MouseEvent<HTMLAnchorElement>) => void;
@@ -54,6 +49,15 @@ function ReportTable() {
   const [selectedResults, setSelectedResults] = useState<string[]>([]);
   const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
   const [dateRange, setDateRange] = useState<{ startDate: Date | null; endDate: Date | null }>({ startDate: null, endDate: null });
+
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(10); // 每頁10筆
+
+  // 切換篩選時自動回到第一頁
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, selectedPlatforms, selectedResults, selectedStatuses, dateRange]);
 
   const clearAllFilters = () => {
     setSearchTerm('');
@@ -201,6 +205,12 @@ function ReportTable() {
     return 0;
   });
 
+  // Pagination calculation
+  const indexOfLastRow = currentPage * rowsPerPage;
+  const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+  const currentReports = filteredReports.slice(indexOfFirstRow, indexOfLastRow);
+  const totalPages = Math.ceil(filteredReports.length / rowsPerPage);
+
   
 
   return (
@@ -317,7 +327,7 @@ function ReportTable() {
         </tr>
       </thead>
       <tbody>
-        {filteredReports.map((item) => {
+        {currentReports.map((item) => {
           return (
             <tr key={item.id}>
               <td className="align-middle">{item.op_name}</td>
@@ -359,6 +369,49 @@ function ReportTable() {
         })}
       </tbody>
     </Table>
+    {/* Pagination controls */}
+    <div className="d-flex justify-content-between align-items-center mt-3">
+      <div>
+        <span>Rows per page </span>
+        <select
+          value={rowsPerPage}
+          onChange={e => {
+            setRowsPerPage(Number(e.target.value));
+            setCurrentPage(1);
+          }}
+          style={{ width: 70, display: 'inline-block' }}
+        >
+          {[5, 10, 20, 50].map(size => (
+            <option key={size} value={size}>{size}</option>
+          ))}
+        </select>
+        <span> , Total: {filteredReports.length} data</span>
+      </div>
+      <nav>
+        <ul className="pagination mb-0">
+          <li className={`page-item${currentPage === 1 ? ' disabled' : ''}`}>
+            <button className="page-link" onClick={() => setCurrentPage(1)} disabled={currentPage === 1}>«</button>
+          </li>
+          <li className={`page-item${currentPage === 1 ? ' disabled' : ''}`}>
+            <button className="page-link" onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1}>‹</button>
+          </li>
+          {Array.from({ length: totalPages }, (_, idx) => idx + 1).slice(
+            Math.max(0, currentPage - 3),
+            Math.min(totalPages, currentPage + 2)
+          ).map(pageNum => (
+            <li key={pageNum} className={`page-item${currentPage === pageNum ? ' active' : ''}`}>
+              <button className="page-link" onClick={() => setCurrentPage(pageNum)}>{pageNum}</button>
+            </li>
+          ))}
+          <li className={`page-item${currentPage === totalPages || totalPages === 0 ? ' disabled' : ''}`}>
+            <button className="page-link" onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages || totalPages === 0}>›</button>
+          </li>
+          <li className={`page-item${currentPage === totalPages || totalPages === 0 ? ' disabled' : ''}`}>
+            <button className="page-link" onClick={() => setCurrentPage(totalPages)} disabled={currentPage === totalPages || totalPages === 0}>»</button>
+          </li>
+        </ul>
+      </nav>
+    </div>
     </Card>
   );
 }

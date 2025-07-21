@@ -2,9 +2,9 @@ import random
 import requests
 from datetime import datetime, timedelta
 
-API_URL = "http://localhost:8000/reports"  # 改成你的 FastAPI 服務 URL
+API_URL = "http://localhost:8000/reports"  # Change to your FastAPI service URL
 
-# === 資料定義 ===
+# === Data Definition ===
 op_name = ["Ernie", "Tony", "Alex", "Angus", "Ben", "Fiona"]
 os_version = ["26100.4656", "22631.5624", "22621.5624", "22631.5472"]
 platform_brand = ["HP", "Lenovo", "Dell", "Samsung", "Microsoft", "Acer", "Asus", "Intel"]
