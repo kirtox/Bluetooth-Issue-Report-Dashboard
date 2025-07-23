@@ -9,11 +9,17 @@ import { StatRightTopIcon } from "widgets";
 // import sub components
 import { ActiveProjects, Teams, TasksPerformance } from "sub-components";
 
+// import cpu icon selection
+import { getCpuIcon } from "../../data/dashboard/CPUIcon";
+
 // import required data files
-import ProjectsStatsData from "data/dashboard/ProjectsStatsData";
+// import ProjectsStatsData from "data/dashboard/ProjectsStatsData";
+import { useCPUStats } from "../../data/dashboard/CPUStats";
 import ReportTable from "sub-components/dashboard/ReportTable";
 
+
 const Dashboard = () => {
+  const { stats, loading } = useCPUStats();
   console.log("Dashboard");
   return (
     <Fragment>
@@ -34,15 +40,35 @@ const Dashboard = () => {
               </div>
             </div>
           </Col>
-          {ProjectsStatsData.map((item, index) => {
+          {/* {ProjectsStatsData.map((item, index) => {
+            console.log('ProjectsStatsData item:', item, 'index:', index);
             return (
               <Col xl={3} lg={6} md={12} xs={12} className="mt-6" key={index}>
                 <StatRightTopIcon info={item} />
               </Col>
             );
-          })}
+          })} */}
+          <Row>
+            {loading ? (
+              <div>Loading...</div>
+            ) : (
+              stats.map((item, index) => (
+                <Col xl={3} lg={6} md={12} xs={12} className="mt-6" key={index}>
+                  <StatRightTopIcon
+                    info={{
+                      id: index,
+                      cpu: item.cpu,
+                      count: item.count,
+                      icon: getCpuIcon(item.cpu),
+                    }}
+                  />
+                </Col>
+              ))
+            )}
+          </Row>
         </Row>
 
+        {/* Active Projects  */}
         <Row className="my-6">
           <Col lg={12} md={12} xs={12}>
             <ReportTable />

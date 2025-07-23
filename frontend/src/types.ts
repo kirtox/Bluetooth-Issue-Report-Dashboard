@@ -62,6 +62,13 @@ export interface ProjectsStatsProps {
   statInfo: string;
 }
 
+export interface CPUStatsProps {
+  id: number;
+  cpu: string;
+  count: number;
+  icon: React.ReactNode;
+}
+
 export interface ProjectContriProps {
   id: number;
   projectName: string;

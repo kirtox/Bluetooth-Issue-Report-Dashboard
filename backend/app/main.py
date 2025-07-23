@@ -3,6 +3,7 @@ from .db import get_db, engine
 from . import models, crud, auth, export
 from .schema_report import ReportCreate, ReportUpdate, ReportInDB
 from sqlalchemy.orm import Session
+from sqlalchemy import func
 # Solve CORS（Cross-Origin Resource Sharing） issue
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -46,3 +47,8 @@ def update_report(report_id: int, report: ReportUpdate, db: Session = Depends(ge
 @app.delete("/reports/{report_id}")
 def delete_report(report_id: int, db: Session = Depends(get_db)):
     return crud.delete_report(db, report_id)
+
+@app.get("/reports/cpu_stats")
+def get_cpu_stats(db: Session = Depends(get_db)):
+    result = db.query(models.Report.cpu, func.count(models.Report.cpu)).group_by(models.Report.cpu).all()
+    return [{"cpu": cpu, "count": count} for cpu, count in result]

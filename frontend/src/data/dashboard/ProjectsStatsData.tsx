@@ -1,6 +1,7 @@
 import { Briefcase, ListTask, People, Bullseye } from "react-bootstrap-icons";
 import { ProjectsStatsProps } from "types";
 
+
 export const ProjectsStats: ProjectsStatsProps[] = [
   {
     id: 1,
