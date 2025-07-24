@@ -175,7 +175,11 @@ function ReportTable() {
     const matchesSearch =
       item.op_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.platform.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.scenario.toLowerCase().includes(searchTerm.toLowerCase());
+      item.scenario.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.bt_driver.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.wifi_driver.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.result.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.current_status.toLowerCase().includes(searchTerm.toLowerCase());
 
     const matchesPlatform =
       selectedPlatforms.length === 0 || selectedPlatforms.includes(item.platform);
