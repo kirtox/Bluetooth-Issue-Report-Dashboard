@@ -1,7 +1,7 @@
 // import node module libraries
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
-import { Container, Col, Row } from "react-bootstrap";
+import { Container, Col, Row, Card } from "react-bootstrap";
 
 // import widget/custom components
 import { StatRightTopIcon } from "widgets";
@@ -16,10 +16,59 @@ import { getCpuIcon } from "../../data/dashboard/CPUIcon";
 // import ProjectsStatsData from "data/dashboard/ProjectsStatsData";
 import { useCPUStats } from "../../data/dashboard/CPUStats";
 import ReportTable from "sub-components/dashboard/ReportTable";
+import React, { useState, useEffect } from "react";
+import ReportPieChart from "sub-components/dashboard/ReportPieChart";
+import ReportFilters from "sub-components/filters/ReportFilters";
+import { Report } from "sub-components/dashboard/ReportTable";
 
 
 const Dashboard = () => {
   const { stats, loading } = useCPUStats();
+
+  // 報表資料與 filter 狀態
+  const [reports, setReports] = useState<Report[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([]);
+  const [selectedResults, setSelectedResults] = useState<string[]>([]);
+  const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
+  const [dateRange, setDateRange] = useState<{ startDate: Date | null; endDate: Date | null }>({ startDate: null, endDate: null });
+
+  useEffect(() => {
+    fetch('http://localhost:8000/reports')
+      .then(res => res.json())
+      .then(data => setReports(data));
+  }, []);
+
+  const filteredReports = reports.filter((item) => {
+    const matchesSearch =
+      item.op_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.platform.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.scenario.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.bt_driver.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.wifi_driver.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.result.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.current_status.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesPlatform =
+      selectedPlatforms.length === 0 || selectedPlatforms.includes(item.platform);
+    const matchesResult =
+      selectedResults.length === 0 || selectedResults.includes(item.result?.toUpperCase() || '');
+    const matchesStatus =
+      selectedStatuses.length === 0 || selectedStatuses.includes(item.current_status?.toUpperCase() || '');
+    const reportDate = new Date(item.date);
+    const start = dateRange.startDate;
+    const end = dateRange.endDate ? new Date(new Date(dateRange.endDate).setHours(23, 59, 59, 999)) : null;
+    const matchesDate = !start || !end || (reportDate >= start && reportDate <= end);
+    return matchesSearch && matchesPlatform && matchesResult && matchesStatus && matchesDate;
+  });
+
+  const clearAllFilters = () => {
+    setSearchTerm('');
+    setSelectedPlatforms([]);
+    setSelectedResults([]);
+    setSelectedStatuses([]);
+    setDateRange({ startDate: null, endDate: null });
+  };
+
   console.log("Dashboard");
   return (
     <Fragment>
@@ -30,7 +79,7 @@ const Dashboard = () => {
             <div>
               <div className="d-flex justify-content-between align-items-center">
                 <div className="mb-2 mb-lg-0">
-                  <h3 className="mb-0  text-white">Projects</h3>
+                  <h3 className="mb-0  text-white">CPU</h3>
                 </div>
                 <div>
                   <Link to="#" className="btn btn-white">
@@ -68,11 +117,60 @@ const Dashboard = () => {
           </Row>
         </Row>
 
-        {/* Active Projects  */}
+        {/* Pie chart summary area */}
         <Row className="my-6">
           <Col lg={12} md={12} xs={12}>
-            <ReportTable />
+            <h4 className="mb-2">Charts</h4>
+            <Card className="p-3 mb-4">
+              <ReportPieChart reports={filteredReports} field="result" title="Results" />
+              {/* 你可以加更多 PieChart */}
+            </Card>
           </Col>
+        </Row>
+
+        {/* Line chart summary area */}
+        {/* <Row className="my-6">
+          <Col lg={12} md={12} xs={12}>
+            <h4 className="mb-2">Trend Charts</h4>
+            <Card className="p-3 mb-4">
+              
+            </Card>
+          </Col>
+        </Row> */}
+
+        {/* Filter 區塊 */}
+        <Row className="my-6">
+          <Col lg={12} md={12} xs={12}>
+            <h4 className="mb-2">Report Filters</h4>
+            <Card className="p-3 mb-4">
+              <ReportFilters
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+                platformOptions={[...new Set(reports.map(r => r.platform))]}
+                selectedPlatforms={selectedPlatforms}
+                setSelectedPlatforms={setSelectedPlatforms}
+                resultOptions={['PASS', 'FAIL', '']}
+                selectedResults={selectedResults}
+                setSelectedResults={setSelectedResults}
+                statusOptions={['FINISH', 'RUNNING', 'STOP', '']}
+                selectedStatuses={selectedStatuses}
+                setSelectedStatuses={setSelectedStatuses}
+                dateRange={dateRange}
+                setDateRange={setDateRange}
+                onClear={clearAllFilters}
+              />
+            </Card>
+          </Col>
+          
+          {/* Table 區塊 */}
+          <Col lg={12} md={12} xs={12}>
+            <ReportTable reports={filteredReports} />
+          </Col>
+        </Row>
+
+        
+        <Row className="my-6">
+          
         </Row>
 
         <ActiveProjects />

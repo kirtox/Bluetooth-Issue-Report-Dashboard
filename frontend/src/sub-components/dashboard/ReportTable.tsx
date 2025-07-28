@@ -6,6 +6,7 @@ import { MoreVertical } from "react-feather";
 
 // import ReportFilters from '@/sub-components/filters/ReportFilters';
 import ReportFilters from '../filters/ReportFilters';
+import ReportSummary from './ReportSummary';
 
 // import SearchInput from '../filters/SearchInput';
 // import DateRangePicker from '../filters/DateRangePicker';
@@ -13,8 +14,7 @@ import ReportFilters from '../filters/ReportFilters';
 // import ClearFiltersButton from '../filters/ClearFiltersButton';
 
 interface ReportTableProps {
-  children: React.ReactNode;
-  onClick: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+  reports: Report[];
 }
 
 export interface Report {
@@ -33,9 +33,7 @@ export interface Report {
   [key: string]: any; // ← To accommodate extra fields
 }
 
-function ReportTable() {
-  const [reports, setReports] = useState<Report[]>([]);
-
+function ReportTable({ reports }: ReportTableProps) {
   const [sortField, setSortField] = useState<string>('date');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -74,22 +72,22 @@ function ReportTable() {
   //     .catch((err) => console.error('Failed to load reports:', err));
   // }, []);
 
-  useEffect(() => {
-    fetch('http://localhost:8000/reports')
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        return res.json();
-      })
-      .then((data) => {
-        console.log('✅ Report fetch success, data:', data);
-        setReports(data);
-      })
-      .catch((err) => {
-        console.error('❌ Report failed to load reports:', err);
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch('http://localhost:8000/reports')
+  //     .then((res) => {
+  //       if (!res.ok) {
+  //         throw new Error(`HTTP error! status: ${res.status}`);
+  //       }
+  //       return res.json();
+  //     })
+  //     .then((data) => {
+  //       console.log('✅ Report fetch success, data:', data);
+  //       setReports(data);
+  //     })
+  //     .catch((err) => {
+  //       console.error('❌ Report failed to load reports:', err);
+  //     });
+  // }, []);
 
   const ActionMenu = () => {
     return (
@@ -105,7 +103,7 @@ function ReportTable() {
     );
   };
 
-  const CustomToggle = React.forwardRef<HTMLAnchorElement, ReportTableProps>(
+  const CustomToggle = React.forwardRef<HTMLAnchorElement, { children: React.ReactNode; onClick: (e: React.MouseEvent<HTMLAnchorElement>) => void }>(
     ({ children, onClick }, ref) => (
       <Link
         to=""
@@ -232,9 +230,17 @@ function ReportTable() {
         className="form-control w-25"
       />
     </Card.Header> */}
+    
+    {/* Pie chart summary 區塊 */}
+    {/* <div className="mb-4">
+      <Card className="p-3">
+        <ReportSummary reports={filteredReports} />
+      </Card>
+    </div> */}
+
     <Card.Header className="bg-white py-4">
       <h4 className="mb-2">Daily Reports</h4>
-      <ReportFilters
+      {/* <ReportFilters
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
         platformOptions={[...new Set(reports.map(r => r.platform))]}
@@ -249,7 +255,8 @@ function ReportTable() {
         dateRange={dateRange}
         setDateRange={setDateRange}
         onClear={clearAllFilters}
-      />
+      /> */}
+      
       {/* <div className="d-flex flex-wrap gap-2 align-items-center">
         <input
           type="text"

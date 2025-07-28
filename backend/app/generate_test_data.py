@@ -173,7 +173,7 @@ def post_report():
     print(response.json())
 
 if __name__ == "__main__":
-    for _ in range(1):
+    for _ in range(50):
         # print(f"report_data: {generate_random_report()}")
         report_data = generate_random_report()
         response = requests.post(API_URL, json=report_data)
