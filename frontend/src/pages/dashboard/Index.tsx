@@ -17,9 +17,13 @@ import { getCpuIcon } from "../../data/dashboard/CPUIcon";
 import { useCPUStats } from "../../data/dashboard/CPUStats";
 import ReportTable from "sub-components/dashboard/ReportTable";
 import React, { useState, useEffect } from "react";
-import ReportPieChart from "sub-components/dashboard/ReportPieChart";
+
 import ReportFilters from "sub-components/filters/ReportFilters";
 import { Report } from "sub-components/dashboard/ReportTable";
+
+import ReportPieChart from "sub-components/dashboard/ReportPieChart";
+import ReportBTDriverDoughnutChart from "sub-components/dashboard/ReportBTDriverDoughnutChart";
+import ReportBTDriverBarChart from "sub-components/dashboard/ReportBTDriverBarChart";
 
 
 const Dashboard = () => {
@@ -79,7 +83,7 @@ const Dashboard = () => {
             <div>
               <div className="d-flex justify-content-between align-items-center">
                 <div className="mb-2 mb-lg-0">
-                  <h3 className="mb-0  text-white">CPU</h3>
+                  <h3 className="mb-0  text-white">Bluetooth Issue Report Dashboard</h3>
                 </div>
                 <div>
                   <Link to="#" className="btn btn-white">
@@ -120,29 +124,30 @@ const Dashboard = () => {
         {/* Pie chart summary area */}
         <Row className="my-6">
           <Col lg={12} md={12} xs={12}>
-            <h4 className="mb-2">Charts</h4>
             <Card className="p-3 mb-4">
+              <h4 className="mb-2">Charts</h4>
               <ReportPieChart reports={filteredReports} field="result" title="Results" />
+              {/* <ReportBTDriverDoughnutChart reports={filteredReports} /> */}
               {/* 你可以加更多 PieChart */}
             </Card>
           </Col>
         </Row>
 
         {/* Line chart summary area */}
-        {/* <Row className="my-6">
+        <Row className="my-6">
           <Col lg={12} md={12} xs={12}>
-            <h4 className="mb-2">Trend Charts</h4>
             <Card className="p-3 mb-4">
-              
+              <h4 className="mb-2">Trend Charts</h4>
+              <ReportBTDriverBarChart reports={filteredReports} />
             </Card>
           </Col>
-        </Row> */}
+        </Row>
 
         {/* Filter 區塊 */}
         <Row className="my-6">
           <Col lg={12} md={12} xs={12}>
-            <h4 className="mb-2">Report Filters</h4>
             <Card className="p-3 mb-4">
+              <h4 className="mb-2">Report Filters</h4>
               <ReportFilters
                 searchTerm={searchTerm}
                 setSearchTerm={setSearchTerm}
