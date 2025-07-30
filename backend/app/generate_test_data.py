@@ -83,11 +83,11 @@ power_type = ["AC", "DC"]
 urgent_level = ["Fireball", "P1", "P2", "P3", ""]
 fix_work_week = [f"WW{str(i).zfill(2)}" for i in range(1, 53)] + [""]
 fix_bt_driver = ["23.180.0.3", "23.180.0.5", ""]
-result = ["Pass", "Fail", ""]
+result = ["Pass", "Fail", "On-Going"]
 fail_rate = {
     "Pass": ["0/200", "0/4207", "0/1000"],
     "Fail": ["1/300", "5/13245", "2/60"],
-    "": [""]
+    "On-Going": [""]
 }
 current_status = ["Finish", "Running", "Stop"]
 log_path = ["https://www.intel.com/content/www/us/en/homepage.html", None]

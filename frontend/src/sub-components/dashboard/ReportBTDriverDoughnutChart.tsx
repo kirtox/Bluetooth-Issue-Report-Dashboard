@@ -23,7 +23,7 @@ const ReportBTDriverDoughnutChart: React.FC<Props> = ({ reports, title = "BT Dri
     .sort((a, b) => b.value - a.value);
 
   return (
-    <div style={{ width: 400, height: 400 }}>
+    <div style={{ width: "100%", height: 400 }}>
       <h5 className="text-center fw-bold mb-3" style={{ fontSize: "1.5rem" }}>{title}</h5>
       <ResponsiveContainer width="100%" height="90%">
         <PieChart>
@@ -35,7 +35,8 @@ const ReportBTDriverDoughnutChart: React.FC<Props> = ({ reports, title = "BT Dri
             cy="50%"
             outerRadius={150}
             innerRadius={80} // 這裡設定圓環
-            label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
+            label={({ name, percent }) => `${name} (${((percent || 0) * 100).toFixed(0)}%)`}
+            labelLine={{ stroke: '#666', strokeWidth: 1 }}
           >
             {data.map((entry, idx) => (
               <Cell key={`cell-${idx}`} fill={COLORS[idx % COLORS.length]} />

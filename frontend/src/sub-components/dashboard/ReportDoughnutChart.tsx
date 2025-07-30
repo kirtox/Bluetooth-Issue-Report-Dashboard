@@ -1,17 +1,17 @@
-// frontend/src/sub-components/dashboard/ReportPieChart.tsx
+// frontend/src/sub-components/dashboard/ReportBTDriverDoughnutChart.tsx
 import React from "react";
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { Report } from "./ReportTable";
 
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8", "#d0ed57"];
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8", "#d0ed57", "#FF69B4", "#A52A2A"];
 
-interface ReportPieChartProps {
+interface ReportDoughnutChartProps {
   reports: Report[];
   field: keyof Report;
   title: string;
 }
 
-const ReportPieChart: React.FC<ReportPieChartProps> = ({ reports, field, title }) => {
+const ReportDoughnutChart: React.FC<ReportDoughnutChartProps> = ({ reports, field, title }) => {
   const dataMap = reports.reduce((acc, cur) => {
     const key = (cur[field] || "(Empty)").toString();
     acc[key] = (acc[key] || 0) + 1;
@@ -21,18 +21,20 @@ const ReportPieChart: React.FC<ReportPieChartProps> = ({ reports, field, title }
   const data = Object.entries(dataMap).map(([name, value]) => ({ name, value }));
 
   return (
-    <div style={{ width: 400, height: 400 }}>
-      <h5 className="text-center fw-bold mb-3" style={{ fontSize: "1.5rem" }}>{title}</h5>
+    <div style={{ width: "100%", height: 400 }}>
+      <h5 className="text-center fw-bold mb-4" style={{ fontSize: "1.5rem" }}>{title}</h5>
       <ResponsiveContainer width="100%" height="90%">
         <PieChart>
           <Pie
             data={data}
             dataKey="value"
             nameKey="name"
-            cx="50%"
-            cy="50%"
-            outerRadius={80}
-            label
+            cx="55%"
+            cy="55%"
+            outerRadius={150}
+            innerRadius={80} // 這裡設定圓環
+            label={({ name, percent }) => `${name} (${((percent || 0) * 100).toFixed(0)}%)`}
+            labelLine={{ stroke: '#666', strokeWidth: 1 }}
           >
             {data.map((entry, idx) => (
               <Cell key={`cell-${idx}`} fill={COLORS[idx % COLORS.length]} />
@@ -46,4 +48,4 @@ const ReportPieChart: React.FC<ReportPieChartProps> = ({ reports, field, title }
   );
 };
 
-export default ReportPieChart;
+export default ReportDoughnutChart;

@@ -80,7 +80,7 @@ class Report(Base):
     ips_id = Column(String)
     hsd_id = Column(String)
 
-    result = Column(String)
+    result = Column(String, nullable=False)
     fail_rate = Column(String)
     current_status = Column(String, nullable=False)
 

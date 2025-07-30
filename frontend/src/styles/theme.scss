@@ -59,3 +59,43 @@
     color: $primary;
   }
 }
+
+// Remove focus outline from charts
+.recharts-wrapper,
+.recharts-responsive-container,
+.recharts-pie-chart,
+.recharts-pie {
+  outline: none !important;
+  &:focus {
+    outline: none !important;
+  }
+}
+
+// Remove focus outline from SVG elements
+.recharts-wrapper svg,
+.recharts-pie-chart svg {
+  outline: none !important;
+  &:focus {
+    outline: none !important;
+  }
+}
+
+// 移除 Recharts Pie 相关 SVG 的 focus outline
+.recharts-pie-sector,
+.recharts-pie path,
+.recharts-pie text,
+.recharts-pie-chart g,
+.recharts-pie-chart path,
+.recharts-pie-chart text {
+  outline: none !important;
+  stroke: none !important;
+}
+.recharts-pie-sector:focus,
+.recharts-pie path:focus,
+.recharts-pie text:focus,
+.recharts-pie-chart g:focus,
+.recharts-pie-chart path:focus,
+.recharts-pie-chart text:focus {
+  outline: none !important;
+  stroke: none !important;
+}
