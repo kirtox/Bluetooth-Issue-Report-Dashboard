@@ -128,11 +128,9 @@ const Dashboard = () => {
               <h4 className="mb-2">Charts</h4>
               <Row>
                 <Col lg={6} md={12} xs={12}>
-                  {/* <ReportPieChart reports={filteredReports} field="result" title="Results" /> */}
                   <ReportDoughnutChart reports={filteredReports} field="result" title="Results" />
                 </Col>
                 <Col lg={6} md={12} xs={12}>
-                  {/* <ReportBTDriverDoughnutChart reports={filteredReports} /> */}
                   <ReportDoughnutChart reports={filteredReports} field="bt_driver" title="BT drivers" />
                 </Col>
               </Row>

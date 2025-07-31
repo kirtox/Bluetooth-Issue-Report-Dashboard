@@ -1,7 +1,7 @@
 // import node module libraries
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Card, Table, Dropdown, Image } from "react-bootstrap";
+import { Card, Table, Dropdown, Image, Spinner } from "react-bootstrap";
 import { MoreVertical } from "react-feather";
 
 // import ReportFilters from '@/sub-components/filters/ReportFilters';
@@ -349,20 +349,52 @@ function ReportTable({ reports }: ReportTableProps) {
               <td className="align-middle">{item.wifi_driver}</td>
               <td className="align-middle">
                 {item.result?.toUpperCase() === 'PASS' ? (
-                  <span className="badge bg-success">{item.result}</span>
+                  <span className="badge bg-success d-flex align-items-center justify-content-center" style={{ height: "2em" }}>
+                    {item.result}
+                  </span>
                 ) : item.result?.toUpperCase() === 'FAIL' ? (
-                  <span className="badge bg-danger">{item.result}</span>
+                  <span className="badge bg-danger d-flex align-items-center justify-content-center" style={{ height: "2em" }}>
+                    {item.result}
+                  </span>
+                ) : item.result?.toUpperCase() === 'ON-GOING' ? (
+                  <span className="badge bg-warning d-flex align-items-center justify-content-center" style={{ height: "2em" }}>
+                    <Spinner
+                        as="span"
+                        animation="grow"
+                        size="sm"
+                        role="status"
+                        aria-hidden="true"
+                        className="me-1"
+                    />
+                    {item.result}
+                  </span>
                 ) : (
-                  <span>{item.result || ''}</span>
+                  <span className="badge bg-secondary d-flex align-items-center justify-content-center" style={{ height: "2em" }}>
+                    {item.result || ''}
+                  </span>
                 )}
               </td>
               <td className="align-middle">
                 {item.current_status?.toUpperCase() === 'FINISH' ? (
-                  <span className="badge bg-success">{item.current_status}</span>
+                  <span className="badge bg-success d-flex align-items-center justify-content-center" style={{ height: "2em" }}>
+                    {item.current_status}
+                  </span>
                 ) : item.current_status?.toUpperCase() === 'RUNNING' ? (
-                  <span className="badge bg-warning">{item.current_status}</span>
+                  <span className="badge bg-warning d-flex align-items-center justify-content-center" style={{ height: "2em" }}>
+                    <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                      className="me-1"
+                    />
+                    {item.current_status}
+                  </span>
                 ) : item.current_status?.toUpperCase() === 'STOP' ? (
-                  <span className="badge bg-danger">{item.current_status}</span>
+                  <span className="badge bg-danger d-flex align-items-center justify-content-center" style={{ height: "2em" }}>
+                    {item.current_status}
+                  </span>
                 ) : (
                   <span>{item.current_status || ''}</span>
                 )}

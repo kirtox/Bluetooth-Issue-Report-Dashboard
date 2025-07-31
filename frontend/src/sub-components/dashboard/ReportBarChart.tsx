@@ -1,25 +1,26 @@
-// frontend/src/sub-components/dashboard/ReportBTDriverBarChart.tsx
+// frontend/src/sub-components/dashboard/ReportBarChart.tsx
 import React from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, LabelList } from "recharts";
 import { Report } from "./ReportTable";
 
-interface Props {
+interface ReportBarChartProps {
   reports: Report[];
-  title?: string;
+  field: keyof Report;
+  title: string;
 }
 
-const ReportBTDriverBarChart: React.FC<Props> = ({ reports, title = "BT Driver" }) => {
-  // 統計各 BT driver 筆數
+const ReportBTDriverBarChart: React.FC<ReportBarChartProps> = ({ reports, title = "BT Driver" }) => {
+  // Counting data
   const dataMap = reports.reduce((acc, cur) => {
     const key = cur.bt_driver || "(Empty)";
     acc[key] = (acc[key] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
 
-  // 轉成 recharts 需要的陣列格式
+  // Transfer the data type for recharts
   const data = Object.entries(dataMap)
     .map(([name, value]) => ({ name, value }))
-    .sort((a, b) => b.value - a.value); // 依數量排序
+    .sort((a, b) => b.value - a.value); // Sorted by number
 
   return (
     <div style={{ width: "100%", height: 400 }}>

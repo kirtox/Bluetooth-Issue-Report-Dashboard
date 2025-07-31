@@ -1,15 +1,16 @@
 // frontend/src/sub-components/dashboard/ReportBTDriverDoughnutChart.tsx
 import React from "react";
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from "recharts";
-import { Report } from "./ReportTable";
+// import { Report } from "./ReportTable";
+import { ReportDoughnutChartProps } from "types";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8", "#d0ed57", "#FF69B4", "#A52A2A"];
 
-interface ReportDoughnutChartProps {
-  reports: Report[];
-  field: keyof Report;
-  title: string;
-}
+// interface ReportDoughnutChartProps {
+//   reports: Report[];
+//   field: keyof Report;
+//   title: string;
+// }
 
 const ReportDoughnutChart: React.FC<ReportDoughnutChartProps> = ({ reports, field, title }) => {
   const dataMap = reports.reduce((acc, cur) => {
@@ -30,8 +31,10 @@ const ReportDoughnutChart: React.FC<ReportDoughnutChartProps> = ({ reports, fiel
             dataKey="value"
             nameKey="name"
             cx="55%"
-            cy="55%"
-            outerRadius={150}
+            cy="50%"
+            // cy="62%"
+            // outerRadius={150}
+            outerRadius={130}
             innerRadius={80} // 這裡設定圓環
             label={({ name, percent }) => `${name} (${((percent || 0) * 100).toFixed(0)}%)`}
             labelLine={{ stroke: '#666', strokeWidth: 1 }}
@@ -41,7 +44,8 @@ const ReportDoughnutChart: React.FC<ReportDoughnutChartProps> = ({ reports, fiel
             ))}
           </Pie>
           <Tooltip />
-          <Legend />
+          {/* <Legend /> */}
+          <Legend wrapperStyle={{ marginTop: 30 }} />
         </PieChart>
       </ResponsiveContainer>
     </div>

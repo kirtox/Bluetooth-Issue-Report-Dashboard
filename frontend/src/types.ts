@@ -126,3 +126,9 @@ export interface DashboardMenuProps {
   badge?: string;
   badgecolor?: string;
 }
+
+export interface ReportDoughnutChartProps {
+  reports: Report[];
+  field: keyof Report;
+  title: string;
+}
