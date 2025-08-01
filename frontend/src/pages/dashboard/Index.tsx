@@ -21,7 +21,7 @@ import React, { useState, useEffect } from "react";
 import ReportFilters from "sub-components/filters/ReportFilters";
 import { Report } from "sub-components/dashboard/ReportTable";
 
-import ReportPieChart from "sub-components/dashboard/ReportPieChart";
+// import ReportPieChart from "sub-components/dashboard/ReportPieChart";
 import ReportDoughnutChart from "sub-components/dashboard/ReportDoughnutChart";
 import ReportBTDriverBarChart from "sub-components/dashboard/ReportBTDriverBarChart";
 

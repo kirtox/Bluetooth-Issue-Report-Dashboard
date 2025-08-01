@@ -127,7 +127,39 @@ export interface DashboardMenuProps {
   badgecolor?: string;
 }
 
+export interface ReportTableProps {
+  reports: Report[];
+}
+
+export interface Report {
+  id: number;
+  op_name: string;
+  date: string;
+  platform: string;
+  scenario: string;
+  bt_driver: string;
+  wifi_driver: string;
+  power_type: string;
+  urgent_level: string;
+  result: string;
+  current_status: string;
+  log_path: string;
+  [key: string]: any; // ← To accommodate extra fields
+}
+
+export interface ReportPieChartProps {
+  reports: Report[];
+  field: keyof Report;
+  title: string;
+}
+
 export interface ReportDoughnutChartProps {
+  reports: Report[];
+  field: keyof Report;
+  title: string;
+}
+
+export interface ReportBarChartProps {
   reports: Report[];
   field: keyof Report;
   title: string;

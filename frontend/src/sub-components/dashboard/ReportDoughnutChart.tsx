@@ -1,7 +1,6 @@
 // frontend/src/sub-components/dashboard/ReportBTDriverDoughnutChart.tsx
 import React from "react";
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from "recharts";
-// import { Report } from "./ReportTable";
 import { ReportDoughnutChartProps } from "types";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8", "#d0ed57", "#FF69B4", "#A52A2A"];
@@ -19,7 +18,10 @@ const ReportDoughnutChart: React.FC<ReportDoughnutChartProps> = ({ reports, fiel
     return acc;
   }, {} as Record<string, number>);
 
-  const data = Object.entries(dataMap).map(([name, value]) => ({ name, value }));
+  // Transfer the data type for recharts
+  const data = Object.entries(dataMap)
+    .map(([name, value]) => ({ name, value }))
+    .sort((a, b) => b.value - a.value); // Sorted by number
 
   return (
     <div style={{ width: "100%", height: 400 }}>

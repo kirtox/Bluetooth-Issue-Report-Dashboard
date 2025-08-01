@@ -1,15 +1,15 @@
 // frontend/src/sub-components/dashboard/ReportPieChart.tsx
 import React from "react";
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from "recharts";
-import { Report } from "./ReportTable";
+import { ReportPieChartProps } from "types";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8", "#d0ed57"];
 
-interface ReportPieChartProps {
-  reports: Report[];
-  field: keyof Report;
-  title: string;
-}
+// interface ReportPieChartProps {
+//   reports: Report[];
+//   field: keyof Report;
+//   title: string;
+// }
 
 const ReportPieChart: React.FC<ReportPieChartProps> = ({ reports, field, title }) => {
   const dataMap = reports.reduce((acc, cur) => {

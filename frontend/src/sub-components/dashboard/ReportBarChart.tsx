@@ -1,18 +1,12 @@
 // frontend/src/sub-components/dashboard/ReportBarChart.tsx
 import React from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, LabelList } from "recharts";
-import { Report } from "./ReportTable";
+import { ReportBarChartProps } from "types";
 
-interface ReportBarChartProps {
-  reports: Report[];
-  field: keyof Report;
-  title: string;
-}
-
-const ReportBTDriverBarChart: React.FC<ReportBarChartProps> = ({ reports, title = "BT Driver" }) => {
+const ReportBarChart: React.FC<ReportBarChartProps> = ({ reports, field, title }) => {
   // Counting data
   const dataMap = reports.reduce((acc, cur) => {
-    const key = cur.bt_driver || "(Empty)";
+    const key = (cur[field] || "(Empty)").toString();
     acc[key] = (acc[key] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
@@ -44,4 +38,4 @@ const ReportBTDriverBarChart: React.FC<ReportBarChartProps> = ({ reports, title 
   );
 };
 
-export default ReportBTDriverBarChart;
+export default ReportBarChart;

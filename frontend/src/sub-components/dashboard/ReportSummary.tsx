@@ -1,3 +1,5 @@
+// Unused
+
 // frontend/src/sub-components/dashboard/ReportSummary.tsx
 import React from "react";
 import { Report } from "./ReportTable";

@@ -5,42 +5,44 @@ import { Card, Table, Dropdown, Image, Spinner } from "react-bootstrap";
 import { MoreVertical } from "react-feather";
 
 // import ReportFilters from '@/sub-components/filters/ReportFilters';
-import ReportFilters from '../filters/ReportFilters';
-import ReportSummary from './ReportSummary';
+// import ReportFilters from '../filters/ReportFilters';
+// import ReportSummary from './ReportSummary';
+
+import { ReportTableProps } from "types";
 
 // import SearchInput from '../filters/SearchInput';
 // import DateRangePicker from '../filters/DateRangePicker';
 // import MultiSelect from '../filters/MultiSelect';
 // import ClearFiltersButton from '../filters/ClearFiltersButton';
 
-interface ReportTableProps {
-  reports: Report[];
-}
+// interface ReportTableProps {
+//   reports: Report[];
+// }
 
-export interface Report {
-  id: number;
-  op_name: string;
-  date: string;
-  platform: string;
-  scenario: string;
-  bt_driver: string;
-  wifi_driver: string;
-  power_type: string;
-  urgent_level: string;
-  result: string;
-  current_status: string;
-  log_path: string;
-  [key: string]: any; // ← To accommodate extra fields
-}
+// export interface Report {
+//   id: number;
+//   op_name: string;
+//   date: string;
+//   platform: string;
+//   scenario: string;
+//   bt_driver: string;
+//   wifi_driver: string;
+//   power_type: string;
+//   urgent_level: string;
+//   result: string;
+//   current_status: string;
+//   log_path: string;
+//   [key: string]: any; // ← To accommodate extra fields
+// }
 
 function ReportTable({ reports }: ReportTableProps) {
   const [sortField, setSortField] = useState<string>('date');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const [searchTerm, setSearchTerm] = useState<string>('');
 
-  const [platformFilter, setPlatformFilter] = useState<string>('All');
-  const [resultFilter, setResultFilter] = useState<string>('All');
-  const [statusFilter, setStatusFilter] = useState<string>('All');
+  // const [platformFilter, setPlatformFilter] = useState<string>('All');
+  // const [resultFilter, setResultFilter] = useState<string>('All');
+  // const [statusFilter, setStatusFilter] = useState<string>('All');
 
   // For ReportFilters use
   const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([]);
