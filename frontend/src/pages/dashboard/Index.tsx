@@ -23,7 +23,7 @@ import { Report } from "sub-components/dashboard/ReportTable";
 
 // import ReportPieChart from "sub-components/dashboard/ReportPieChart";
 import ReportDoughnutChart from "sub-components/dashboard/ReportDoughnutChart";
-import ReportBTDriverBarChart from "sub-components/dashboard/ReportBTDriverBarChart";
+import ReportBarChart from "sub-components/dashboard/ReportBarChart";
 
 
 const Dashboard = () => {
@@ -133,6 +133,9 @@ const Dashboard = () => {
                 <Col lg={6} md={12} xs={12}>
                   <ReportDoughnutChart reports={filteredReports} field="bt_driver" title="BT drivers" />
                 </Col>
+                <Col lg={12} md={12} xs={12} className="mt-4">
+                  <ReportDoughnutChart reports={filteredReports} field="scenario" title="Scenarios" />
+                </Col>
               </Row>
               {/* 你可以加更多 PieChart */}
             </Card>
@@ -144,7 +147,14 @@ const Dashboard = () => {
           <Col lg={12} md={12} xs={12}>
             <Card className="p-3 mb-4">
               <h4 className="mb-2">Trend Charts</h4>
-              <ReportBTDriverBarChart reports={filteredReports} />
+              <Row>
+                <Col lg={6} md={12} xs={12}>
+                  <ReportBarChart reports={filteredReports} field="bt_driver" title="BT drivers" />
+                </Col>
+                <Col lg={6} md={12} xs={12}>
+                  <ReportBarChart reports={filteredReports} field="platform_brand" title="Platform Brand" />
+                </Col>
+              </Row>
             </Card>
           </Col>
         </Row>
