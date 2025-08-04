@@ -10,39 +10,10 @@ import { MoreVertical } from "react-feather";
 
 import { ReportTableProps } from "types";
 
-// import SearchInput from '../filters/SearchInput';
-// import DateRangePicker from '../filters/DateRangePicker';
-// import MultiSelect from '../filters/MultiSelect';
-// import ClearFiltersButton from '../filters/ClearFiltersButton';
-
-// interface ReportTableProps {
-//   reports: Report[];
-// }
-
-// export interface Report {
-//   id: number;
-//   op_name: string;
-//   date: string;
-//   platform: string;
-//   scenario: string;
-//   bt_driver: string;
-//   wifi_driver: string;
-//   power_type: string;
-//   urgent_level: string;
-//   result: string;
-//   current_status: string;
-//   log_path: string;
-//   [key: string]: any; // ← To accommodate extra fields
-// }
-
 function ReportTable({ reports }: ReportTableProps) {
   const [sortField, setSortField] = useState<string>('date');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const [searchTerm, setSearchTerm] = useState<string>('');
-
-  // const [platformFilter, setPlatformFilter] = useState<string>('All');
-  // const [resultFilter, setResultFilter] = useState<string>('All');
-  // const [statusFilter, setStatusFilter] = useState<string>('All');
 
   // For ReportFilters use
   const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([]);
@@ -52,9 +23,9 @@ function ReportTable({ reports }: ReportTableProps) {
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(10); // 每頁10筆
+  const [rowsPerPage, setRowsPerPage] = useState(10); // 10 data per page
 
-  // 切換篩選時自動回到第一頁
+  // Auto reset to first page while changing filters
   useEffect(() => {
     setCurrentPage(1);
   }, [searchTerm, selectedPlatforms, selectedResults, selectedStatuses, dateRange]);
@@ -66,30 +37,6 @@ function ReportTable({ reports }: ReportTableProps) {
     setSelectedStatuses([]);
     setDateRange({ startDate: null, endDate: null });
   };
-
-  // useEffect(() => {
-  //   fetch('http://localhost:8000/reports')
-  //     .then((res) => res.json())
-  //     .then((data) => setReports(data))
-  //     .catch((err) => console.error('Failed to load reports:', err));
-  // }, []);
-
-  // useEffect(() => {
-  //   fetch('http://localhost:8000/reports')
-  //     .then((res) => {
-  //       if (!res.ok) {
-  //         throw new Error(`HTTP error! status: ${res.status}`);
-  //       }
-  //       return res.json();
-  //     })
-  //     .then((data) => {
-  //       console.log('✅ Report fetch success, data:', data);
-  //       setReports(data);
-  //     })
-  //     .catch((err) => {
-  //       console.error('❌ Report failed to load reports:', err);
-  //     });
-  // }, []);
 
   const ActionMenu = () => {
     return (
@@ -120,46 +67,6 @@ function ReportTable({ reports }: ReportTableProps) {
       </Link>
     )
   );
-
-  // const filteredReports = reports
-  //   .filter((item) =>
-  //     item.op_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //     item.platform.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //     item.scenario.toLowerCase().includes(searchTerm.toLowerCase())
-  //   )
-  //   .sort((a, b) => {
-  //     const fieldA = a[sortField];
-  //     const fieldB = b[sortField];
-  //     if (fieldA < fieldB) return sortOrder === 'asc' ? -1 : 1;
-  //     if (fieldA > fieldB) return sortOrder === 'asc' ? 1 : -1;
-  //     return 0;
-  // });
-
-  // const filteredReports = reports
-  // .filter((item) => {
-  //   const matchesSearch =
-  //     item.op_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //     item.platform.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //     item.scenario.toLowerCase().includes(searchTerm.toLowerCase());
-
-  //   const matchesPlatform =
-  //     platformFilter === 'All' || item.platform === platformFilter;
-
-  //   const matchesResult =
-  //     resultFilter === 'All' || item.result?.toUpperCase() === resultFilter;
-
-  //   const matchesStatus =
-  //     statusFilter === 'All' || item.current_status?.toUpperCase() === statusFilter;
-
-  //   return matchesSearch && matchesPlatform && matchesResult && matchesStatus;
-  // })
-  // .sort((a, b) => {
-  //   const fieldA = a[sortField];
-  //   const fieldB = b[sortField];
-  //   if (fieldA < fieldB) return sortOrder === 'asc' ? -1 : 1;
-  //   if (fieldA > fieldB) return sortOrder === 'asc' ? 1 : -1;
-  //   return 0;
-  // });
 
   const handleSort = (field: string) => {
     if (field === sortField) {
@@ -219,9 +126,7 @@ function ReportTable({ reports }: ReportTableProps) {
 
   return (
     <Card className="h-100">
-    {/* <Card.Header className="bg-white py-4">
-      <h4 className="mb-0">Daily Reports</h4>
-    </Card.Header> */}
+
     {/* <Card.Header className="bg-white py-4 d-flex justify-content-between align-items-center">
       <h4 className="mb-0">Daily Reports</h4>
       <input
@@ -242,68 +147,6 @@ function ReportTable({ reports }: ReportTableProps) {
 
     <Card.Header className="bg-white py-4">
       <h4 className="mb-2">Daily Reports</h4>
-      {/* <ReportFilters
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        platformOptions={[...new Set(reports.map(r => r.platform))]}
-        selectedPlatforms={selectedPlatforms}
-        setSelectedPlatforms={setSelectedPlatforms}
-        resultOptions={['PASS', 'FAIL', '']}
-        selectedResults={selectedResults}
-        setSelectedResults={setSelectedResults}
-        statusOptions={['FINISH', 'RUNNING', 'STOP', '']}
-        selectedStatuses={selectedStatuses}
-        setSelectedStatuses={setSelectedStatuses}
-        dateRange={dateRange}
-        setDateRange={setDateRange}
-        onClear={clearAllFilters}
-      /> */}
-      
-      {/* <div className="d-flex flex-wrap gap-2 align-items-center">
-        <input
-          type="text"
-          placeholder="Search..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="form-control w-auto"
-        />
-
-        <select
-          value={platformFilter}
-          onChange={(e) => setPlatformFilter(e.target.value)}
-          className="form-select w-auto"
-        >
-          <option value="All">All Platforms</option>
-          {[...new Set(reports.map((r) => r.platform))].map((platform) => (
-            <option key={platform} value={platform}>
-              {platform}
-            </option>
-          ))}
-        </select>
-
-        <select
-          value={resultFilter}
-          onChange={(e) => setResultFilter(e.target.value)}
-          className="form-select w-auto"
-        >
-          <option value="All">All Results</option>
-          <option value="PASS">PASS</option>
-          <option value="FAIL">FAIL</option>
-          <option value="">(Empty)</option>
-        </select>
-
-        <select
-          value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value)}
-          className="form-select w-auto"
-        >
-          <option value="All">All Status</option>
-          <option value="FINISH">FINISH</option>
-          <option value="RUNNING">RUNNING</option>
-          <option value="STOP">STOP</option>
-          <option value="">(Empty)</option>
-        </select>
-      </div> */}
     </Card.Header>
 
     <Table responsive className="text-nowrap">

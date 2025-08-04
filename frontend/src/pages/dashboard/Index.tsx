@@ -137,7 +137,6 @@ const Dashboard = () => {
                   <ReportDoughnutChart reports={filteredReports} field="scenario" title="Scenarios" />
                 </Col>
               </Row>
-              {/* 你可以加更多 PieChart */}
             </Card>
           </Col>
         </Row>
@@ -189,14 +188,9 @@ const Dashboard = () => {
           </Col>
         </Row>
 
-        
-        <Row className="my-6">
-          
-        </Row>
+        {/* <ActiveProjects /> */}
 
-        <ActiveProjects />
-
-        <Row className="my-6">
+        {/* <Row className="my-6">
           <Col xl={4} lg={12} md={12} xs={12} className="mb-6 mb-xl-0">
             <TasksPerformance />
           </Col>
@@ -204,7 +198,7 @@ const Dashboard = () => {
           <Col xl={8} lg={12} md={12} xs={12}>
             <Teams />
           </Col>
-        </Row>
+        </Row> */}
       </Container>
     </Fragment>
   );
