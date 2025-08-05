@@ -7,7 +7,7 @@ import { Container, Col, Row, Card } from "react-bootstrap";
 import { StatRightTopIcon } from "widgets";
 
 // import sub components
-import { ActiveProjects, Teams, TasksPerformance } from "sub-components";
+// import { ActiveProjects, Teams, TasksPerformance } from "sub-components";
 
 // import cpu icon selection
 import { getCpuIcon } from "../../data/dashboard/CPUIcon";
@@ -19,7 +19,7 @@ import ReportTable from "sub-components/dashboard/ReportTable";
 import React, { useState, useEffect } from "react";
 
 import ReportFilters from "sub-components/filters/ReportFilters";
-import { Report } from "sub-components/dashboard/ReportTable";
+import { Report } from "types";
 
 // import ReportPieChart from "sub-components/dashboard/ReportPieChart";
 import ReportDoughnutChart from "sub-components/dashboard/ReportDoughnutChart";

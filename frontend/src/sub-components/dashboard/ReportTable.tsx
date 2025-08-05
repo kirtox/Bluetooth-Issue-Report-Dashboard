@@ -4,39 +4,35 @@ import { Link } from "react-router-dom";
 import { Card, Table, Dropdown, Image, Spinner } from "react-bootstrap";
 import { MoreVertical } from "react-feather";
 
-// import ReportFilters from '@/sub-components/filters/ReportFilters';
-// import ReportFilters from '../filters/ReportFilters';
-// import ReportSummary from './ReportSummary';
-
 import { ReportTableProps } from "types";
 
 function ReportTable({ reports }: ReportTableProps) {
   const [sortField, setSortField] = useState<string>('date');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
-  const [searchTerm, setSearchTerm] = useState<string>('');
+  // const [searchTerm, setSearchTerm] = useState<string>('');
 
   // For ReportFilters use
-  const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([]);
-  const [selectedResults, setSelectedResults] = useState<string[]>([]);
-  const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
-  const [dateRange, setDateRange] = useState<{ startDate: Date | null; endDate: Date | null }>({ startDate: null, endDate: null });
+  // const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([]);
+  // const [selectedResults, setSelectedResults] = useState<string[]>([]);
+  // const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
+  // const [dateRange, setDateRange] = useState<{ startDate: Date | null; endDate: Date | null }>({ startDate: null, endDate: null });
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10); // 10 data per page
 
   // Auto reset to first page while changing filters
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [searchTerm, selectedPlatforms, selectedResults, selectedStatuses, dateRange]);
+  // useEffect(() => {
+  //   setCurrentPage(1);
+  // }, [searchTerm, selectedPlatforms, selectedResults, selectedStatuses, dateRange]);
 
-  const clearAllFilters = () => {
-    setSearchTerm('');
-    setSelectedPlatforms([]);
-    setSelectedResults([]);
-    setSelectedStatuses([]);
-    setDateRange({ startDate: null, endDate: null });
-  };
+  // const clearAllFilters = () => {
+  //   setSearchTerm('');
+  //   setSelectedPlatforms([]);
+  //   setSelectedResults([]);
+  //   setSelectedStatuses([]);
+  //   setDateRange({ startDate: null, endDate: null });
+  // };
 
   const ActionMenu = () => {
     return (
@@ -77,50 +73,53 @@ function ReportTable({ reports }: ReportTableProps) {
     }
   };
 
-  const filteredReports = reports
-  .filter((item) => {
-    const matchesSearch =
-      item.op_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.platform.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.scenario.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.bt_driver.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.wifi_driver.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.result.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.current_status.toLowerCase().includes(searchTerm.toLowerCase());
+  // const filteredReports = reports
+  // .filter((item) => {
+  //   const matchesSearch =
+  //     item.op_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //     item.platform.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //     item.scenario.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //     item.bt_driver.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //     item.wifi_driver.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //     item.result.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //     item.current_status.toLowerCase().includes(searchTerm.toLowerCase());
 
-    const matchesPlatform =
-      selectedPlatforms.length === 0 || selectedPlatforms.includes(item.platform);
+  //   const matchesPlatform =
+  //     selectedPlatforms.length === 0 || selectedPlatforms.includes(item.platform);
 
-    const matchesResult =
-      selectedResults.length === 0 || selectedResults.includes(item.result?.toUpperCase() || '');
+  //   const matchesResult =
+  //     selectedResults.length === 0 || selectedResults.includes(item.result?.toUpperCase() || '');
 
-    const matchesStatus =
-      selectedStatuses.length === 0 || selectedStatuses.includes(item.current_status?.toUpperCase() || '');
+  //   const matchesStatus =
+  //     selectedStatuses.length === 0 || selectedStatuses.includes(item.current_status?.toUpperCase() || '');
 
-    const reportDate = new Date(item.date);
-    const start = dateRange.startDate;
-    const end = dateRange.endDate? new Date(new Date(dateRange.endDate).setHours(23, 59, 59, 999)) : null;
+  //   const reportDate = new Date(item.date);
+  //   const start = dateRange.startDate;
+  //   const end = dateRange.endDate? new Date(new Date(dateRange.endDate).setHours(23, 59, 59, 999)) : null;
 
-    const matchesDate = !start || !end || (reportDate >= start && reportDate <= end);
-    // const matchesDate =
-    //   !dateRange.startDate || !dateRange.endDate ||
-    //   (reportDate >= dateRange.startDate && reportDate <= dateRange.endDate);
+  //   const matchesDate = !start || !end || (reportDate >= start && reportDate <= end);
+  //   // const matchesDate =
+  //   //   !dateRange.startDate || !dateRange.endDate ||
+  //   //   (reportDate >= dateRange.startDate && reportDate <= dateRange.endDate);
 
-    return matchesSearch && matchesPlatform && matchesResult && matchesStatus && matchesDate;
-  })
-  .sort((a, b) => {
-    const fieldA = a[sortField];
-    const fieldB = b[sortField];
-    if (fieldA < fieldB) return sortOrder === 'asc' ? -1 : 1;
-    if (fieldA > fieldB) return sortOrder === 'asc' ? 1 : -1;
-    return 0;
-  });
+  //   return matchesSearch && matchesPlatform && matchesResult && matchesStatus && matchesDate;
+  // })
+  // .sort((a, b) => {
+  //   const fieldA = a[sortField];
+  //   const fieldB = b[sortField];
+  //   if (fieldA < fieldB) return sortOrder === 'asc' ? -1 : 1;
+  //   if (fieldA > fieldB) return sortOrder === 'asc' ? 1 : -1;
+  //   return 0;
+  // });
 
   // Pagination calculation
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-  const currentReports = filteredReports.slice(indexOfFirstRow, indexOfLastRow);
-  const totalPages = Math.ceil(filteredReports.length / rowsPerPage);
+
+  const currentReports = reports.slice(indexOfFirstRow, indexOfLastRow);
+  const totalPages = Math.ceil(reports.length / rowsPerPage);
+  // const currentReports = filteredReports.slice(indexOfFirstRow, indexOfLastRow);
+  // const totalPages = Math.ceil(filteredReports.length / rowsPerPage);
 
   
 
@@ -273,7 +272,7 @@ function ReportTable({ reports }: ReportTableProps) {
             <option key={size} value={size}>{size}</option>
           ))}
         </select>
-        <span> , Total: {filteredReports.length} data</span>
+        <span> , Total: {reports.length} data</span>
       </div>
       <nav>
         <ul className="pagination mb-0">
