@@ -1,12 +1,12 @@
 // import node module libraries
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Card, Table, Dropdown, Image, Spinner } from "react-bootstrap";
+import { Card, Table, Dropdown, Image, Spinner, Modal, Button, Form } from "react-bootstrap";
 import { MoreVertical } from "react-feather";
 
-import { ReportTableProps } from "types";
+import { ReportTableProps, Report } from "types";
 
-function ReportTable({ reports }: ReportTableProps) {
+function ReportTable({ reports, onReload }: ReportTableProps) {
   const [sortField, setSortField] = useState<string>('date');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   // const [searchTerm, setSearchTerm] = useState<string>('');
@@ -34,19 +34,70 @@ function ReportTable({ reports }: ReportTableProps) {
   //   setDateRange({ startDate: null, endDate: null });
   // };
 
-  const ActionMenu = () => {
-    return (
-      <Dropdown>
-        <Dropdown.Toggle as={CustomToggle}>
-          <MoreVertical size="15px" className="text-muted" />
-        </Dropdown.Toggle>
-        <Dropdown.Menu align={"end"}>
-          <Dropdown.Item eventKey="1">Edit</Dropdown.Item>
-          <Dropdown.Item eventKey="2">Delete</Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
-    );
+  // ...原本 state
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editingReport, setEditingReport] = useState<Report | null>(null);
+  const [editForm, setEditForm] = useState<Report | null>(null);
+
+  
+  // 關閉編輯視窗
+  const handleCloseModal = () => {
+    setShowEditModal(false);
+    setEditingReport(null);
   };
+
+  // 開啟編輯視窗
+  const handleEdit = (report: Report) => {
+    setEditingReport(report);
+    setEditForm({ ...report }); // 複製一份作為表單
+    setShowEditModal(true);
+  };
+
+  const handleSave = async () => {
+    if (!editForm) return;
+    try {
+      const response = await fetch(`http://localhost:8000/reports/${editForm.id}`, {
+        method: "PUT", // 或 PATCH
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(editForm),
+      });
+      if (!response.ok) throw new Error("Update failed");
+      // 可選：更新前端資料
+      if (onReload) onReload(); // 通知父層重新抓資料
+      setShowEditModal(false);
+      setEditingReport(null);
+      // 你可以在這裡觸發父層重新 fetch 資料，或直接在前端更新 reports
+    } catch (err) {
+      alert("Update data failed!");
+    }
+  };
+
+  // const ActionMenu = () => {
+  //   return (
+  //     <Dropdown>
+  //       <Dropdown.Toggle as={CustomToggle}>
+  //         <MoreVertical size="15px" className="text-muted" />
+  //       </Dropdown.Toggle>
+  //       <Dropdown.Menu align={"end"}>
+  //         <Dropdown.Item eventKey="1">Edit</Dropdown.Item>
+  //         <Dropdown.Item eventKey="2">Delete</Dropdown.Item>
+  //       </Dropdown.Menu>
+  //     </Dropdown>
+  //   );
+  // };
+  const ActionMenu = ({ onEdit }: { onEdit: () => void }) => (
+    <Dropdown>
+      <Dropdown.Toggle as={CustomToggle}>
+        <MoreVertical size="15px" className="text-muted" />
+      </Dropdown.Toggle>
+      <Dropdown.Menu align={"end"}>
+        <Dropdown.Item eventKey="1" onClick={onEdit}>Edit</Dropdown.Item>
+        <Dropdown.Item eventKey="2">Delete</Dropdown.Item>
+      </Dropdown.Menu>
+    </Dropdown>
+  );
 
   const CustomToggle = React.forwardRef<HTMLAnchorElement, { children: React.ReactNode; onClick: (e: React.MouseEvent<HTMLAnchorElement>) => void }>(
     ({ children, onClick }, ref) => (
@@ -249,7 +300,8 @@ function ReportTable({ reports }: ReportTableProps) {
                 </a>
               </td>
               <td className="align-middle">
-                <ActionMenu />
+                {/* <ActionMenu /> */}
+                <ActionMenu onEdit={() => handleEdit(item)} />
               </td>
             </tr>
           );
@@ -299,6 +351,35 @@ function ReportTable({ reports }: ReportTableProps) {
         </ul>
       </nav>
     </div>
+
+    <Modal show={showEditModal} onHide={handleCloseModal}>
+      <Modal.Header closeButton>
+        <Modal.Title>Edit Report</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        {editingReport && (
+          <Form>
+            <Form.Group>
+              <Form.Label>Operator</Form.Label>
+              <Form.Control
+                type="text"
+                value={editForm?.op_name || ""}
+                onChange={e => setEditForm(f => f ? { ...f, op_name: e.target.value } : f)}
+              />
+            </Form.Group>
+            {/* 你可以根據需要加更多欄位，並用 state 控制 value */}
+          </Form>
+        )}
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={handleCloseModal}>
+          Close
+        </Button>
+        <Button variant="primary" onClick={handleSave}>
+          Save Changes
+        </Button>
+      </Modal.Footer>
+    </Modal>
     </Card>
   );
 }

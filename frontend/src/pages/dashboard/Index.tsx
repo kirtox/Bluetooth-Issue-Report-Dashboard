@@ -37,10 +37,19 @@ const Dashboard = () => {
   const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
   const [dateRange, setDateRange] = useState<{ startDate: Date | null; endDate: Date | null }>({ startDate: null, endDate: null });
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   fetch('http://localhost:8000/reports')
+  //     .then(res => res.json())
+  //     .then(data => setReports(data));
+  // }, []);
+  const fetchReports = () => {
     fetch('http://localhost:8000/reports')
       .then(res => res.json())
       .then(data => setReports(data));
+  };
+  
+  useEffect(() => {
+    fetchReports();
   }, []);
 
   const filteredReports = reports.filter((item) => {
@@ -184,7 +193,8 @@ const Dashboard = () => {
           
           {/* Table 區塊 */}
           <Col lg={12} md={12} xs={12}>
-            <ReportTable reports={filteredReports} />
+            {/* <ReportTable reports={filteredReports} /> */}
+            <ReportTable reports={filteredReports} onReload={fetchReports} />
           </Col>
         </Row>
 

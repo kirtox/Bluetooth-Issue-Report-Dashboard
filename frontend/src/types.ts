@@ -129,6 +129,7 @@ export interface DashboardMenuProps {
 
 export interface ReportTableProps {
   reports: Report[];
+  onReload: () => void;
 }
 
 export interface Report {
