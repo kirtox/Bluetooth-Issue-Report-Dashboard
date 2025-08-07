@@ -5,6 +5,7 @@ import { Card, Table, Dropdown, Image, Spinner, Modal, Button, Form } from "reac
 import { MoreVertical } from "react-feather";
 
 import { ReportTableProps, Report } from "types";
+import ReportEditForm from "./ReportEditForm";
 
 function ReportTable({ reports, onReload }: ReportTableProps) {
   const [sortField, setSortField] = useState<string>('date');
@@ -157,7 +158,7 @@ function ReportTable({ reports, onReload }: ReportTableProps) {
 
   // const currentReports = reports.slice(indexOfFirstRow, indexOfLastRow);
   // const totalPages = Math.ceil(reports.length / rowsPerPage);
-  
+
   // const currentReports = filteredReports.slice(indexOfFirstRow, indexOfLastRow);
   // const totalPages = Math.ceil(filteredReports.length / rowsPerPage);
 
@@ -185,7 +186,7 @@ function ReportTable({ reports, onReload }: ReportTableProps) {
     </div> */}
 
     <Card.Header className="bg-white py-4">
-      <h4 className="mb-2">Daily Reports</h4>
+      <h4 className="mb-2">Reports</h4>
     </Card.Header>
 
     <Table responsive className="text-nowrap">
@@ -211,6 +212,9 @@ function ReportTable({ reports, onReload }: ReportTableProps) {
           </th>
           <th onClick={() => handleSort('result')} style={{ cursor: 'pointer' }}>
             Result {sortField === 'result' ? (sortOrder === 'asc' ? '▲' : '▼') : ''}
+          </th>
+          <th onClick={() => handleSort('fail_rate')} style={{ cursor: 'pointer' }}>
+            Fail Rate {sortField === 'fail_rate' ? (sortOrder === 'asc' ? '▲' : '▼') : ''}
           </th>
           <th onClick={() => handleSort('current_status')} style={{ cursor: 'pointer' }}>
             Status {sortField === 'current_status' ? (sortOrder === 'asc' ? '▲' : '▼') : ''}
@@ -258,6 +262,7 @@ function ReportTable({ reports, onReload }: ReportTableProps) {
                   </span>
                 )}
               </td>
+              <td className="align-middle">{item.fail_rate}</td>
               <td className="align-middle">
                 {item.current_status?.toUpperCase() === 'FINISH' ? (
                   <span className="badge bg-success d-flex align-items-center justify-content-center" style={{ height: "2em" }}>
@@ -341,23 +346,13 @@ function ReportTable({ reports, onReload }: ReportTableProps) {
       </nav>
     </div>
 
-    <Modal show={showEditModal} onHide={handleCloseModal}>
+    <Modal show={showEditModal} onHide={handleCloseModal} size="lg">
       <Modal.Header closeButton>
         <Modal.Title>Edit Report</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         {editingReport && (
-          <Form>
-            <Form.Group>
-              <Form.Label>Operator</Form.Label>
-              <Form.Control
-                type="text"
-                value={editForm?.op_name || ""}
-                onChange={e => setEditForm(f => f ? { ...f, op_name: e.target.value } : f)}
-              />
-            </Form.Group>
-            {/* 你可以根據需要加更多欄位，並用 state 控制 value */}
-          </Form>
+          <ReportEditForm report={editForm} onChange={f => setEditForm(f)} />
         )}
       </Modal.Body>
       <Modal.Footer>

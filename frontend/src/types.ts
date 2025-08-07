@@ -143,6 +143,7 @@ export interface Report {
   power_type: string;
   urgent_level: string;
   result: string;
+  fail_rate: string;
   current_status: string;
   log_path: string;
   [key: string]: any; // ← To accommodate extra fields
