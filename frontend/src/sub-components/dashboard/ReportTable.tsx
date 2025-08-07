@@ -124,51 +124,40 @@ function ReportTable({ reports, onReload }: ReportTableProps) {
     }
   };
 
-  // const filteredReports = reports
-  // .filter((item) => {
-  //   const matchesSearch =
-  //     item.op_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //     item.platform.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //     item.scenario.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //     item.bt_driver.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //     item.wifi_driver.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //     item.result.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //     item.current_status.toLowerCase().includes(searchTerm.toLowerCase());
+  // 排序
+  const sortedReports = [...reports].sort((a, b) => {
+    const fieldA = a[sortField];
+    const fieldB = b[sortField];
 
-  //   const matchesPlatform =
-  //     selectedPlatforms.length === 0 || selectedPlatforms.includes(item.platform);
+    if (fieldA == null && fieldB == null) return 0;
+    if (fieldA == null) return 1;
+    if (fieldB == null) return -1;
 
-  //   const matchesResult =
-  //     selectedResults.length === 0 || selectedResults.includes(item.result?.toUpperCase() || '');
+    if (sortField === 'date') {
+      const dateA = new Date(fieldA);
+      const dateB = new Date(fieldB);
+      if (dateA < dateB) return sortOrder === 'asc' ? -1 : 1;
+      if (dateA > dateB) return sortOrder === 'asc' ? 1 : -1;
+      return 0;
+    }
 
-  //   const matchesStatus =
-  //     selectedStatuses.length === 0 || selectedStatuses.includes(item.current_status?.toUpperCase() || '');
-
-  //   const reportDate = new Date(item.date);
-  //   const start = dateRange.startDate;
-  //   const end = dateRange.endDate? new Date(new Date(dateRange.endDate).setHours(23, 59, 59, 999)) : null;
-
-  //   const matchesDate = !start || !end || (reportDate >= start && reportDate <= end);
-  //   // const matchesDate =
-  //   //   !dateRange.startDate || !dateRange.endDate ||
-  //   //   (reportDate >= dateRange.startDate && reportDate <= dateRange.endDate);
-
-  //   return matchesSearch && matchesPlatform && matchesResult && matchesStatus && matchesDate;
-  // })
-  // .sort((a, b) => {
-  //   const fieldA = a[sortField];
-  //   const fieldB = b[sortField];
-  //   if (fieldA < fieldB) return sortOrder === 'asc' ? -1 : 1;
-  //   if (fieldA > fieldB) return sortOrder === 'asc' ? 1 : -1;
-  //   return 0;
-  // });
+    if (fieldA < fieldB) return sortOrder === 'asc' ? -1 : 1;
+    if (fieldA > fieldB) return sortOrder === 'asc' ? 1 : -1;
+    return 0;
+  });
 
   // Pagination calculation
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
 
-  const currentReports = reports.slice(indexOfFirstRow, indexOfLastRow);
-  const totalPages = Math.ceil(reports.length / rowsPerPage);
+  // 分頁
+  const currentReports = sortedReports.slice(indexOfFirstRow, indexOfLastRow);
+  const totalPages = Math.ceil(sortedReports.length / rowsPerPage);
+
+
+  // const currentReports = reports.slice(indexOfFirstRow, indexOfLastRow);
+  // const totalPages = Math.ceil(reports.length / rowsPerPage);
+  
   // const currentReports = filteredReports.slice(indexOfFirstRow, indexOfLastRow);
   // const totalPages = Math.ceil(filteredReports.length / rowsPerPage);
 
