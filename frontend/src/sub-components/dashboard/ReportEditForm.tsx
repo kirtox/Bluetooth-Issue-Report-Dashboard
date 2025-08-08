@@ -32,6 +32,61 @@ const ReportEditForm: React.FC<ReportEditFormProps> = ({ report, onChange, reado
     </Form.Group>
   );
 
+  const renderSelectField = (
+    label: string,
+    field: keyof Report,
+    options: string[],
+    colSize: number = 6
+  ) => (
+    <Form.Group as={Col} md={colSize} className="mb-3">
+      <Form.Label className="fw-bold">{label}</Form.Label>
+      <Form.Select
+        value={report[field] || ""}
+        onChange={(e) => handleFieldChange(field, e.target.value)}
+        // onChange={(e) => {
+        //     const value = e.target.value;
+        //     handleFieldChange(field, value);
+    
+        //     // 如果是 Modern Standby 且選 N，清空相依欄位
+        //     if (field === "modern_standby" && value === "N") {
+        //       handleFieldChange("ms_period", "");
+        //       handleFieldChange("ms_os_waiting_time", "");
+        //     }
+    
+        //     // 如果是 Hibernation 且選 N，清空相依欄位
+        //     if (field === "s4" && value === "N") {
+        //       handleFieldChange("s4_period", "");
+        //       handleFieldChange("s4_os_waiting_time", "");
+        //     }
+    
+        //     // 如果是 Warm Boot 且選 N，清空相依欄位
+        //     if (field === "warm_boot" && value === "N") {
+        //       handleFieldChange("wb_period", "");
+        //       handleFieldChange("wb_os_waiting_time", "");
+        //     }
+    
+        //     // 如果是 Cold Boot 且選 N，清空相依欄位
+        //     if (field === "cold_boot" && value === "N") {
+        //       handleFieldChange("cb_period", "");
+        //       handleFieldChange("cb_os_waiting_time", "");
+        //     }
+    
+        //     // APM 清空 APM period
+        //     if (field === "apm" && value === "N") {
+        //       handleFieldChange("apm_period", "");
+        //     }
+        // }}
+        disabled={readonly}
+      >
+        <option value="" disabled hidden>-- Please select --</option>
+        {options.map((opt, i) => (
+          <option key={i} value={opt}>{opt}</option>
+        ))}
+      </Form.Select>
+    </Form.Group>
+  );
+  
+
   return (
     <Form>
 
@@ -40,8 +95,9 @@ const ReportEditForm: React.FC<ReportEditFormProps> = ({ report, onChange, reado
         <Card.Body>
           <Card.Title className="fw-bold">Operator</Card.Title>
           <Row>
-            {renderField("Date", "date", "datetime-local")}
+            {renderField("Operator", "op_name")}
           </Row>
+          <hr></hr>
           <Card.Title className="fw-bold">Date</Card.Title>
           <Row>
             {renderField("Date", "date", "datetime-local")}
@@ -59,6 +115,7 @@ const ReportEditForm: React.FC<ReportEditFormProps> = ({ report, onChange, reado
             {renderField("Platform Phase", "platform_phase")}
             {renderField("CPU", "cpu")}
           </Row>
+          <hr></hr>
           <Card.Title className="fw-bold">System Info.</Card.Title>
           <Row>
             {renderField("OS Version", "os_version")}
@@ -77,6 +134,7 @@ const ReportEditForm: React.FC<ReportEditFormProps> = ({ report, onChange, reado
             {renderField("WLAN Phase", "wlan_phase")}
             {renderField("BT Interface", "bt_interface")}
           </Row>
+          <hr></hr>
           <Card.Title className="fw-bold">Drivers Version</Card.Title>
           <Row>
             {renderField("BT Driver", "bt_driver")}
@@ -97,6 +155,7 @@ const ReportEditForm: React.FC<ReportEditFormProps> = ({ report, onChange, reado
             {renderField("Platform Phase", "platform_phase")}
             {renderField("Platform BIOS", "platform_bios")}
             {renderField("CPU", "cpu")}
+            {renderSelectField("Power Type", "power_type", ["AC", "DC"])}
           </Row>
         </Card.Body>
       </Card>
@@ -104,7 +163,7 @@ const ReportEditForm: React.FC<ReportEditFormProps> = ({ report, onChange, reado
       {/* WRT settings */}
       <Card className="mb-4 shadow-sm">
         <Card.Body>
-          <Card.Title className="fw-bold">WRT 資訊</Card.Title>
+          <Card.Title className="fw-bold">WRT Info.</Card.Title>
           <Row>
             {renderField("WRT Version", "wrt_version")}
             {renderField("WRT Preset", "wrt_preset")}
@@ -119,14 +178,82 @@ const ReportEditForm: React.FC<ReportEditFormProps> = ({ report, onChange, reado
           <Row>
             {renderField("Scenario", "scenario")}
           </Row>
+          <hr></hr>
           <Card.Title className="fw-bold">Test Accessories</Card.Title>
           <Row>
             {renderField("Mouse Brand", "mouse_brand")}
             {renderField("Mouse", "mouse")}
-            {/* {renderField("Keyboard Brand", "keyboard_brand")}
+            {renderField("Mouse Click Period", "mouse_click_period")}
+            {renderField("Keyboard Brand", "keyboard_brand")}
+            {renderField("Keyboard", "keyboard")}
+            {renderField("Keyboard Click Period", "keyboard_click_period")}
             {renderField("Headset Brand", "headset_brand")}
-            {renderField("Keyboard Type", "keyboard_type")}
-            {renderField("Headset Type", "headset_type")} */}
+            {renderField("Headset", "headset")}
+            {renderField("Speaker Brand", "Speaker_brand")}
+            {renderField("Speaker", "Speaker")}
+            {renderField("Phone Brand", "phone_brand")}
+            {renderField("Phone", "phone")}
+            {renderField("Other device1 Brand", "device1_brand")}
+            {renderField("Device", "device1")}
+          </Row>
+        </Card.Body>
+      </Card>
+
+      {/* Power Cycles */}
+      <Card className="mb-4 shadow-sm">
+        <Card.Body>
+          <Card.Title className="fw-bold">Power Cycles</Card.Title>
+          <Row>
+            {renderSelectField("Modern Standby", "modern_standby", ["Y", "N"])}
+            {renderField("MS Period", "ms_period")}
+            {renderField("MS Waiting Time", "ms_os_waiting_time")}
+
+            {renderSelectField("Hibernation", "s4", ["Y", "N"])}
+            {renderField("Hibernation Period", "s4_period")}
+            {renderField("Hibernation Waiting Time", "s4_os_waiting_time")}
+
+            {renderSelectField("Warm Boot", "warm_boot", ["Y", "N"])}
+            {renderField("WB Period", "wb_period")}
+            {renderField("WB Waiting Time", "wb_os_waiting_time")}
+
+            {renderSelectField("Cold Boot", "cold_boot", ["Y", "N"])}
+            {renderField("CB Period", "cb_period")}
+            {renderField("CB Waiting Time", "cb_os_waiting_time")}
+          </Row>
+          <hr></hr>
+          <Card.Title className="fw-bold">Other functions</Card.Title>
+          <Row>
+            {renderSelectField("APM", "apm", ["Y", "N"])}
+            {renderField("APM Period", "apm_period")}
+            {renderSelectField("OPP", "opp", ["Y", "N"])}
+            {renderSelectField("Swift Pair", "swift_pair", ["Y", "N"])}
+          </Row>
+        </Card.Body>
+      </Card>
+
+      {/* Issue Info. */}
+      <Card className="mb-4 shadow-sm">
+        <Card.Body>
+          <Card.Title className="fw-bold">Issue Info.</Card.Title>
+          <Row>
+            {renderSelectField("Urgent Level", "urgent_level", ["Fireball", "P1", "P2", "P3"])}
+            {renderField("Fix in ? WW", "fix_work_week")}
+            {renderField("Fix in ? BT driver", "fix_bt_driver")}
+            {renderField("Jira ID", "jira_id")}
+            {renderField("IPS ID", "ips_id")}
+            {renderField("HSD ID", "hsd_id")}
+          </Row>
+        </Card.Body>
+      </Card>
+
+      {/* Summary */}
+      <Card className="mb-4 shadow-sm">
+        <Card.Body>
+          <Card.Title className="fw-bold">Summary</Card.Title>
+          <Row>
+            {renderSelectField("Result", "result", ["Pass", "Fail", "On-Going"])}
+            {renderField("Fail Rate", "fail_rate")}
+            {renderSelectField("Current Status", "current_status", ["Finish", "Running", "Stop"])}
           </Row>
         </Card.Body>
       </Card>
