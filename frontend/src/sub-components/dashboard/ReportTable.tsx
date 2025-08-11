@@ -40,7 +40,10 @@ function ReportTable({ reports, onReload }: ReportTableProps) {
   const [editingReport, setEditingReport] = useState<Report | null>(null);
   const [editForm, setEditForm] = useState<Report | null>(null);
 
-  
+  // Delete Modal
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deletingReport, setDeletingReport] = useState<Report | null>(null);
+
   // 關閉編輯視窗
   const handleCloseModal = () => {
     setShowEditModal(false);
@@ -88,14 +91,14 @@ function ReportTable({ reports, onReload }: ReportTableProps) {
   //     </Dropdown>
   //   );
   // };
-  const ActionMenu = ({ onEdit }: { onEdit: () => void }) => (
+  const ActionMenu = ({ onEdit, onDelete }: { onEdit: () => void; onDelete: () => void }) => (
     <Dropdown>
       <Dropdown.Toggle as={CustomToggle}>
         <MoreVertical size="15px" className="text-muted" />
       </Dropdown.Toggle>
       <Dropdown.Menu align={"end"}>
         <Dropdown.Item eventKey="1" onClick={onEdit}>Edit</Dropdown.Item>
-        <Dropdown.Item eventKey="2">Delete</Dropdown.Item>
+        <Dropdown.Item eventKey="2" onClick={onDelete}>Delete</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
   );
@@ -162,7 +165,30 @@ function ReportTable({ reports, onReload }: ReportTableProps) {
   // const currentReports = filteredReports.slice(indexOfFirstRow, indexOfLastRow);
   // const totalPages = Math.ceil(filteredReports.length / rowsPerPage);
 
+  const handleDeleteClick = (report: Report) => {
+    setDeletingReport(report);
+    setShowDeleteModal(true);
+  };
   
+  const handleConfirmDelete = async () => {
+    if (!deletingReport) return;
+    try {
+      const response = await fetch(`http://localhost:8000/reports/${deletingReport.id}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) throw new Error("Delete failed");
+      setShowDeleteModal(false);
+      setDeletingReport(null);
+      if (onReload) onReload();
+    } catch (err) {
+      alert("Delete data failed!");
+    }
+  };
+  
+  const handleCancelDelete = () => {
+    setShowDeleteModal(false);
+    setDeletingReport(null);
+  };
 
   return (
     <Card className="h-100">
@@ -295,7 +321,7 @@ function ReportTable({ reports, onReload }: ReportTableProps) {
               </td>
               <td className="align-middle">
                 {/* <ActionMenu /> */}
-                <ActionMenu onEdit={() => handleEdit(item)} />
+                <ActionMenu onEdit={() => handleEdit(item)} onDelete={() => handleDeleteClick(item)} />
               </td>
             </tr>
           );
@@ -361,6 +387,33 @@ function ReportTable({ reports, onReload }: ReportTableProps) {
         </Button>
         <Button variant="primary" onClick={handleSave}>
           Save Changes
+        </Button>
+      </Modal.Footer>
+    </Modal>
+
+    <Modal show={showDeleteModal} onHide={handleCancelDelete}>
+      <Modal.Header closeButton>
+        <Modal.Title>Confirm Delete</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        {deletingReport && (
+          <div>
+            <p>Are you sure you want to delete this report?</p>
+            <ul>
+              <li><b>Operator:</b> {deletingReport.op_name}</li>
+              <li><b>Date:</b> {new Date(deletingReport.date).toLocaleString()}</li>
+              <li><b>Platform:</b> {deletingReport.platform}</li>
+              {/* 你可以再加更多欄位 */}
+            </ul>
+          </div>
+        )}
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={handleCancelDelete}>
+          No
+        </Button>
+        <Button variant="danger" onClick={handleConfirmDelete}>
+          Yes, Delete
         </Button>
       </Modal.Footer>
     </Modal>
