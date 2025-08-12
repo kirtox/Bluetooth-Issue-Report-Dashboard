@@ -37,7 +37,7 @@ const ReportDoughnutChart: React.FC<ReportDoughnutChartProps> = ({ reports, fiel
             // cy="62%"
             // outerRadius={150}
             outerRadius={130}
-            innerRadius={80} // 這裡設定圓環
+            innerRadius={80} // Doughnut setting here
             label={({ name, percent }) => `${name} (${((percent || 0) * 100).toFixed(0)}%)`}
             labelLine={{ stroke: '#666', strokeWidth: 1 }}
           >

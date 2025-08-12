@@ -35,7 +35,7 @@ function ReportTable({ reports, onReload }: ReportTableProps) {
   //   setDateRange({ startDate: null, endDate: null });
   // };
 
-  // ...原本 state
+  // ...Origin state
   const [showEditModal, setShowEditModal] = useState(false);
   const [editingReport, setEditingReport] = useState<Report | null>(null);
   const [editForm, setEditForm] = useState<Report | null>(null);
@@ -44,16 +44,16 @@ function ReportTable({ reports, onReload }: ReportTableProps) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deletingReport, setDeletingReport] = useState<Report | null>(null);
 
-  // 關閉編輯視窗
+  // Close edit window
   const handleCloseModal = () => {
     setShowEditModal(false);
     setEditingReport(null);
   };
 
-  // 開啟編輯視窗
+  // Open edit window
   const handleEdit = (report: Report) => {
     setEditingReport(report);
-    setEditForm({ ...report }); // 複製一份作為表單
+    setEditForm({ ...report }); // Copy one as the form
     setShowEditModal(true);
   };
 
@@ -61,18 +61,18 @@ function ReportTable({ reports, onReload }: ReportTableProps) {
     if (!editForm) return;
     try {
       const response = await fetch(`http://localhost:8000/reports/${editForm.id}`, {
-        method: "PUT", // 或 PATCH
+        method: "PUT", // OR "PATCH"
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(editForm),
       });
       if (!response.ok) throw new Error("Update failed");
-      // 可選：更新前端資料
-      if (onReload) onReload(); // 通知父層重新抓資料
+      // Optional : Update front-end data
+      if (onReload) onReload(); // Notified parent layer to fetch data
       setShowEditModal(false);
       setEditingReport(null);
-      // 你可以在這裡觸發父層重新 fetch 資料，或直接在前端更新 reports
+      // Trigger parent layer to fetch data again here OR update "reports" in front-end directly
     } catch (err) {
       alert("Update data failed!");
     }
@@ -204,7 +204,7 @@ function ReportTable({ reports, onReload }: ReportTableProps) {
       />
     </Card.Header> */}
     
-    {/* Pie chart summary 區塊 */}
+    {/* Pie chart summary area */}
     {/* <div className="mb-4">
       <Card className="p-3">
         <ReportSummary reports={filteredReports} />
@@ -411,7 +411,7 @@ function ReportTable({ reports, onReload }: ReportTableProps) {
               <li><b>Scenario:</b> {deletingReport.scenario}</li>
               <li><b>Fail Rate:</b> {deletingReport.fail_rate}</li>
               <li><b>Result:</b> {deletingReport.result}</li>
-              {/* 你可以再加更多欄位 */}
+              {/* Add more columns */}
             </ul>
           </div>
         )}

@@ -258,7 +258,7 @@ const ReportEditForm: React.FC<ReportEditFormProps> = ({ report, onChange, reado
         </Card.Body>
       </Card>
 
-      {/* 其他區塊可再擴充如下：測試場景、滑鼠鍵盤資訊、裝置資訊、S4流程、結果等 */}
+      {/* Add other area, for example: test scenario, device Info., etc. */}
     </Form>
   );
 };

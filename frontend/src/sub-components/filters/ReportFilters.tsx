@@ -5,6 +5,7 @@ import { MultiSelect, Option } from 'react-multi-select-component';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import DateFilter from "../filters/DateFilter";
+import { Download } from 'react-feather';
 
 interface ReportFiltersProps {
   searchTerm: string;
@@ -44,6 +45,64 @@ const ReportFilters: React.FC<ReportFiltersProps> = ({
   setDateRange,
   onClear,
 }) => {
+  const [isExporting, setIsExporting] = useState(false);
+
+  const handleExportExcel = async () => {
+    setIsExporting(true);
+    try {
+      // 構建查詢參數
+      const params = new URLSearchParams();
+      
+      if (searchTerm) {
+        params.append('search_term', searchTerm);
+      }
+      
+      if (selectedPlatforms.length > 0) {
+        params.append('platforms', selectedPlatforms.join(','));
+      }
+      
+      if (selectedResults.length > 0) {
+        params.append('results', selectedResults.join(','));
+      }
+      
+      if (selectedStatuses.length > 0) {
+        params.append('statuses', selectedStatuses.join(','));
+      }
+      
+      if (dateRange.startDate) {
+        params.append('start_date', dateRange.startDate.toISOString());
+      }
+      
+      if (dateRange.endDate) {
+        params.append('end_date', dateRange.endDate.toISOString());
+      }
+      
+      // 發送請求
+      const response = await fetch(`http://localhost:8000/export/excel?${params.toString()}`);
+      
+      if (!response.ok) {
+        throw new Error('Export failed');
+      }
+      
+      // 下載檔案
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `reports_${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.xlsx`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+      
+    } catch (error) {
+      console.error('Export error:', error);
+      alert('Export failed. Please try again.');
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
   return (
     <div className="d-flex flex-wrap gap-3 align-items-center mb-3">
         <input
@@ -99,6 +158,15 @@ const ReportFilters: React.FC<ReportFiltersProps> = ({
         />
 
         <button className="btn btn-outline-secondary" onClick={onClear}>Clear All</button>
+        
+        <button 
+          className="btn btn-success d-flex align-items-center gap-2" 
+          onClick={handleExportExcel}
+          disabled={isExporting}
+        >
+          <Download size={16} />
+          {isExporting ? 'Exporting...' : 'Export Excel'}
+        </button>
     </div>
   );
 };
