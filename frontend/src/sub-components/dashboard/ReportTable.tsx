@@ -402,7 +402,15 @@ function ReportTable({ reports, onReload }: ReportTableProps) {
             <ul>
               <li><b>Operator:</b> {deletingReport.op_name}</li>
               <li><b>Date:</b> {new Date(deletingReport.date).toLocaleString()}</li>
+              <li><b>Platform Brand:</b> {deletingReport.platform_brand}</li>
               <li><b>Platform:</b> {deletingReport.platform}</li>
+              <li><b>CPU:</b> {deletingReport.cpu}</li>
+              <li><b>WLAN:</b> {deletingReport.wlan}</li>
+              <li><b>BT driver:</b> {deletingReport.bt_driver}</li>
+              <li><b>Wi-Fi driver:</b> {deletingReport.wifi_driver}</li>
+              <li><b>Scenario:</b> {deletingReport.scenario}</li>
+              <li><b>Fail Rate:</b> {deletingReport.fail_rate}</li>
+              <li><b>Result:</b> {deletingReport.result}</li>
               {/* 你可以再加更多欄位 */}
             </ul>
           </div>
