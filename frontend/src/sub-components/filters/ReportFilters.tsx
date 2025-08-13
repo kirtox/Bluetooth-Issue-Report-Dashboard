@@ -11,9 +11,25 @@ interface ReportFiltersProps {
   searchTerm: string;
   setSearchTerm: (value: string) => void;
 
+  platformBrandOptions: string[];
+  selectedPlatformBrands: string[];
+  setSelectedPlatformBrands: (values: string[]) => void;
+
   platformOptions: string[];
   selectedPlatforms: string[];
   setSelectedPlatforms: (values: string[]) => void;
+
+  wlanOptions: string[];
+  selectedWlans: string[];
+  setSelectedWlans: (values: string[]) => void;
+
+  scenarioOptions: string[];
+  selectedScenarios: string[];
+  setSelectedScenarios: (values: string[]) => void;
+
+  btDriverOptions: string[];
+  selectedBTDrivers: string[];
+  setSelectedBTDrivers: (values: string[]) => void;
 
   resultOptions: string[];
   selectedResults: string[];
@@ -32,9 +48,21 @@ interface ReportFiltersProps {
 const ReportFilters: React.FC<ReportFiltersProps> = ({
   searchTerm,
   setSearchTerm,
+  platformBrandOptions,
+  selectedPlatformBrands,
+  setSelectedPlatformBrands,
   platformOptions,
   selectedPlatforms,
   setSelectedPlatforms,
+  wlanOptions,
+  selectedWlans,
+  setSelectedWlans,
+  scenarioOptions,
+  selectedScenarios,
+  setSelectedScenarios,
+  btDriverOptions,
+  selectedBTDrivers,
+  setSelectedBTDrivers,
   resultOptions,
   selectedResults,
   setSelectedResults,
@@ -50,15 +78,31 @@ const ReportFilters: React.FC<ReportFiltersProps> = ({
   const handleExportExcel = async () => {
     setIsExporting(true);
     try {
-      // 構建查詢參數
+      // Build search parameters
       const params = new URLSearchParams();
       
       if (searchTerm) {
         params.append('search_term', searchTerm);
       }
       
+      if (selectedPlatformBrands.length > 0) {
+        params.append('platform_brands', selectedPlatformBrands.join(','));
+      }
+
       if (selectedPlatforms.length > 0) {
         params.append('platforms', selectedPlatforms.join(','));
+      }
+
+      if (selectedWlans.length > 0) {
+        params.append('wlans', selectedWlans.join(','));
+      }
+
+      if (selectedScenarios.length > 0) {
+        params.append('scenarios', selectedScenarios.join(','));
+      }
+
+      if (selectedBTDrivers.length > 0) {
+        params.append('bt_drivers', selectedBTDrivers.join(','));
       }
       
       if (selectedResults.length > 0) {
@@ -77,14 +121,14 @@ const ReportFilters: React.FC<ReportFiltersProps> = ({
         params.append('end_date', dateRange.endDate.toISOString());
       }
       
-      // 發送請求
+      // Send request
       const response = await fetch(`http://localhost:8000/export/excel?${params.toString()}`);
       
       if (!response.ok) {
         throw new Error('Export failed');
       }
       
-      // 下載檔案
+      // Download file
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -113,32 +157,85 @@ const ReportFilters: React.FC<ReportFiltersProps> = ({
         className="form-control w-auto"
         />
 
-        <MultiSelect
-        options={platformOptions.map(p => ({ label: p, value: p }))}
-        value={selectedPlatforms.map(p => ({ label: p, value: p }))}
-        onChange={(selected: Option[]) => setSelectedPlatforms(selected.map(s => s.value))}
-        labelledBy="Select Platforms"
-        className="w-auto"
-        />
+        <div className="w-auto flex-shrink-0" style={{ minWidth: 240 }}>
+          <MultiSelect
+          options={platformBrandOptions.map(pb => ({ label: pb, value: pb }))}
+          value={selectedPlatformBrands.map(pb => ({ label: pb, value: pb }))}
+          onChange={(selected: Option[]) => setSelectedPlatformBrands(selected.map(s => s.value))}
+          labelledBy="Select Platform Brands"
+          className="w-auto"
+          overrideStrings={{ selectSomeItems: 'Select Platform Brands' }}
+          />
+        </div>
 
-        <MultiSelect
-        options={resultOptions.map(r => ({ label: r, value: r }))}
-        value={selectedResults.map(r => ({ label: r, value: r }))}
-        onChange={(selected: Option[]) => setSelectedResults(selected.map(s => s.value))}
-        labelledBy="Select Results"
-        className="w-auto"
-        />
+        <div className="w-auto flex-shrink-0" style={{ minWidth: 240 }}>
+          <MultiSelect
+          options={platformOptions.map(p => ({ label: p, value: p }))}
+          value={selectedPlatforms.map(p => ({ label: p, value: p }))}
+          onChange={(selected: Option[]) => setSelectedPlatforms(selected.map(s => s.value))}
+          labelledBy="Select Platforms"
+          className="w-auto"
+          overrideStrings={{ selectSomeItems: 'Select Platforms' }}
+          />
+        </div>
 
-        <MultiSelect
-        options={statusOptions.map(s => ({ label: s, value: s }))}
-        value={selectedStatuses.map(s => ({ label: s, value: s }))}
-        onChange={(selected: Option[]) => setSelectedStatuses(selected.map(s => s.value))}
-        labelledBy="Select Status"
-        className="w-auto"
-        />
+        <div className="w-auto flex-shrink-0" style={{ minWidth: 240 }}>
+          <MultiSelect
+          options={wlanOptions.map(w => ({ label: w, value: w }))}
+          value={selectedWlans.map(w => ({ label: w, value: w }))}
+          onChange={(selected: Option[]) => setSelectedWlans(selected.map(s => s.value))}
+          labelledBy="Select Wlans"
+          className="w-auto"
+          overrideStrings={{ selectSomeItems: 'Select Wlans' }}
+          />
+        </div>
+
+        <div className="w-auto flex-shrink-0" style={{ minWidth: 240 }}>
+          <MultiSelect
+          options={scenarioOptions.map(s => ({ label: s, value: s }))}
+          value={selectedScenarios.map(s => ({ label: s, value: s }))}
+          onChange={(selected: Option[]) => setSelectedScenarios(selected.map(s => s.value))}
+          labelledBy="Select Scenarios"
+          className="w-auto"
+          overrideStrings={{ selectSomeItems: 'Select Scenarios' }}
+          />
+        </div>
+
+        <div className="w-auto flex-shrink-0" style={{ minWidth: 240 }}>
+          <MultiSelect
+          options={btDriverOptions.map(b => ({ label: b, value: b }))}
+          value={selectedBTDrivers.map(b => ({ label: b, value: b }))}
+          onChange={(selected: Option[]) => setSelectedBTDrivers(selected.map(s => s.value))}
+          labelledBy="Select BT Drivers"
+          className="w-auto"
+          overrideStrings={{ selectSomeItems: 'Select BT Drivers' }}
+          />
+        </div>
+
+        <div className="w-auto flex-shrink-0" style={{ minWidth: 240 }}>
+          <MultiSelect
+          options={resultOptions.map(r => ({ label: r, value: r }))}
+          value={selectedResults.map(r => ({ label: r, value: r }))}
+          onChange={(selected: Option[]) => setSelectedResults(selected.map(s => s.value))}
+          labelledBy="Select Results"
+          className="w-auto"
+          overrideStrings={{ selectSomeItems: 'Select Results' }}
+          />
+        </div>
+
+        <div className="w-auto flex-shrink-0" style={{ minWidth: 240 }}>
+          <MultiSelect
+          options={statusOptions.map(s => ({ label: s, value: s }))}
+          value={selectedStatuses.map(s => ({ label: s, value: s }))}
+          onChange={(selected: Option[]) => setSelectedStatuses(selected.map(s => s.value))}
+          labelledBy="Select Status"
+          className="w-auto"
+          overrideStrings={{ selectSomeItems: 'Select Status' }}
+          />
+        </div>
 
         {/* <DateRange
-        ranges={[{
+        ranges=[{
             startDate: dateRange.startDate || new Date(),
             endDate: dateRange.endDate || new Date(),
             key: 'selection',

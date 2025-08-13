@@ -33,10 +33,10 @@ def export_excel(
     start_date: Optional[str] = Query(None),
     end_date: Optional[str] = Query(None)
 ):
-    # 構建查詢
+    # Build query
     query = db.query(Report)
     
-    # 應用篩選條件
+    # Apply filterd conditions
     if search_term:
         search_filter = f"%{search_term}%"
         query = query.filter(
@@ -65,19 +65,19 @@ def export_excel(
         query = query.filter(Report.date >= datetime.fromisoformat(start_date))
     
     if end_date:
-        # 將結束日期設為當天的最後一刻
+        # End date: The last moment of the day
         end_datetime = datetime.fromisoformat(end_date)
         end_datetime = end_datetime.replace(hour=23, minute=59, second=59, microsecond=999999)
         query = query.filter(Report.date <= end_datetime)
     
     reports = query.all()
     
-    # 創建 Excel 工作簿
+    # Build Excel workbook
     wb = Workbook()
     ws = wb.active
     ws.title = "Reports"
     
-    # 定義標題行
+    # Defined headers
     headers = [
         "ID", "Operator Name", "Date", "OS Version", "Platform Brand", "Platform", 
         "Platform Phase", "Platform BIOS", "CPU", "WLAN", "WLAN Phase", 
@@ -94,19 +94,19 @@ def export_excel(
         "Current Status", "Log Path"
     ]
     
-    # 設置標題行樣式
+    # Set styles of headers
     header_font = Font(bold=True, color="FFFFFF")
     header_fill = PatternFill(start_color="366092", end_color="366092", fill_type="solid")
     header_alignment = Alignment(horizontal="center", vertical="center")
     
-    # 寫入標題行
+    # Write headers
     for col, header in enumerate(headers, 1):
         cell = ws.cell(row=1, column=col, value=header)
         cell.font = header_font
         cell.fill = header_fill
         cell.alignment = header_alignment
     
-    # 寫入資料
+    # Write data
     for row, report in enumerate(reports, 2):
         ws.cell(row=row, column=1, value=report.id)
         ws.cell(row=row, column=2, value=report.op_name)
@@ -170,7 +170,7 @@ def export_excel(
         ws.cell(row=row, column=60, value=report.current_status)
         ws.cell(row=row, column=61, value=report.log_path)
     
-    # 自動調整欄寬
+    # Auto adjust the width of columns 
     for column in ws.columns:
         max_length = 0
         column_letter = column[0].column_letter
@@ -180,15 +180,15 @@ def export_excel(
                     max_length = len(str(cell.value))
             except:
                 pass
-        adjusted_width = min(max_length + 2, 50)  # 最大寬度限制為 50
+        adjusted_width = min(max_length + 2, 50) # Maximum width: 50
         ws.column_dimensions[column_letter].width = adjusted_width
     
-    # 保存到記憶體
+    # Save to memory
     output = io.BytesIO()
     wb.save(output)
     output.seek(0)
     
-    # 生成檔案名稱
+    # Generate the filename
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     filename = f"reports_{timestamp}.xlsx"
     

@@ -32,7 +32,11 @@ const Dashboard = () => {
   // 報表資料與 filter 狀態
   const [reports, setReports] = useState<Report[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedPlatformBrands, setSelectedPlatformBrands] = useState<string[]>([]);
   const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([]);
+  const [selectedWlans, setSelectedWlans] = useState<string[]>([]);
+  const [selectedScenarios, setSelectedScenarios] = useState<string[]>([]);
+  const [selectedBTDrivers, setSelectedBTDrivers] = useState<string[]>([]);
   const [selectedResults, setSelectedResults] = useState<string[]>([]);
   const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
   const [dateRange, setDateRange] = useState<{ startDate: Date | null; endDate: Date | null }>({ startDate: null, endDate: null });
@@ -55,14 +59,24 @@ const Dashboard = () => {
   const filteredReports = reports.filter((item) => {
     const matchesSearch =
       item.op_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.platform_brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.platform.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.wlan.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.scenario.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.bt_driver.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.wifi_driver.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.result.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.current_status.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesPlatformBrand =
+      selectedPlatformBrands.length === 0 || selectedPlatformBrands.includes(item.platform_brand);
     const matchesPlatform =
       selectedPlatforms.length === 0 || selectedPlatforms.includes(item.platform);
+    const matchesWlan =
+      selectedWlans.length === 0 || selectedWlans.includes(item.wlan);
+    const matchesScenario =
+      selectedScenarios.length === 0 || selectedScenarios.includes(item.scenario);
+    const matchesBTDriver =
+      selectedBTDrivers.length === 0 || selectedBTDrivers.includes(item.bt_driver);
     const matchesResult =
       selectedResults.length === 0 || selectedResults.includes(item.result?.toUpperCase() || '');
     const matchesStatus =
@@ -71,12 +85,17 @@ const Dashboard = () => {
     const start = dateRange.startDate;
     const end = dateRange.endDate ? new Date(new Date(dateRange.endDate).setHours(23, 59, 59, 999)) : null;
     const matchesDate = !start || !end || (reportDate >= start && reportDate <= end);
-    return matchesSearch && matchesPlatform && matchesResult && matchesStatus && matchesDate;
+    return matchesSearch && matchesPlatformBrand && matchesPlatform && matchesWlan && matchesScenario 
+            && matchesBTDriver && matchesResult && matchesStatus && matchesDate;
   });
 
   const clearAllFilters = () => {
     setSearchTerm('');
+    setSelectedPlatformBrands([]);
     setSelectedPlatforms([]);
+    setSelectedWlans([]);
+    setSelectedScenarios([]);
+    setSelectedBTDrivers([]);
     setSelectedResults([]);
     setSelectedStatuses([]);
     setDateRange({ startDate: null, endDate: null });
@@ -167,7 +186,7 @@ const Dashboard = () => {
           </Col>
         </Row>
 
-        {/* Filter 區塊 */}
+        {/* Filter area */}
         <Row className="my-6">
           <Col lg={12} md={12} xs={12}>
             <Card className="p-3 mb-4">
@@ -175,15 +194,35 @@ const Dashboard = () => {
               <ReportFilters
                 searchTerm={searchTerm}
                 setSearchTerm={setSearchTerm}
+                
+                platformBrandOptions={[...new Set(reports.map(r => r.platform_brand))]}
+                selectedPlatformBrands={selectedPlatformBrands}
+                setSelectedPlatformBrands={setSelectedPlatformBrands}
+
                 platformOptions={[...new Set(reports.map(r => r.platform))]}
                 selectedPlatforms={selectedPlatforms}
                 setSelectedPlatforms={setSelectedPlatforms}
+
+                wlanOptions={[...new Set(reports.map(r => r.wlan))]}
+                selectedWlans={selectedWlans}
+                setSelectedWlans={setSelectedWlans}
+
+                scenarioOptions={[...new Set(reports.map(r => r.scenario))]}
+                selectedScenarios={selectedScenarios}
+                setSelectedScenarios={setSelectedScenarios}
+
+                btDriverOptions={[...new Set(reports.map(r => r.bt_driver))]}
+                selectedBTDrivers={selectedBTDrivers}
+                setSelectedBTDrivers={setSelectedBTDrivers}
+
                 resultOptions={['PASS', 'FAIL', '']}
                 selectedResults={selectedResults}
                 setSelectedResults={setSelectedResults}
+
                 statusOptions={['FINISH', 'RUNNING', 'STOP', '']}
                 selectedStatuses={selectedStatuses}
                 setSelectedStatuses={setSelectedStatuses}
+
                 dateRange={dateRange}
                 setDateRange={setDateRange}
                 onClear={clearAllFilters}
@@ -191,7 +230,7 @@ const Dashboard = () => {
             </Card>
           </Col>
           
-          {/* Table 區塊 */}
+          {/* Table area */}
           <Col lg={12} md={12} xs={12}>
             {/* <ReportTable reports={filteredReports} /> */}
             <ReportTable reports={filteredReports} onReload={fetchReports} />

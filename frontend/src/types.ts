@@ -136,11 +136,13 @@ export interface Report {
   id: number;
   op_name: string;
   date: string;
+  platform_brand: string;
   platform: string;
+  wlan: string;
   scenario: string;
   bt_driver: string;
   wifi_driver: string;
-  power_type: string;
+  // power_type: string;
   urgent_level: string;
   result: string;
   fail_rate: string;

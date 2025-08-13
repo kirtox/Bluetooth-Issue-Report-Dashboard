@@ -224,6 +224,9 @@ function ReportTable({ reports, onReload }: ReportTableProps) {
           <th onClick={() => handleSort('date')} style={{ cursor: 'pointer' }}>
             Date {sortField === 'date' ? (sortOrder === 'asc' ? '▲' : '▼') : ''}
           </th>
+          <th onClick={() => handleSort('platform_brand')} style={{ cursor: 'pointer' }}>
+            Platform {sortField === 'platform_brand' ? (sortOrder === 'asc' ? '▲' : '▼') : ''}
+          </th>
           <th onClick={() => handleSort('platform')} style={{ cursor: 'pointer' }}>
             Platform {sortField === 'platform' ? (sortOrder === 'asc' ? '▲' : '▼') : ''}
           </th>
@@ -257,6 +260,7 @@ function ReportTable({ reports, onReload }: ReportTableProps) {
             <tr key={item.id}>
               <td className="align-middle">{item.op_name}</td>
               <td className="align-middle">{new Date(item.date).toLocaleString()}</td>
+              <td className="align-middle">{item.platform_brand}</td>
               <td className="align-middle">{item.platform}</td>
               <td className="align-middle">{item.scenario}</td>
               <td className="align-middle">{item.bt_driver}</td>
