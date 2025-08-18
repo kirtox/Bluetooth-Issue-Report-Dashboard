@@ -1,7 +1,7 @@
 // import node module libraries
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Card, Table, Dropdown, Image, Spinner, Modal, Button, Form } from "react-bootstrap";
+import { Card, Table, Dropdown, Spinner, Modal, Button } from "react-bootstrap";
 import { MoreVertical } from "react-feather";
 
 import { ReportTableProps, Report } from "types";
@@ -57,10 +57,13 @@ function ReportTable({ reports, onReload }: ReportTableProps) {
     setShowEditModal(true);
   };
 
+  // Define API_BASE_URL
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   const handleSave = async () => {
     if (!editForm) return;
     try {
-      const response = await fetch(`http://localhost:8000/reports/${editForm.id}`, {
+      const response = await fetch(`${API_BASE_URL}/reports/${editForm.id}`, {
         method: "PUT", // OR "PATCH"
         headers: {
           "Content-Type": "application/json",
@@ -173,7 +176,7 @@ function ReportTable({ reports, onReload }: ReportTableProps) {
   const handleConfirmDelete = async () => {
     if (!deletingReport) return;
     try {
-      const response = await fetch(`http://localhost:8000/reports/${deletingReport.id}`, {
+      const response = await fetch(`${API_BASE_URL}/reports/${deletingReport.id}`, {
         method: "DELETE",
       });
       if (!response.ok) throw new Error("Delete failed");

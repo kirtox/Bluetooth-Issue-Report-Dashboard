@@ -41,7 +41,7 @@ const ReportDoughnutChart: React.FC<ReportDoughnutChartProps> = ({ reports, fiel
             label={({ name, percent }) => `${name} (${((percent || 0) * 100).toFixed(0)}%)`}
             labelLine={{ stroke: '#666', strokeWidth: 1 }}
           >
-            {data.map((entry, idx) => (
+            {data.map((_, idx) => (
               <Cell key={`cell-${idx}`} fill={COLORS[idx % COLORS.length]} />
             ))}
           </Pie>

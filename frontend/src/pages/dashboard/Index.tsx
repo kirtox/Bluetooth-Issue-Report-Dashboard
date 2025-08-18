@@ -16,7 +16,7 @@ import { getCpuIcon } from "../../data/dashboard/CPUIcon";
 // import ProjectsStatsData from "data/dashboard/ProjectsStatsData";
 import { useCPUStats } from "../../data/dashboard/CPUStats";
 import ReportTable from "sub-components/dashboard/ReportTable";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import ReportFilters from "sub-components/filters/ReportFilters";
 import { Report } from "types";
@@ -29,7 +29,7 @@ import ReportBarChart from "sub-components/dashboard/ReportBarChart";
 const Dashboard = () => {
   const { stats, loading } = useCPUStats();
 
-  // 報表資料與 filter 狀態
+  // reports data and filter condition
   const [reports, setReports] = useState<Report[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedPlatformBrands, setSelectedPlatformBrands] = useState<string[]>([]);
@@ -46,8 +46,12 @@ const Dashboard = () => {
   //     .then(res => res.json())
   //     .then(data => setReports(data));
   // }, []);
+
+  // Define API_BASE_URL
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   const fetchReports = () => {
-    fetch('http://localhost:8000/reports')
+    fetch(`${API_BASE_URL}/reports`)
       .then(res => res.json())
       .then(data => setReports(data));
   };
