@@ -233,6 +233,9 @@ function ReportTable({ reports, onReload }: ReportTableProps) {
           <th onClick={() => handleSort('platform')} style={{ cursor: 'pointer' }}>
             Platform {sortField === 'platform' ? (sortOrder === 'asc' ? '▲' : '▼') : ''}
           </th>
+          <th onClick={() => handleSort('wlan')} style={{ cursor: 'pointer' }}>
+            WLAN {sortField === 'wlan' ? (sortOrder === 'asc' ? '▲' : '▼') : ''}
+          </th>
           <th onClick={() => handleSort('scenario')} style={{ cursor: 'pointer' }}>
             Scenario {sortField === 'scenario' ? (sortOrder === 'asc' ? '▲' : '▼') : ''}
           </th>
@@ -265,6 +268,7 @@ function ReportTable({ reports, onReload }: ReportTableProps) {
               <td className="align-middle">{new Date(item.date).toLocaleString()}</td>
               <td className="align-middle">{item.platform_brand}</td>
               <td className="align-middle">{item.platform}</td>
+              <td className="align-middle">{item.wlan}</td>
               <td className="align-middle">{item.scenario}</td>
               <td className="align-middle">{item.bt_driver}</td>
               <td className="align-middle">{item.wifi_driver}</td>

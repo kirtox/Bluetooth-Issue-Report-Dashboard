@@ -1,0 +1,69 @@
+version: "3.9"
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5174:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - DATABASE_URL=postgresql://admin:password@db:5432/btird
+      - SECRET_KEY=test-secret
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8001/health || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  db:
+    image: postgres:15
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_DB=btird
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d btird"]
+      interval: 3s
+      timeout: 5s
+      retries: 10
+
+  db_backup:
+    image: postgres:15
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - PGPASSWORD=password
+    volumes:
+      - ./db_backups:/backups
+    entrypoint: >
+      sh -c "
+        mkdir -p /backups &&
+        while true; do
+          timestamp=$(date +%Y%m%d_%H%M%S);
+          pg_dump -h db -U admin -d btird > /backups/backup_$${timestamp}.sql;
+          echo 'Backup created at $${timestamp}';
+          sleep 86400;
+        done
+      "
+
+volumes:
+  pgdata:
