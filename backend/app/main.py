@@ -1,7 +1,16 @@
+# from fastapi import FastAPI, Depends
+# from .db import get_db, engine
+# from . import models, crud, auth, export
+# from .schema_report import ReportCreate, ReportUpdate, ReportInDB
+# from sqlalchemy.orm import Session
+# from sqlalchemy import func
+# # Solve CORS（Cross-Origin Resource Sharing） issue
+# from fastapi.middleware.cors import CORSMiddleware
+
 from fastapi import FastAPI, Depends
-from .db import get_db, engine
-from . import models, crud, auth, export
-from .schema_report import ReportCreate, ReportUpdate, ReportInDB
+from app.db import get_db, engine
+from app import models, crud, auth, export
+from app.schema_report import ReportCreate, ReportUpdate, ReportInDB
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 # Solve CORS（Cross-Origin Resource Sharing） issue
