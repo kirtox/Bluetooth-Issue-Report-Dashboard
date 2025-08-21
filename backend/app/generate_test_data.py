@@ -1,8 +1,20 @@
+
+import os
 import random
 import requests
+from pathlib import Path
+from dotenv import load_dotenv
 from datetime import datetime, timedelta
 
-API_URL = "http://localhost:8000/reports"  # Change to your FastAPI service URL
+# Specify the path to .env (from backend/app back to BTIRD)
+env_path = Path(__file__).resolve().parents[2] / '.env'  # 回到 BTIRD 資料夾
+load_dotenv(dotenv_path=env_path)
+
+# Load parameter
+API_URL = os.getenv("VITE_API_BASE_URL")
+print(f"VITE_API_BASE_URL: {API_URL}")
+
+# API_URL = "http://localhost:8000/reports"  # Change to your FastAPI service URL
 
 # === Data Definition ===
 op_name = ["Ernie", "Tony", "Alex", "Angus", "Ben", "Fiona"]

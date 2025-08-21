@@ -9,8 +9,6 @@ services:
       - "0.0.0.0:5174:80"
     depends_on:
       - backend
-    env_file:
-      - ./frontend/.env.production
     # restart: always
 
   backend:
