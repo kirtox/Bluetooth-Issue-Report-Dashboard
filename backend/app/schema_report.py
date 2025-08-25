@@ -5,6 +5,7 @@ from datetime import datetime
 class ReportBase(BaseModel):
     op_name: str
     date: Optional[datetime] = None
+    serial_num: str
 
     os_version: str
     platform_brand: str
@@ -69,7 +70,6 @@ class ReportBase(BaseModel):
 
     result: Optional[str] = None
     fail_rate: Optional[str] = None
-    current_status: str
     log_path: Optional[str] = None
 
 class ReportCreate(ReportBase):

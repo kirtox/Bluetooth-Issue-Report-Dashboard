@@ -11,6 +11,7 @@ from fastapi import FastAPI, Depends, Body, HTTPException
 from app.db import get_db, engine
 from app import models, crud, auth, export
 from app.schema_report import ReportCreate, ReportUpdate, ReportInDB
+from app.schema_platform import PlatformCreate, PlatformUpdate, PlatformInDB
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 # Solve CORS（Cross-Origin Resource Sharing） issue
@@ -66,6 +67,26 @@ def delete_report(report_id: int, db: Session = Depends(get_db)):
 def get_cpu_stats(db: Session = Depends(get_db)):
     result = db.query(models.Report.cpu, func.count(models.Report.cpu)).group_by(models.Report.cpu).all()
     return [{"cpu": cpu, "count": count} for cpu, count in result]
+
+# Read all platforms
+@app.get("/platforms", response_model=list[PlatformInDB])
+def read_platforms(db: Session = Depends(get_db)):
+    return crud.get_platforms(db)
+
+# Add a platform
+@app.post("/platforms", response_model=PlatformInDB)
+def create_platform(platform: PlatformCreate, db: Session = Depends(get_db)):
+    return crud.create_platform(db, platform)
+
+# Update a platform
+@app.put("/platforms/{platform_id}", response_model=PlatformInDB)
+def update_platform(platform_id: int, platform: PlatformUpdate, db: Session = Depends(get_db)):
+    return crud.update_platform(db, platform_id, platform)
+
+# Delete a platform
+@app.delete("/platforms/{platform_id}")
+def delete_platform(platform_id: int, db: Session = Depends(get_db)):
+    return crud.delete_platform(db, platform_id)
 
 # # Partial update by specific columns (current: platform, scenario)
 # @app.patch("/reports/latest", response_model=ReportInDB)

@@ -1,9 +1,11 @@
 from . import models
 from .schema_report import ReportCreate, ReportUpdate
+from .schema_platform import PlatformCreate, PlatformUpdate
 from .schema_user import UserCreate, UserUpdate
 from sqlalchemy.orm import Session
 from .utils import get_password_hash
 
+# Report CRUD
 def get_reports(db: Session):
     return db.query(models.Report).all()
 
@@ -32,6 +34,36 @@ def delete_report(db: Session, report_id: int):
     db.commit()
     return {"deleted": True}
 
+# Platform CRUD
+def get_platforms(db: Session):
+    return db.query(models.Platform).all()
+
+def create_platform(db: Session, platform: PlatformCreate):
+    db_platform = models.Platform(**platform.dict())
+    db.add(db_platform)
+    db.commit()
+    db.refresh(db_platform)
+    return db_platform
+
+def update_platform(db: Session, platform_id: int, platform: PlatformUpdate):
+    db_platform = db.query(models.Platform).filter(models.Platform.id == platform_id).first()
+    if not db_platform:
+        return None
+    for key, value in platform.dict(exclude_unset=True).items():
+        setattr(db_platform, key, value)
+    db.commit()
+    db.refresh(db_platform)
+    return db_platform
+
+def delete_platform(db: Session, platform_id: int):
+    db_platform = db.query(models.Platform).filter(models.Platform.id == platform_id).first()
+    if not db_platform:
+        return None
+    db.delete(db_platform)
+    db.commit()
+    return {"deleted": True}
+
+# User CRUD
 def get_user(db: Session, username: str):
     return db.query(models.User).filter(models.User.username == username).first()
 

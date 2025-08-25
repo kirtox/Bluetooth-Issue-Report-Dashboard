@@ -2,6 +2,8 @@ from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 import datetime
 
+# from backend.app.generate_test_data import current_status
+
 Base = declarative_base()
 
 class Report(Base):
@@ -9,6 +11,7 @@ class Report(Base):
     id = Column(Integer, primary_key=True, index=True)
     op_name = Column(String, nullable=False)
     date = Column(DateTime, default=datetime.datetime.utcnow)
+    serial_num = Column(String, unique=True, nullable=False)
 
     os_version = Column(String, nullable=False)
     platform_brand = Column(String, nullable=False)
@@ -82,12 +85,18 @@ class Report(Base):
 
     result = Column(String, nullable=False)
     fail_rate = Column(String)
-    current_status = Column(String, nullable=False)
 
     log_path = Column(String)
 
+class Platform(Base):
+    __tablename__ = "platform"
+    id = Column(Integer, primary_key=True, index=True)
+    date = Column(DateTime, default=datetime.datetime.utcnow)
+    serial_num = Column(String, unique=True, nullable=False)
+    current_status = Column(String, nullable=False)
+
 class User(Base):
-    __tablename__ = "users"
+    __tablename__ = "user"
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String, unique=True, index=True)
     hashed_password = Column(String)
