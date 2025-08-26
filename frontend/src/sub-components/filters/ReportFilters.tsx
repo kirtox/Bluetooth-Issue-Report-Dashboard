@@ -35,9 +35,9 @@ interface ReportFiltersProps {
   selectedResults: string[];
   setSelectedResults: (values: string[]) => void;
 
-  statusOptions: string[];
-  selectedStatuses: string[];
-  setSelectedStatuses: (values: string[]) => void;
+  // statusOptions: string[];
+  // selectedStatuses: string[];
+  // setSelectedStatuses: (values: string[]) => void;
 
   dateRange: { startDate: Date | null; endDate: Date | null };
   setDateRange: (range: { startDate: Date | null; endDate: Date | null }) => void;
@@ -66,9 +66,9 @@ const ReportFilters: React.FC<ReportFiltersProps> = ({
   resultOptions,
   selectedResults,
   setSelectedResults,
-  statusOptions,
-  selectedStatuses,
-  setSelectedStatuses,
+  // statusOptions,
+  // selectedStatuses,
+  // setSelectedStatuses,
   dateRange,
   setDateRange,
   onClear,
@@ -109,9 +109,9 @@ const ReportFilters: React.FC<ReportFiltersProps> = ({
         params.append('results', selectedResults.join(','));
       }
       
-      if (selectedStatuses.length > 0) {
-        params.append('statuses', selectedStatuses.join(','));
-      }
+      // if (selectedStatuses.length > 0) {
+      //   params.append('statuses', selectedStatuses.join(','));
+      // }
       
       if (dateRange.startDate) {
         params.append('start_date', dateRange.startDate.toISOString());
@@ -223,7 +223,7 @@ const ReportFilters: React.FC<ReportFiltersProps> = ({
           />
         </div>
 
-        <div className="w-auto flex-shrink-0" style={{ minWidth: 240 }}>
+        {/* <div className="w-auto flex-shrink-0" style={{ minWidth: 240 }}>
           <MultiSelect
           options={statusOptions.map(s => ({ label: s, value: s }))}
           value={selectedStatuses.map(s => ({ label: s, value: s }))}
@@ -232,7 +232,7 @@ const ReportFilters: React.FC<ReportFiltersProps> = ({
           className="w-auto"
           overrideStrings={{ selectSomeItems: 'Select Status' }}
           />
-        </div>
+        </div> */}
 
         {/* <DateRange
         ranges=[{

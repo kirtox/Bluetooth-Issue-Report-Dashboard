@@ -11,7 +11,7 @@ class Report(Base):
     id = Column(Integer, primary_key=True, index=True)
     op_name = Column(String, nullable=False)
     date = Column(DateTime, default=datetime.datetime.utcnow)
-    serial_num = Column(String, unique=True, nullable=False)
+    serial_num = Column(String, nullable=False)
 
     os_version = Column(String, nullable=False)
     platform_brand = Column(String, nullable=False)
@@ -84,7 +84,8 @@ class Report(Base):
     hsd_id = Column(String)
 
     result = Column(String, nullable=False)
-    fail_rate = Column(String)
+    fail_cycles = Column(String)
+    cycles = Column(String)
 
     log_path = Column(String)
 

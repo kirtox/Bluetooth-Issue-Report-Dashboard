@@ -5,7 +5,6 @@ from datetime import datetime
 # from pydantic_core.core_schema import str_schema
 
 class PlatformBase(BaseModel):
-    sn: str
     date: Optional[datetime] = None
     serial_num: str
     current_status: str

@@ -38,7 +38,7 @@ const Dashboard = () => {
   const [selectedScenarios, setSelectedScenarios] = useState<string[]>([]);
   const [selectedBTDrivers, setSelectedBTDrivers] = useState<string[]>([]);
   const [selectedResults, setSelectedResults] = useState<string[]>([]);
-  const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
+  // const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
   const [dateRange, setDateRange] = useState<{ startDate: Date | null; endDate: Date | null }>({ startDate: null, endDate: null });
 
   // useEffect(() => {
@@ -69,8 +69,8 @@ const Dashboard = () => {
       item.scenario.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.bt_driver.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.wifi_driver.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.result.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.current_status.toLowerCase().includes(searchTerm.toLowerCase());
+      item.result.toLowerCase().includes(searchTerm.toLowerCase());
+      // item.current_status.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesPlatformBrand =
       selectedPlatformBrands.length === 0 || selectedPlatformBrands.includes(item.platform_brand);
     const matchesPlatform =
@@ -83,15 +83,16 @@ const Dashboard = () => {
       selectedBTDrivers.length === 0 || selectedBTDrivers.includes(item.bt_driver);
     const matchesResult =
       selectedResults.length === 0 || selectedResults.includes(item.result?.toUpperCase() || '');
-    const matchesStatus =
-      selectedStatuses.length === 0 || selectedStatuses.includes(item.current_status?.toUpperCase() || '');
+    // const matchesStatus =
+    //   selectedStatuses.length === 0 || selectedStatuses.includes(item.current_status?.toUpperCase() || '');
     const reportDate = new Date(item.date);
     const start = dateRange.startDate;
     const end = dateRange.endDate ? new Date(new Date(dateRange.endDate).setHours(23, 59, 59, 999)) : null;
     const matchesDate = !start || !end || (reportDate >= start && reportDate <= end);
     return matchesSearch && matchesPlatformBrand && matchesPlatform && matchesWlan && matchesScenario 
-            && matchesBTDriver && matchesResult && matchesStatus && matchesDate;
+            && matchesBTDriver && matchesResult && matchesDate;
   });
+  
 
   const clearAllFilters = () => {
     setSearchTerm('');
@@ -101,7 +102,7 @@ const Dashboard = () => {
     setSelectedScenarios([]);
     setSelectedBTDrivers([]);
     setSelectedResults([]);
-    setSelectedStatuses([]);
+    // setSelectedStatuses([]);
     setDateRange({ startDate: null, endDate: null });
   };
 
@@ -223,9 +224,9 @@ const Dashboard = () => {
                 selectedResults={selectedResults}
                 setSelectedResults={setSelectedResults}
 
-                statusOptions={['FINISH', 'RUNNING', 'STOP', '']}
-                selectedStatuses={selectedStatuses}
-                setSelectedStatuses={setSelectedStatuses}
+                // statusOptions={['FINISH', 'RUNNING', 'STOP', '']}
+                // selectedStatuses={selectedStatuses}
+                // setSelectedStatuses={setSelectedStatuses}
 
                 dateRange={dateRange}
                 setDateRange={setDateRange}

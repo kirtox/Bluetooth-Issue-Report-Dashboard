@@ -131,7 +131,7 @@ function ReportTable({ reports, onReload }: ReportTableProps) {
     }
   };
 
-  // 排序
+  // Sort
   const sortedReports = [...reports].sort((a, b) => {
     const fieldA = a[sortField];
     const fieldB = b[sortField];
@@ -157,7 +157,7 @@ function ReportTable({ reports, onReload }: ReportTableProps) {
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
 
-  // 分頁
+  // Paging
   const currentReports = sortedReports.slice(indexOfFirstRow, indexOfLastRow);
   const totalPages = Math.ceil(sortedReports.length / rowsPerPage);
 
@@ -251,9 +251,9 @@ function ReportTable({ reports, onReload }: ReportTableProps) {
           <th onClick={() => handleSort('fail_rate')} style={{ cursor: 'pointer' }}>
             Fail Rate {sortField === 'fail_rate' ? (sortOrder === 'asc' ? '▲' : '▼') : ''}
           </th>
-          <th onClick={() => handleSort('current_status')} style={{ cursor: 'pointer' }}>
+          {/* <th onClick={() => handleSort('current_status')} style={{ cursor: 'pointer' }}>
             Status {sortField === 'current_status' ? (sortOrder === 'asc' ? '▲' : '▼') : ''}
-          </th>
+          </th> */}
           <th onClick={() => handleSort('log_path')} style={{ cursor: 'pointer' }}>
             Log {sortField === 'log_path' ? (sortOrder === 'asc' ? '▲' : '▼') : ''}
           </th>
@@ -296,11 +296,18 @@ function ReportTable({ reports, onReload }: ReportTableProps) {
                 ) : (
                   <span className="badge bg-secondary d-flex align-items-center justify-content-center" style={{ height: "2em" }}>
                     {item.result || ''}
-                  </span>
+                  </span> 
                 )}
               </td>
-              <td className="align-middle">{item.fail_rate}</td>
+              {/* <td className="align-middle">{item.fail_rate}</td> */}
               <td className="align-middle">
+                {item.result?.toUpperCase() === 'ON-GOING' ? (
+                  ""
+                ) : (
+                  item.fail_cycles + "/" + item.cycles
+                )}
+              </td>
+              {/* <td className="align-middle">
                 {item.current_status?.toUpperCase() === 'FINISH' ? (
                   <span className="badge bg-success d-flex align-items-center justify-content-center" style={{ height: "2em" }}>
                     {item.current_status}
@@ -324,7 +331,7 @@ function ReportTable({ reports, onReload }: ReportTableProps) {
                 ) : (
                   <span>{item.current_status || ''}</span>
                 )}
-              </td>
+              </td> */}
               <td className="align-middle">
                 <a href={item.log_path} className="text-blue-600 underline" target="_blank" rel="noreferrer">
                   Log Link

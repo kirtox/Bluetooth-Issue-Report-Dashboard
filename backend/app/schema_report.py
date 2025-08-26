@@ -69,7 +69,8 @@ class ReportBase(BaseModel):
     hsd_id: Optional[str] = None
 
     result: Optional[str] = None
-    fail_rate: Optional[str] = None
+    fail_cycles: Optional[str] = None
+    cycles: Optional[str] = None
     log_path: Optional[str] = None
 
 class ReportCreate(ReportBase):

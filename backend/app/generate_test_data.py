@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from datetime import datetime, timedelta
 
 # Specify the path to .env (from backend/app back to BTIRD)
-env_path = Path(__file__).resolve().parents[2] / '.env'  # 回到 BTIRD 資料夾
+env_path = Path(__file__).resolve().parents[2] / 'frontend' / '.env'  # 回到 BTIRD 資料夾
 load_dotenv(dotenv_path=env_path)
 
 # Load parameter
@@ -18,6 +18,46 @@ print(f"VITE_API_BASE_URL: {API_URL}")
 
 # === Data Definition ===
 op_name = ["Ernie", "Tony", "Alex", "Angus", "Ben", "Fiona"]
+serial_num = {
+    "Regis": ["622341264479122", "303621461704379"], "Trekker": ["603757811140431", "457471291662564"], "Masada": ["468005824512677", "706055898196153"], 
+    "Thames2": ["997918224905674", "161998895303213"], "Curle": ["470804706495200", "785745431065530"], 
+    "Taroko": ["639529702605165", "562743853422310"], "Tributo": ["085956185209698", "963355246872600"], 
+    "Venus5-16": ["821133815186250", "082675767235281"], "Surface": ["534100923605487", "922914444683890"], 
+    "DualPlay": ["543036661905098", "624087830741545"], "NitroBlaze7": ["804587742061783", "731420553518466"], 
+    "Dali": ["641621182654680", "710338712422480"], "Precog": ["816837056742685", "081934550767478"], 
+    "RVP": ["889628435761245", "768000973226214"], 
+}
+serial_num_list = [
+    "622341264479122",
+    "303621461704379",
+    "603757811140431",
+    "457471291662564",
+    "468005824512677",
+    "706055898196153",
+    "997918224905674",
+    "161998895303213",
+    "470804706495200",
+    "785745431065530",
+    "639529702605165",
+    "562743853422310",
+    "085956185209698",
+    "963355246872600",
+    "821133815186250",
+    "082675767235281",
+    "534100923605487",
+    "922914444683890",
+    "543036661905098",
+    "624087830741545",
+    "804587742061783",
+    "731420553518466",
+    "641621182654680",
+    "710338712422480",
+    "816837056742685",
+    "081934550767478",
+    "889628435761245",
+    "768000973226214"
+]
+
 os_version = ["26100.4656", "22631.5624", "22621.5624", "22631.5472"]
 platform_brand = ["HP", "Lenovo", "Dell", "Samsung", "Microsoft", "Acer", "Asus", "Intel"]
 platform = {
@@ -101,7 +141,18 @@ fail_rate = {
     "Fail": ["1/300", "5/13245", "2/60"],
     "On-Going": [""]
 }
-current_status = ["Finish", "Running", "Stop"]
+fail_cycles = {
+    "Pass": ["0"],
+    "Fail": ["1", "2", "3", "4", "5"],
+    "On-Going": [""]
+}
+cycles = ["10", "100", "200", "300", "400", "500", "1000", "2000"]
+cycles = {
+    "Pass": ["10", "100", "200", "300", "400", "500", "1000", "2000"],
+    "Fail": ["10", "100", "200", "300", "400", "500", "1000", "2000"],
+    "On-Going": [""]
+}
+current_status = ["Online", "Running", "Offline"]
 log_path = ["https://www.intel.com/content/www/us/en/homepage.html", None]
 
 def random_date_2025():
@@ -111,6 +162,7 @@ def random_date_2025():
 
 def generate_random_report():
     pb = random.choice(platform_brand)
+    selected_platform = random.choice(platform[pb])
     mb = random.choice(mouse_brand)
     kb = random.choice(keyboard_brand)
     hs = random.choice(headset_brand)
@@ -120,9 +172,10 @@ def generate_random_report():
     r = {
         "op_name": random.choice(op_name),
         "date": random_date_2025().isoformat(),
+        "serial_num": random.choice(serial_num[selected_platform]),
         "os_version": random.choice(os_version),
         "platform_brand": pb,
-        "platform": random.choice(platform[pb]),
+        "platform": selected_platform,
         "platform_phase": random.choice(platform_phase),
         "platform_bios": random.choice(platform_bios[pb]),
         "cpu": random.choice(cpu),
@@ -172,8 +225,10 @@ def generate_random_report():
         "ips_id": "",
         "hsd_id": "",
         "result": (res := random.choice(result)),
-        "fail_rate": random.choice(fail_rate[res]),
-        "current_status": random.choice(current_status),
+        # "fail_rate": random.choice(fail_rate[res]),
+        "fail_cycles": random.choice(fail_cycles[res]),
+        "cycles": random.choice(cycles[res]),
+        # "current_status": random.choice(current_status),
         "log_path": random.choice(log_path)
     }
     return r
@@ -184,9 +239,25 @@ def post_report():
     print(f"Status: {response.status_code}")
     print(response.json())
 
+def generate_random_platform(sn: str):
+    r = {
+        "date": random_date_2025().isoformat(),
+        # "serial_num": random.choice(serial_num[platform]),
+        "serial_num": sn,
+        "current_status": random.choice(current_status)
+    }
+    return r
+
 if __name__ == "__main__":
     for _ in range(50):
         # print(f"report_data: {generate_random_report()}")
         report_data = generate_random_report()
-        response = requests.post(API_URL, json=report_data)
+        response = requests.post(API_URL+"/reports", json=report_data)
+        print(f"Status: {response.status_code}, Response: {response.json()}")
+
+
+    for sn in serial_num_list:
+        platform_data = generate_random_platform(sn)
+        print(f"platform_data: {platform_data}")
+        response = requests.post(API_URL+"/platforms", json=platform_data)
         print(f"Status: {response.status_code}, Response: {response.json()}")
