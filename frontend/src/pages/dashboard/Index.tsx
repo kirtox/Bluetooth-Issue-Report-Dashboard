@@ -25,6 +25,8 @@ import { Report } from "types";
 import ReportDoughnutChart from "sub-components/dashboard/ReportDoughnutChart";
 import ReportBarChart from "sub-components/dashboard/ReportBarChart";
 
+import MachineStatusDashboard from "sub-components/dashboard/MachineStatusDashboard";
+
 
 const Dashboard = () => {
   const { stats, loading } = useCPUStats();
@@ -92,7 +94,7 @@ const Dashboard = () => {
     return matchesSearch && matchesPlatformBrand && matchesPlatform && matchesWlan && matchesScenario 
             && matchesBTDriver && matchesResult && matchesDate;
   });
-  
+
 
   const clearAllFilters = () => {
     setSearchTerm('');
@@ -190,6 +192,22 @@ const Dashboard = () => {
             </Card>
           </Col>
         </Row>
+
+        {/* Machine status area */}
+        <Row className="my-6">
+          <Col lg={12} md={12} xs={12}>
+            <Card className="p-3 mb-4">
+              <h4 className="mb-2">Machine Status Dashboard</h4>
+              <Row>
+                {/* <Col lg={6} md={12} xs={12}>
+                  <MachineStatusDashboard />
+                </Col> */}
+                <MachineStatusDashboard />
+              </Row>
+            </Card>
+          </Col>
+        </Row>
+
 
         {/* Filter area */}
         <Row className="my-6">
