@@ -168,3 +168,10 @@ export interface ReportBarChartProps {
   field: keyof Report;
   title: string;
 }
+
+export interface PlatformStatusProps {
+  id: number;
+  serial_num: string;
+  current_status: string;
+  date: string;
+}

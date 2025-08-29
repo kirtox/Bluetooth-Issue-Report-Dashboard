@@ -1,6 +1,6 @@
 // import node module libraries
 import { Fragment } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { Container, Col, Row, Card } from "react-bootstrap";
 
 // import widget/custom components
@@ -25,8 +25,7 @@ import { Report } from "types";
 import ReportDoughnutChart from "sub-components/dashboard/ReportDoughnutChart";
 import ReportBarChart from "sub-components/dashboard/ReportBarChart";
 
-import MachineStatusDashboard from "sub-components/dashboard/MachineStatusDashboard";
-
+import PlatformStatusDashboard from "sub-components/dashboard/PlatformStatusDashboard";
 
 const Dashboard = () => {
   const { stats, loading } = useCPUStats();
@@ -197,12 +196,12 @@ const Dashboard = () => {
         <Row className="my-6">
           <Col lg={12} md={12} xs={12}>
             <Card className="p-3 mb-4">
-              <h4 className="mb-2">Machine Status Dashboard</h4>
+              <h4 className="mb-2">Platform Status Dashboard</h4>
               <Row>
                 {/* <Col lg={6} md={12} xs={12}>
                   <MachineStatusDashboard />
                 </Col> */}
-                <MachineStatusDashboard />
+                <PlatformStatusDashboard />
               </Row>
             </Card>
           </Col>
