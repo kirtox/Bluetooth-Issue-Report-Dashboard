@@ -120,11 +120,11 @@ const Dashboard = () => {
                 <div className="mb-2 mb-lg-0">
                   <h3 className="mb-0  text-white">Bluetooth Issue Report Dashboard</h3>
                 </div>
-                <div>
+                {/* <div>
                   <Link to="#" className="btn btn-white">
                     Create New Project
                   </Link>
-                </div>
+                </div> */}
               </div>
             </div>
           </Col>

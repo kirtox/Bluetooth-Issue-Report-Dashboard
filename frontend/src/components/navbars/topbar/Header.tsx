@@ -25,9 +25,9 @@ const Header: React.FC<HeaderProps> = ({ toggleMenu }) => {
           </Link>
           <div className="ms-lg-3 d-none d-md-none d-lg-block">
             {/* Search Form */}
-            <Form className="d-flex align-items-center">
+            {/* <Form className="d-flex align-items-center">
               <Form.Control type="search" placeholder="Search" />
-            </Form>
+            </Form> */}
           </div>
         </div>
         {/* Quick Menu */}
