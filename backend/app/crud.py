@@ -4,6 +4,7 @@ from .schema_platform import PlatformCreate, PlatformUpdate
 from .schema_user import UserCreate, UserUpdate
 from sqlalchemy.orm import Session
 from .utils import get_password_hash
+from sqlalchemy import func
 
 # Report CRUD
 def get_reports(db: Session):
@@ -34,6 +35,10 @@ def delete_report(db: Session, report_id: int):
     db.commit()
     return {"deleted": True}
 
+def get_cpu_stats(db: Session):
+    result = db.query(models.Report.cpu, func.count(models.Report.cpu)).group_by(models.Report.cpu).all()
+    return [{"cpu": cpu, "count": count} for cpu, count in result]
+
 # Platform CRUD
 def get_platforms(db: Session):
     return db.query(models.Platform).all()
@@ -62,6 +67,43 @@ def delete_platform(db: Session, platform_id: int):
     db.delete(db_platform)
     db.commit()
     return {"deleted": True}
+
+def get_platform_latest_reports(db: Session):
+    # Subquery: find latest report date for each serial_num
+    subquery = (
+        db.query(
+            models.Report.serial_num.label("serial_num"),
+            func.max(models.Report.date).label("date")
+        )
+        .group_by(models.Report.serial_num)
+        .subquery()
+    )
+
+    # JOIN subquery and get latest report
+    latest_reports = (
+        db.query(models.Report)
+        .join(subquery, (models.Report.serial_num == subquery.c.serial_num) & (models.Report.date == subquery.c.date))
+        .subquery()
+    )
+
+    # At the end, JOIN platform
+    result = (
+        db.query(
+            models.Platform.id,
+            models.Platform.serial_num,
+            models.Platform.current_status,
+            models.Platform.date.label("platform_date"),
+            latest_reports.c.platform_brand,
+            latest_reports.c.platform,
+            latest_reports.c.cpu,
+            latest_reports.c.wlan,
+            latest_reports.c.date.label("report_date")
+        )
+        .outerjoin(latest_reports, models.Platform.serial_num == latest_reports.c.serial_num)
+        .all()
+    )
+
+    return result
 
 # User CRUD
 def get_user(db: Session, username: str):

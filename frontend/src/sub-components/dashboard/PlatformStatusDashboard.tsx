@@ -17,21 +17,21 @@ const PlatformStatusDashboard: React.FC = () => {
   const [platforms, setPlatforms] = useState<PlatformStatusProps[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchPlatforms = async () => {
+  const fetchPlatformWithLatestInfo = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/platforms/`); // API endpoint
+      const response = await fetch(`${API_BASE_URL}/platforms/latest_reports`); // API endpoint
       const data = await response.json();
       setPlatforms(data);
       setLoading(false);
     } catch (error) {
-      console.error("Error fetching platform status:", error);
+      console.error("Error fetching platform latest Info.:", error);
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchPlatforms();
-    const interval = setInterval(fetchPlatforms, 5000);
+    fetchPlatformWithLatestInfo();
+    const interval = setInterval(fetchPlatformWithLatestInfo, 5000);
     return () => clearInterval(interval);
   }, []);
 
@@ -108,8 +108,12 @@ const PlatformStatusDashboard: React.FC = () => {
             overlay={
               <Tooltip id={`tooltip-${platform.id}`}>
                 <div><strong>Serial:</strong> {platform.serial_num}</div>
+                <div><strong>Platform:</strong> {platform.platform_brand} - {platform.platform}</div>
+                <div><strong>CPU:</strong> {platform.cpu}</div>
+                <div><strong>WLAN:</strong> {platform.wlan}</div>
                 <div><strong>Status:</strong> {platform.current_status}</div>
-                <div><strong>Last Updated:</strong> {new Date(platform.date).toLocaleString()}</div>
+                <div><strong>Last Status Updated:</strong> {new Date(platform.platform_date).toLocaleString()}</div>
+                <div><strong>Last Report Updated:</strong> {new Date(platform.report_date).toLocaleString()}</div>
               </Tooltip>
             }
           >

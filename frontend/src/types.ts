@@ -173,5 +173,10 @@ export interface PlatformStatusProps {
   id: number;
   serial_num: string;
   current_status: string;
-  date: string;
+  platform_date: string;
+  platform_brand: string;
+  platform: string;
+  cpu: string;
+  wlan: string;
+  report_date: string;
 }

@@ -12,6 +12,7 @@ from app.db import get_db, engine
 from app import models, crud, auth, export
 from app.schema_report import ReportCreate, ReportUpdate, ReportInDB
 from app.schema_platform import PlatformCreate, PlatformUpdate, PlatformInDB
+from app.schema_platform_latest_report import PlatformWithLatestReportInDB
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 # Solve CORS（Cross-Origin Resource Sharing） issue
@@ -65,8 +66,7 @@ def delete_report(report_id: int, db: Session = Depends(get_db)):
 # Summary each cpu numbers
 @app.get("/reports/cpu_stats")
 def get_cpu_stats(db: Session = Depends(get_db)):
-    result = db.query(models.Report.cpu, func.count(models.Report.cpu)).group_by(models.Report.cpu).all()
-    return [{"cpu": cpu, "count": count} for cpu, count in result]
+    return crud.get_cpu_stats(db)
 
 # Read all platforms
 @app.get("/platforms", response_model=list[PlatformInDB])
@@ -88,6 +88,11 @@ def update_platform(platform_id: int, platform: PlatformUpdate, db: Session = De
 def delete_platform(platform_id: int, db: Session = Depends(get_db)):
     return crud.delete_platform(db, platform_id)
 
+# Summary each cpu numbers
+@app.get("/platforms/latest_reports", response_model=list[PlatformWithLatestReportInDB])
+def get_platform_latest_reports(db: Session = Depends(get_db)):
+    return crud.get_platform_latest_reports(db)
+    
 # # Partial update by specific columns (current: platform, scenario)
 # @app.patch("/reports/latest", response_model=ReportInDB)
 # def update_latest_report(
