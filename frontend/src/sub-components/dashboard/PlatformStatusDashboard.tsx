@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip, Badge, Spinner, Card, Row, Col } from "react-bootstrap";
+import { OverlayTrigger, Tooltip, Badge, Spinner, Card, Row, Col, Popover } from "react-bootstrap";
 import { PlatformStatusProps } from "types";
 
 // Define API_BASE_URL
@@ -42,7 +42,7 @@ const PlatformStatusDashboard: React.FC = () => {
 
   useEffect(() => {
     fetchPlatformWithLatestInfo();
-    const interval = setInterval(fetchPlatformWithLatestInfo, 5000);
+    const interval = setInterval(fetchPlatformWithLatestInfo, 60000);
     return () => clearInterval(interval);
   }, []);
 
@@ -69,27 +69,58 @@ const PlatformStatusDashboard: React.FC = () => {
 
   const summary = getSummary();
 
+  const summaryData = [
+    { label: "Total", value: summary.total },
+    { label: "Online", value: summary.online, className: "text-success" },
+    { label: "Running", value: summary.running, className: "text-primary" },
+    { label: "Offline", value: summary.offline, className: "text-danger" },
+  ];
+
   // 根據 platform 判斷 icon
-  const getPlatformIcon = (platformBrand: string): string => {
-    console.log("getPlatformIcon: ", platformBrand);
-    const name = platformBrand.toLowerCase();
-    if (name.includes("dell")) return DellIcon;
-    else if (name.includes("hp")) return HpIcon;
-    else if (name.includes("lenovo")) return LenovoIcon;
-    else if (name.includes("intel")) return IntelIcon;
-    else if (name.includes("samsung")) return SamsungIcon;
-    else if (name.includes("microsoft")) return MicrosoftIcon;
-    else if (name.includes("acer")) return AcerIcon;
-    else if (name.includes("asus")) return AsusIcon;
-    else if (name.includes("razer")) return RazerIcon;
-    else if (name.includes("msi")) return MsiIcon;
-    else if (name.includes("panasonic")) return PanasonicIcon;
-    else if (name.includes("fujitsu")) return FujitsuIcon;
-    else if (name.includes("honor")) return HonorIcon;
-    else if (name.includes("huawei")) return HuaweiIcon;
-    else if (name.includes("oppo")) return OppoIcon;
-    else if (name.includes("xiaomi")) return XiaomiIcon;
-    return OthersIcon;
+  // const getPlatformIcon = (platformBrand: string): string => {
+  //   console.log("getPlatformIcon: ", platformBrand);
+  //   const name = platformBrand.toLowerCase();
+  //   if (name.includes("dell")) return DellIcon;
+  //   else if (name.includes("hp")) return HpIcon;
+  //   else if (name.includes("lenovo")) return LenovoIcon;
+  //   else if (name.includes("intel")) return IntelIcon;
+  //   else if (name.includes("samsung")) return SamsungIcon;
+  //   else if (name.includes("microsoft")) return MicrosoftIcon;
+  //   else if (name.includes("acer")) return AcerIcon;
+  //   else if (name.includes("asus")) return AsusIcon;
+  //   else if (name.includes("razer")) return RazerIcon;
+  //   else if (name.includes("msi")) return MsiIcon;
+  //   else if (name.includes("panasonic")) return PanasonicIcon;
+  //   else if (name.includes("fujitsu")) return FujitsuIcon;
+  //   else if (name.includes("honor")) return HonorIcon;
+  //   else if (name.includes("huawei")) return HuaweiIcon;
+  //   else if (name.includes("oppo")) return OppoIcon;
+  //   else if (name.includes("xiaomi")) return XiaomiIcon;
+  //   return OthersIcon;
+  // };
+  const platformIcons: Record<string, string> = {
+    dell: DellIcon,
+    hp: HpIcon,
+    lenovo: LenovoIcon,
+    intel: IntelIcon,
+    samsung: SamsungIcon,
+    microsoft: MicrosoftIcon,
+    acer: AcerIcon,
+    asus: AsusIcon,
+    razer: RazerIcon,
+    msi: MsiIcon,
+    panasonic: PanasonicIcon,
+    fujitsu: FujitsuIcon,
+    honor: HonorIcon,
+    huawei: HuaweiIcon,
+    oppo: OppoIcon,
+    xiaomi: XiaomiIcon,
+  };
+  
+  const getPlatformIcon = (brand: string): string => {
+    if (!brand) return OthersIcon;
+    const key = brand.toLowerCase();
+    return platformIcons[key] || OthersIcon;
   };
 
   if (loading) {
@@ -104,7 +135,7 @@ const PlatformStatusDashboard: React.FC = () => {
   return (
     <div>
       {/* Summary Cards */}
-      <Row className="my-6">
+      {/* <Row className="my-6">
         <Col xl={3} lg={6} md={12} xs={12} className="mt-6">
           <Card className="p-3 text-center shadow-sm">
             <h6>Total</h6>
@@ -129,6 +160,18 @@ const PlatformStatusDashboard: React.FC = () => {
             <h5>{summary.offline}</h5>
           </Card>
         </Col>
+      </Row> */}
+      
+
+      <Row className="my-6">
+        {summaryData.map((item, idx) => (
+          <Col key={idx} xl={3} lg={6} md={12} xs={12} className="mt-6">
+            <Card className="p-3 text-center shadow-sm">
+              <h6 className={item.className}>{item.label}</h6>
+              <h5>{item.value}</h5>
+            </Card>
+          </Col>
+        ))}
       </Row>
 
       {/* Machine Icons */}
@@ -138,15 +181,31 @@ const PlatformStatusDashboard: React.FC = () => {
             key={platform.id}
             placement="top"
             overlay={
-              <Tooltip id={`tooltip-${platform.id}`}>
-                <div><strong>Serial Number:</strong> {platform.serial_num}</div>
-                <div><strong>Platform:</strong> {platform.platform_brand} - {platform.platform}</div>
-                <div><strong>CPU:</strong> {platform.cpu}</div>
-                <div><strong>WLAN:</strong> {platform.wlan}</div>
-                <div><strong>Status:</strong> {platform.current_status}</div>
-                <div><strong>Last Status Updated:</strong> {new Date(platform.platform_date).toLocaleString()}</div>
-                <div><strong>Last Report Updated:</strong> {new Date(platform.report_date).toLocaleString()}</div>
-              </Tooltip>
+              // <Tooltip id={`tooltip-${platform.id}`}>
+              //   <div><strong>Serial Number:</strong> {platform.serial_num}</div>
+              //   <div><strong>Platform:</strong> {platform.platform_brand} - {platform.platform}</div>
+              //   <div><strong>CPU:</strong> {platform.cpu}</div>
+              //   <div><strong>WLAN:</strong> {platform.wlan}</div>
+              //   <div><strong>Status:</strong> {platform.current_status}</div>
+              //   <div><strong>Last Status Updated:</strong> {new Date(platform.platform_date).toLocaleString()}</div>
+              //   <div><strong>Last Report Updated:</strong> {new Date(platform.report_date).toLocaleString()}</div>
+              // </Tooltip>
+              <Popover id={`popover-${platform.id}`} className="shadow-lg">
+                <Card style={{ width: "220px" }}>
+                  <Card.Body>
+                    <Card.Title className="fs-6">{platform.platform_brand}</Card.Title>
+                    <ul className="list-unstyled mb-0">
+                      <li><strong>Serial Number:</strong> {platform.serial_num}</li>
+                      <li><strong>Platform:</strong> {platform.platform}</li>
+                      <li><strong>CPU:</strong> {platform.cpu}</li>
+                      <li><strong>WLAN:</strong> {platform.wlan}</li>
+                      <li><strong>Status:</strong> {platform.current_status}</li>
+                      <li><strong>Last Status Updated:</strong> {new Date(platform.platform_date).toLocaleString()}</li>
+                      <li><strong>Last Report Updated:</strong> {new Date(platform.report_date).toLocaleString()}</li>
+                    </ul>
+                  </Card.Body>
+                </Card>
+              </Popover>
             }
           >
             <div
