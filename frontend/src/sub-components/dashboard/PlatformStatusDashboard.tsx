@@ -1,17 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { OverlayTrigger, Tooltip, Badge, Spinner, Card, Row, Col } from "react-bootstrap";
-import { FaServer } from "react-icons/fa";
 import { PlatformStatusProps } from "types";
-
-// interface PlatformStatus {
-//   id: number;
-//   serial_num: string;
-//   current_status: string;
-//   date: string;
-// }
 
 // Define API_BASE_URL
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+// 動態匯入 icons（也可以用 Vite 的 import.meta.glob）
+import DellIcon from "@/assets/platform-icons/platform_dell.png";
+import HpIcon from "@/assets/platform-icons/platform_hp.png";
+import LenovoIcon from "@/assets/platform-icons/platform_lenovo.png";
+import IntelIcon from "@/assets/platform-icons/platform_intel.png";
+import SamsungIcon from "@/assets/platform-icons/platform_samsung.png";
+import MicrosoftIcon from "@/assets/platform-icons/platform_microsoft.png";
+import AcerIcon from "@/assets/platform-icons/platform_acer.png";
+import AsusIcon from "@/assets/platform-icons/platform_asus.png";
+import RazerIcon from "@/assets/platform-icons/platform_razer.png";
+import MsiIcon from "@/assets/platform-icons/platform_msi.png";
+import PanasonicIcon from "@/assets/platform-icons/platform_panasonic.png";
+import FujitsuIcon from "@/assets/platform-icons/platform_fujitsu.png";
+import HonorIcon from "@/assets/platform-icons/platform_honor.png";
+import HuaweiIcon from "@/assets/platform-icons/platform_huawei.png";
+import OppoIcon from "@/assets/platform-icons/platform_oppo.png";
+import XiaomiIcon from "@/assets/platform-icons/platform_xiaomi.png";
+import OthersIcon from "@/assets/platform-icons/platform_others.png";
 
 const PlatformStatusDashboard: React.FC = () => {
   const [platforms, setPlatforms] = useState<PlatformStatusProps[]>([]);
@@ -19,7 +30,7 @@ const PlatformStatusDashboard: React.FC = () => {
 
   const fetchPlatformWithLatestInfo = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/platforms/latest_reports`); // API endpoint
+      const response = await fetch(`${API_BASE_URL}/platforms/latest_reports`);
       const data = await response.json();
       setPlatforms(data);
       setLoading(false);
@@ -58,6 +69,29 @@ const PlatformStatusDashboard: React.FC = () => {
 
   const summary = getSummary();
 
+  // 根據 platform 判斷 icon
+  const getPlatformIcon = (platformBrand: string): string => {
+    console.log("getPlatformIcon: ", platformBrand);
+    const name = platformBrand.toLowerCase();
+    if (name.includes("dell")) return DellIcon;
+    else if (name.includes("hp")) return HpIcon;
+    else if (name.includes("lenovo")) return LenovoIcon;
+    else if (name.includes("intel")) return IntelIcon;
+    else if (name.includes("samsung")) return SamsungIcon;
+    else if (name.includes("microsoft")) return MicrosoftIcon;
+    else if (name.includes("acer")) return AcerIcon;
+    else if (name.includes("asus")) return AsusIcon;
+    else if (name.includes("razer")) return RazerIcon;
+    else if (name.includes("msi")) return MsiIcon;
+    else if (name.includes("panasonic")) return PanasonicIcon;
+    else if (name.includes("fujitsu")) return FujitsuIcon;
+    else if (name.includes("honor")) return HonorIcon;
+    else if (name.includes("huawei")) return HuaweiIcon;
+    else if (name.includes("oppo")) return OppoIcon;
+    else if (name.includes("xiaomi")) return XiaomiIcon;
+    return OthersIcon;
+  };
+
   if (loading) {
     return (
       <div className="text-center mt-4">
@@ -69,34 +103,32 @@ const PlatformStatusDashboard: React.FC = () => {
 
   return (
     <div>
-      {/* <h4 className="mb-3 fw-bold">Platform Status Dashboard</h4> */}
-
       {/* Summary Cards */}
       <Row className="my-6">
-          <Col xl={3} lg={6} md={12} xs={12} className="mt-6">
-            <Card className="p-3 text-center shadow-sm">
-              <h6>Total</h6>
-              <h5>{summary.total}</h5>
-            </Card>
-          </Col>
-          <Col xl={3} lg={6} md={12} xs={12} className="mt-6">
-            <Card className="p-3 text-center shadow-sm">
-              <h6 className="text-success">Online</h6>
-              <h5>{summary.online}</h5>
-            </Card>
-          </Col>
-          <Col xl={3} lg={6} md={12} xs={12} className="mt-6">
-            <Card className="p-3 text-center shadow-sm">
-              <h6 className="text-primary">Running</h6>
-              <h5>{summary.running}</h5>
-            </Card>
-          </Col>
-          <Col xl={3} lg={6} md={12} xs={12} className="mt-6">
-            <Card className="p-3 text-center shadow-sm">
-              <h6 className="text-danger">Offline</h6>
-              <h5>{summary.offline}</h5>
-            </Card>
-          </Col>
+        <Col xl={3} lg={6} md={12} xs={12} className="mt-6">
+          <Card className="p-3 text-center shadow-sm">
+            <h6>Total</h6>
+            <h5>{summary.total}</h5>
+          </Card>
+        </Col>
+        <Col xl={3} lg={6} md={12} xs={12} className="mt-6">
+          <Card className="p-3 text-center shadow-sm">
+            <h6 className="text-success">Online</h6>
+            <h5>{summary.online}</h5>
+          </Card>
+        </Col>
+        <Col xl={3} lg={6} md={12} xs={12} className="mt-6">
+          <Card className="p-3 text-center shadow-sm">
+            <h6 className="text-primary">Running</h6>
+            <h5>{summary.running}</h5>
+          </Card>
+        </Col>
+        <Col xl={3} lg={6} md={12} xs={12} className="mt-6">
+          <Card className="p-3 text-center shadow-sm">
+            <h6 className="text-danger">Offline</h6>
+            <h5>{summary.offline}</h5>
+          </Card>
+        </Col>
       </Row>
 
       {/* Machine Icons */}
@@ -107,7 +139,7 @@ const PlatformStatusDashboard: React.FC = () => {
             placement="top"
             overlay={
               <Tooltip id={`tooltip-${platform.id}`}>
-                <div><strong>Serial:</strong> {platform.serial_num}</div>
+                <div><strong>Serial Number:</strong> {platform.serial_num}</div>
                 <div><strong>Platform:</strong> {platform.platform_brand} - {platform.platform}</div>
                 <div><strong>CPU:</strong> {platform.cpu}</div>
                 <div><strong>WLAN:</strong> {platform.wlan}</div>
@@ -121,7 +153,11 @@ const PlatformStatusDashboard: React.FC = () => {
               className="d-flex flex-column align-items-center p-3 border rounded shadow-sm"
               style={{ width: "120px", cursor: "pointer" }}
             >
-              <FaServer size={40} className="mb-2" />
+              <img
+                src={getPlatformIcon(platform.platform_brand)}
+                alt={platform.platform_brand}
+                style={{ width: "40px", height: "40px", marginBottom: "10px" }}
+              />
               <Badge bg={getBadgeVariant(platform.current_status)}>
                 {platform.current_status}
               </Badge>

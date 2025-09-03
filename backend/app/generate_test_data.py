@@ -256,8 +256,8 @@ if __name__ == "__main__":
         print(f"Status: {response.status_code}, Response: {response.json()}")
 
 
-    for sn in serial_num_list:
-        platform_data = generate_random_platform(sn)
-        print(f"platform_data: {platform_data}")
-        response = requests.post(API_URL+"/platforms", json=platform_data)
-        print(f"Status: {response.status_code}, Response: {response.json()}")
+    # for sn in serial_num_list:
+    #     platform_data = generate_random_platform(sn)
+    #     print(f"platform_data: {platform_data}")
+    #     response = requests.post(API_URL+"/platforms", json=platform_data)
+    #     print(f"Status: {response.status_code}, Response: {response.json()}")
