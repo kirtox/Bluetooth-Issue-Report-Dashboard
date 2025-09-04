@@ -31,17 +31,21 @@ class Report(Base):
 
     scenario = Column(String, nullable=False)
 
+    mouse_bt = Column(String)
     mouse_brand = Column(String)
     mouse = Column(String)
     mouse_click_period = Column(String)
 
+    keyboard_bt = Column(String)
     keyboard_brand = Column(String)
     keyboard = Column(String)
     keyboard_click_period = Column(String)
 
+    headset_bt = Column(String)
     headset_brand = Column(String)
     headset = Column(String)
 
+    speaker_bt = Column(String)
     speaker_brand = Column(String)
     speaker = Column(String)
 
@@ -86,6 +90,7 @@ class Report(Base):
     result = Column(String, nullable=False)
     fail_cycles = Column(String)
     cycles = Column(String)
+    duration = Column(String)
 
     log_path = Column(String)
 

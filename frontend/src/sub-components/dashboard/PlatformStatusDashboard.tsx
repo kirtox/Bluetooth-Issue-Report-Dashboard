@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip, Badge, Spinner, Card, Row, Col, Popover } from "react-bootstrap";
+import { OverlayTrigger, Badge, Spinner, Card, Row, Col, Popover } from "react-bootstrap";
 import { PlatformStatusProps } from "types";
 
 // Define API_BASE_URL
@@ -42,7 +42,7 @@ const PlatformStatusDashboard: React.FC = () => {
 
   useEffect(() => {
     fetchPlatformWithLatestInfo();
-    const interval = setInterval(fetchPlatformWithLatestInfo, 60000);
+    const interval = setInterval(fetchPlatformWithLatestInfo, 5000);
     return () => clearInterval(interval);
   }, []);
 

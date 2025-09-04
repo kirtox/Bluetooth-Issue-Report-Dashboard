@@ -22,19 +22,30 @@ class ReportBase(BaseModel):
     wrt_version: str
     wrt_preset: str
     msft_teams_version: Optional[str] = None
+
     scenario: str
 
+    mouse_bt: Optional[str] = None
     mouse_brand: Optional[str] = None
     mouse: Optional[str] = None
     mouse_click_period: Optional[str] = None
 
+    keyboard_bt: Optional[str] = None
     keyboard_brand: Optional[str] = None
     keyboard: Optional[str] = None
     keyboard_click_period: Optional[str] = None
 
+    headset_bt: Optional[str] = None
     headset_brand: Optional[str] = None
+    headset: Optional[str] = None
+    
+    speaker_bt: Optional[str] = None
     speaker_brand: Optional[str] = None
+    speaker: Optional[str] = None
+
     phone_brand: Optional[str] = None
+    phone: Optional[str] = None
+
     device1_brand: Optional[str] = None
     device1: Optional[str] = None
 
@@ -55,8 +66,10 @@ class ReportBase(BaseModel):
     cb_os_waiting_time: Optional[str] = None
 
     microsoft_teams: str
+
     apm: str
     apm_period: Optional[str] = None
+    
     opp: str
     swift_pair: str
 
@@ -71,6 +84,8 @@ class ReportBase(BaseModel):
     result: Optional[str] = None
     fail_cycles: Optional[str] = None
     cycles: Optional[str] = None
+    duration: Optional[str] = None
+
     log_path: Optional[str] = None
 
 class ReportCreate(ReportBase):

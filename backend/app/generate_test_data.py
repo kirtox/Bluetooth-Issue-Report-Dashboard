@@ -1,5 +1,6 @@
 
 import os
+import time
 import random
 import requests
 from pathlib import Path
@@ -248,16 +249,46 @@ def generate_random_platform(sn: str):
     }
     return r
 
+def upsert_platform(sn: str):
+    """如果 serial_num 存在 -> 更新，否則新增"""
+    # 1. 先查詢 serial_num 是否存在
+    check_url = f"{API_URL}/platforms?serial_num={sn}"
+    response = requests.get(check_url)
+
+    if response.status_code == 200:
+        data = response.json()
+        if data:  # 有找到資料，執行更新
+            platform_id = data["id"] if isinstance(data, dict) else data[0]["id"]
+            update_url = f"{API_URL}/platforms/{platform_id}"
+            new_data = generate_random_platform(sn)
+            res = requests.put(update_url, json=new_data)
+            print(f"✅ Updated platform {sn}: {res.status_code}, {response.json()}")
+        else:
+            # 沒找到，新增
+            insert_platform(sn)
+    else:
+        print(f"⚠️ Failed to check platform: {response.status_code}, {response.text}")
+
+def insert_platform(sn: str):
+    """新增平台資料"""
+    url = f"{API_URL}/platforms"
+    data = generate_random_platform(sn)
+    response = requests.post(url, json=data)
+    print(f"✅ Inserted platform {sn}: {response.status_code}, {response.json()}")
+
+
 if __name__ == "__main__":
-    for _ in range(50):
-        # print(f"report_data: {generate_random_report()}")
-        report_data = generate_random_report()
-        response = requests.post(API_URL+"/reports", json=report_data)
-        print(f"Status: {response.status_code}, Response: {response.json()}")
-
-
-    # for sn in serial_num_list:
-    #     platform_data = generate_random_platform(sn)
-    #     print(f"platform_data: {platform_data}")
-    #     response = requests.post(API_URL+"/platforms", json=platform_data)
+    # for _ in range(50):
+    #     # print(f"report_data: {generate_random_report()}")
+    #     report_data = generate_random_report()
+    #     response = requests.post(API_URL+"/reports", json=report_data)
     #     print(f"Status: {response.status_code}, Response: {response.json()}")
+
+    while True:
+        for sn in serial_num_list:
+            # platform_data = generate_random_platform(sn)
+            # print(f"platform_data: {platform_data}")
+            # response = requests.post(API_URL+"/platforms", json=platform_data)
+            # print(f"Status: {response.status_code}, Response: {response.json()}")
+            upsert_platform(sn)
+        time.sleep(5)

@@ -1,11 +1,12 @@
 // src/sub-components/filters/ReportFilters.tsx
-import React, { useState } from 'react';
+// import React, { useState } from 'react';
+import React from 'react';
 import { MultiSelect, Option } from 'react-multi-select-component';
 // import { DateRange, RangeKeyDict } from 'react-date-range';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import DateFilter from "../filters/DateFilter";
-import { Download } from 'react-feather';
+// import { Download } from 'react-feather';
 
 interface ReportFiltersProps {
   searchTerm: string;
@@ -73,79 +74,79 @@ const ReportFilters: React.FC<ReportFiltersProps> = ({
   setDateRange,
   onClear,
 }) => {
-  const [isExporting, setIsExporting] = useState(false);
+  // const [isExporting, setIsExporting] = useState(false);
 
-  const handleExportExcel = async () => {
-    setIsExporting(true);
-    try {
-      // Build search parameters
-      const params = new URLSearchParams();
+  // const handleExportExcel = async () => {
+  //   setIsExporting(true);
+  //   try {
+  //     // Build search parameters
+  //     const params = new URLSearchParams();
       
-      if (searchTerm) {
-        params.append('search_term', searchTerm);
-      }
+  //     if (searchTerm) {
+  //       params.append('search_term', searchTerm);
+  //     }
       
-      if (selectedPlatformBrands.length > 0) {
-        params.append('platform_brands', selectedPlatformBrands.join(','));
-      }
+  //     if (selectedPlatformBrands.length > 0) {
+  //       params.append('platform_brands', selectedPlatformBrands.join(','));
+  //     }
 
-      if (selectedPlatforms.length > 0) {
-        params.append('platforms', selectedPlatforms.join(','));
-      }
+  //     if (selectedPlatforms.length > 0) {
+  //       params.append('platforms', selectedPlatforms.join(','));
+  //     }
 
-      if (selectedWlans.length > 0) {
-        params.append('wlans', selectedWlans.join(','));
-      }
+  //     if (selectedWlans.length > 0) {
+  //       params.append('wlans', selectedWlans.join(','));
+  //     }
 
-      if (selectedScenarios.length > 0) {
-        params.append('scenarios', selectedScenarios.join(','));
-      }
+  //     if (selectedScenarios.length > 0) {
+  //       params.append('scenarios', selectedScenarios.join(','));
+  //     }
 
-      if (selectedBTDrivers.length > 0) {
-        params.append('bt_drivers', selectedBTDrivers.join(','));
-      }
+  //     if (selectedBTDrivers.length > 0) {
+  //       params.append('bt_drivers', selectedBTDrivers.join(','));
+  //     }
       
-      if (selectedResults.length > 0) {
-        params.append('results', selectedResults.join(','));
-      }
+  //     if (selectedResults.length > 0) {
+  //       params.append('results', selectedResults.join(','));
+  //     }
       
-      // if (selectedStatuses.length > 0) {
-      //   params.append('statuses', selectedStatuses.join(','));
-      // }
+  //     // if (selectedStatuses.length > 0) {
+  //     //   params.append('statuses', selectedStatuses.join(','));
+  //     // }
       
-      if (dateRange.startDate) {
-        params.append('start_date', dateRange.startDate.toISOString());
-      }
+  //     if (dateRange.startDate) {
+  //       params.append('start_date', dateRange.startDate.toISOString());
+  //     }
       
-      if (dateRange.endDate) {
-        params.append('end_date', dateRange.endDate.toISOString());
-      }
+  //     if (dateRange.endDate) {
+  //       params.append('end_date', dateRange.endDate.toISOString());
+  //     }
       
-      // Send request
-      const response = await fetch(`http://localhost:8000/export/excel?${params.toString()}`);
+  //     // Send request
+  //     const response = await fetch(`http://localhost:8000/export/excel?${params.toString()}`);
       
-      if (!response.ok) {
-        throw new Error('Export failed');
-      }
+  //     if (!response.ok) {
+  //       throw new Error('Export failed');
+  //     }
       
-      // Download file
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `reports_${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.xlsx`;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
+  //     // Download file
+  //     const blob = await response.blob();
+  //     const url = window.URL.createObjectURL(blob);
+  //     const a = document.createElement('a');
+  //     a.href = url;
+  //     a.download = `reports_${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.xlsx`;
+  //     document.body.appendChild(a);
+  //     a.click();
+  //     window.URL.revokeObjectURL(url);
+  //     document.body.removeChild(a);
       
-    } catch (error) {
-      console.error('Export error:', error);
-      alert('Export failed. Please try again.');
-    } finally {
-      setIsExporting(false);
-    }
-  };
+  //   } catch (error) {
+  //     console.error('Export error:', error);
+  //     alert('Export failed. Please try again.');
+  //   } finally {
+  //     setIsExporting(false);
+  //   }
+  // };
 
   return (
     <div className="d-flex flex-wrap gap-3 align-items-center mb-3">
@@ -256,14 +257,14 @@ const ReportFilters: React.FC<ReportFiltersProps> = ({
 
         <button className="btn btn-outline-secondary" onClick={onClear}>Clear All</button>
         
-        <button 
+        {/* <button 
           className="btn btn-success d-flex align-items-center gap-2" 
           onClick={handleExportExcel}
           disabled={isExporting}
         >
           <Download size={16} />
           {isExporting ? 'Exporting...' : 'Export Excel'}
-        </button>
+        </button> */}
     </div>
   );
 };
