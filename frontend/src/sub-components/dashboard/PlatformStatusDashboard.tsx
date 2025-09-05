@@ -32,6 +32,7 @@ const PlatformStatusDashboard: React.FC = () => {
     try {
       const response = await fetch(`${API_BASE_URL}/platforms/latest_reports`);
       const data = await response.json();
+      console.log("fetchPlatformWithLatestInfo: \n", data);
       setPlatforms(data);
       setLoading(false);
     } catch (error) {
