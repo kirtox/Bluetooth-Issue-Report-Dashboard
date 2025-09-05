@@ -73,6 +73,14 @@ def get_cpu_stats(db: Session = Depends(get_db)):
 def read_platforms(db: Session = Depends(get_db)):
     return crud.get_platforms(db)
 
+@app.get("/platforms/{serial_num}", response_model=PlatformInDB)
+def get_platform_by_serial_num(serial_num: str, db: Session = Depends(get_db)):
+    # return crud.get_platform_by_serial_num(db, serial_num)
+    result = crud.get_platform_by_serial_num(db, serial_num)
+    if not result:
+        raise HTTPException(status_code=404, detail="Platform not found")
+    return result
+
 # Add a platform
 @app.post("/platforms", response_model=PlatformInDB)
 def create_platform(platform: PlatformCreate, db: Session = Depends(get_db)):

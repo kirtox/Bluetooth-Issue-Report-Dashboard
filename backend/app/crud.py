@@ -43,6 +43,14 @@ def get_cpu_stats(db: Session):
 def get_platforms(db: Session):
     return db.query(models.Platform).all()
 
+def get_platform_by_serial_num(db: Session, serial_num: str):
+    """
+    依照 serial_num 查詢 Platform
+    因為 serial_num 在 model 裡是 unique=True
+    所以回傳單筆 (如果不存在就回傳 None)
+    """
+    return db.query(models.Platform).filter(models.Platform.serial_num == serial_num).first()
+
 def create_platform(db: Session, platform: PlatformCreate):
     db_platform = models.Platform(**platform.dict())
     db.add(db_platform)
@@ -102,8 +110,7 @@ def get_platform_latest_reports(db: Session):
         .outerjoin(latest_reports, models.Platform.serial_num == latest_reports.c.serial_num)
         .all()
     )
-
-    return result
+    return result if result else []
 
 # User CRUD
 def get_user(db: Session, username: str):
@@ -134,4 +141,3 @@ def update_user(db: Session, user_id: int, user: UserUpdate):
     db.commit()
     db.refresh(db_user)
     return db_user
-

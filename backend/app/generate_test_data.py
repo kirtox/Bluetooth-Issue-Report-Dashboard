@@ -278,17 +278,17 @@ def insert_platform(sn: str):
 
 
 if __name__ == "__main__":
-    # for _ in range(50):
-    #     # print(f"report_data: {generate_random_report()}")
-    #     report_data = generate_random_report()
-    #     response = requests.post(API_URL+"/reports", json=report_data)
-    #     print(f"Status: {response.status_code}, Response: {response.json()}")
+    for _ in range(1):
+        print(f"report_data: {generate_random_report()}")
+        # report_data = generate_random_report()
+        # response = requests.post(API_URL+"/reports", json=report_data)
+        # print(f"Status: {response.status_code}, Response: {response.json()}")
 
-    while True:
-        for sn in serial_num_list:
-            # platform_data = generate_random_platform(sn)
-            # print(f"platform_data: {platform_data}")
-            # response = requests.post(API_URL+"/platforms", json=platform_data)
-            # print(f"Status: {response.status_code}, Response: {response.json()}")
-            upsert_platform(sn)
-        time.sleep(5)
+    # while True:
+    #     for sn in serial_num_list:
+    #         # platform_data = generate_random_platform(sn)
+    #         # print(f"platform_data: {platform_data}")
+    #         # response = requests.post(API_URL+"/platforms", json=platform_data)
+    #         # print(f"Status: {response.status_code}, Response: {response.json()}")
+    #         upsert_platform(sn)
+    #     time.sleep(5)

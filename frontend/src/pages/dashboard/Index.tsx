@@ -201,7 +201,7 @@ const Dashboard = () => {
                 {/* <Col lg={6} md={12} xs={12}>
                   <MachineStatusDashboard />
                 </Col> */}
-                <PlatformStatusDashboard />
+                {/* <PlatformStatusDashboard /> */}
               </Row>
             </Card>
           </Col>
