@@ -25,7 +25,11 @@ import { Report } from "types";
 import ReportDoughnutChart from "sub-components/dashboard/ReportDoughnutChart";
 import ReportBarChart from "sub-components/dashboard/ReportBarChart";
 
-import PlatformStatusDashboard from "sub-components/dashboard/PlatformStatusDashboard";
+// Need to fix
+// import PlatformStatusDashboard from "sub-components/dashboard/PlatformStatusDashboard";
+
+
+import ReportCrossBarChart from "sub-components/dashboard/ReportCrossBarChart";
 
 const Dashboard = () => {
   const { stats, loading } = useCPUStats();
@@ -175,7 +179,7 @@ const Dashboard = () => {
           </Col>
         </Row>
 
-        {/* Line chart summary area */}
+        {/* Bar chart summary area */}
         <Row className="my-6">
           <Col lg={12} md={12} xs={12}>
             <Card className="p-3 mb-4">
@@ -192,6 +196,40 @@ const Dashboard = () => {
           </Col>
         </Row>
 
+        {/* Cross Bar summary area */}
+        <Row className="my-6">
+          <Col lg={12} md={12} xs={12}>
+            <Card className="p-3 mb-4">
+              <h4 className="mb-2">Trend Charts</h4>
+              <Row>
+                <Col lg={6} md={12} xs={12}>
+                  <ReportCrossBarChart
+                    fieldX="platform"
+                    fieldY="scenario"
+                    title="Platform vs Scenario"
+                  />
+                </Col>
+                <Col lg={6} md={12} xs={12}>
+                  <ReportCrossBarChart
+                    fieldX="bt_driver"
+                    fieldY="platform"
+                    title="BT Driver vs Platform"
+                  />
+                </Col>
+              </Row>
+              <Row>
+              <Col lg={6} md={12} xs={12}>
+                  <ReportCrossBarChart
+                    fieldX="bt_driver"
+                    fieldY="scenario"
+                    title="BT Driver vs Scenario"
+                  />
+                </Col>
+              </Row>
+            </Card>
+          </Col>
+        </Row>
+
         {/* Machine status area */}
         <Row className="my-6">
           <Col lg={12} md={12} xs={12}>
@@ -201,7 +239,7 @@ const Dashboard = () => {
                 {/* <Col lg={6} md={12} xs={12}>
                   <MachineStatusDashboard />
                 </Col> */}
-                <PlatformStatusDashboard />
+                {/* <PlatformStatusDashboard /> */}
               </Row>
             </Card>
           </Col>

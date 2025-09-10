@@ -17,6 +17,8 @@ from sqlalchemy.orm import Session
 from sqlalchemy import func
 # Solve CORS（Cross-Origin Resource Sharing） issue
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.encoders import jsonable_encoder
+import logging
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -96,11 +98,48 @@ def update_platform(platform_id: int, platform: PlatformUpdate, db: Session = De
 def delete_platform(platform_id: int, db: Session = Depends(get_db)):
     return crud.delete_platform(db, platform_id)
 
-# Summary each cpu numbers
+# Summary each serial_num's latest report
+# @app.get("/platforms/latest_reports", response_model=list[PlatformWithLatestReportInDB])
+# def get_platform_latest_reports(db: Session = Depends(get_db)):
+#     # return crud.get_platform_latest_reports(db)
+    
+#     result = crud.get_platform_latest_reports(db)
+#     return [PlatformWithLatestReportInDB(**row) for row in result]
+
 @app.get("/platforms/latest_reports", response_model=list[PlatformWithLatestReportInDB])
 def get_platform_latest_reports(db: Session = Depends(get_db)):
-    return crud.get_platform_latest_reports(db)
-    
+    result = crud.get_platform_latest_reports(db)
+    # ⭐ 把 SQLAlchemy Row 轉 dict，讓 Pydantic 能 parse
+    return [dict(r._mapping) for r in result]
+
+    # 假資料，符合 PlatformWithLatestReportInDB
+    # fake_data = [
+    #     {
+    #         "id": 1,
+    #         "serial_num": "ABC12345",
+    #         "current_status": "PASS",
+    #         "platform_date": "2025-09-10T12:00:00",
+    #         "platform_brand": "Intel",
+    #         "platform": "AlderLake",
+    #         "cpu": "i7-12700K",
+    #         "wlan": "AX210",
+    #         "report_date": "2025-09-09T15:30:00",
+    #     },
+    #     {
+    #         "id": 2,
+    #         "serial_num": "XYZ67890",
+    #         "current_status": "FAIL",
+    #         "platform_date": "2025-09-08T09:00:00",
+    #         "platform_brand": "AMD",
+    #         "platform": "Ryzen 7",
+    #         "cpu": "5800X",
+    #         "wlan": "AX200",
+    #         "report_date": None,
+    #     },
+    # ]
+
+    # return fake_data
+
 # # Partial update by specific columns (current: platform, scenario)
 # @app.patch("/reports/latest", response_model=ReportInDB)
 # def update_latest_report(
