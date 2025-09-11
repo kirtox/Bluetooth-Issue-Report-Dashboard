@@ -23,13 +23,14 @@ import { Report } from "types";
 
 // import ReportPieChart from "sub-components/dashboard/ReportPieChart";
 import ReportDoughnutChart from "sub-components/dashboard/ReportDoughnutChart";
-import ReportBarChart from "sub-components/dashboard/ReportBarChart";
+// import ReportBarChart from "sub-components/dashboard/ReportBarChart";
 
 // Need to fix
 // import PlatformStatusDashboard from "sub-components/dashboard/PlatformStatusDashboard";
 
 
 import ReportCrossBarChart from "sub-components/dashboard/ReportCrossBarChart";
+import ReportDurationChart from "sub-components/dashboard/ReportDurationChart";
 
 const Dashboard = () => {
   const { stats, loading } = useCPUStats();
@@ -163,16 +164,16 @@ const Dashboard = () => {
         <Row className="my-6">
           <Col lg={12} md={12} xs={12}>
             <Card className="p-3 mb-4">
-              <h4 className="mb-2">Charts</h4>
+              {/* <h4 className="mb-2">Pie Charts</h4> */}
               <Row>
                 <Col lg={6} md={12} xs={12}>
-                  <ReportDoughnutChart reports={filteredReports} field="result" title="Results" />
+                  <ReportDoughnutChart reports={filteredReports} field="result" title="Total test results" />
                 </Col>
                 <Col lg={6} md={12} xs={12}>
-                  <ReportDoughnutChart reports={filteredReports} field="bt_driver" title="BT drivers" />
+                  <ReportDoughnutChart reports={filteredReports} field="bt_driver" title="Test by Bluetooth driver version" />
                 </Col>
                 <Col lg={12} md={12} xs={12} className="mt-4">
-                  <ReportDoughnutChart reports={filteredReports} field="scenario" title="Scenarios" />
+                  <ReportDoughnutChart reports={filteredReports} field="scenario" title="Total test by scenario" />
                 </Col>
               </Row>
             </Card>
@@ -180,7 +181,7 @@ const Dashboard = () => {
         </Row>
 
         {/* Bar chart summary area */}
-        <Row className="my-6">
+        {/* <Row className="my-6">
           <Col lg={12} md={12} xs={12}>
             <Card className="p-3 mb-4">
               <h4 className="mb-2">Trend Charts</h4>
@@ -194,35 +195,60 @@ const Dashboard = () => {
               </Row>
             </Card>
           </Col>
-        </Row>
+        </Row> */}
 
         {/* Cross Bar summary area */}
         <Row className="my-6">
           <Col lg={12} md={12} xs={12}>
             <Card className="p-3 mb-4">
-              <h4 className="mb-2">Trend Charts</h4>
+              {/* <h4 className="mb-2">Bar Charts</h4> */}
               <Row>
                 <Col lg={6} md={12} xs={12}>
+                  {/* <ReportCrossBarChart
+                    fieldX="bt_driver"
+                    fieldY="platform"
+                    title="Total completed tests by Bluetooth driver version and platform"
+                  /> */}
                   <ReportCrossBarChart
-                    fieldX="platform"
-                    fieldY="scenario"
-                    title="Platform vs Scenario"
+                    reports={filteredReports}
+                    fieldX="bt_driver"
+                    fieldY="platform"
+                    title="Total completed tests by Bluetooth driver Ver. and platform"
                   />
                 </Col>
                 <Col lg={6} md={12} xs={12}>
-                  <ReportCrossBarChart
+                  {/* <ReportCrossBarChart
                     fieldX="bt_driver"
-                    fieldY="platform"
-                    title="BT Driver vs Platform"
+                    fieldY="scenario"
+                    title="Total completed tests by Bluetooth driver Ver. and scenario"
+                  /> */}
+                  <ReportCrossBarChart
+                    reports={filteredReports}
+                    fieldX="bt_driver"
+                    fieldY="scenario"
+                    title="Total completed tests by Bluetooth driver Ver. and scenario"
                   />
                 </Col>
               </Row>
               <Row>
-              <Col lg={6} md={12} xs={12}>
-                  <ReportCrossBarChart
-                    fieldX="bt_driver"
+                <Col lg={6} md={12} xs={12}>
+                  {/* <ReportCrossBarChart
+                    fieldX="platform"
                     fieldY="scenario"
-                    title="BT Driver vs Scenario"
+                    title="Total completed tests by platform and scenario"
+                  /> */}
+                  <ReportCrossBarChart
+                    reports={filteredReports}
+                    fieldX="platform"
+                    fieldY="scenario"
+                    title="Total completed tests by platform and scenario"
+                  />
+                </Col>
+                <Col lg={6} md={12} xs={12}>
+                  {/* <ReportDurationChart title="BT Driver Duration Accumulation" /> */}
+                  <ReportDurationChart
+                    reports={filteredReports}
+                    title="Total duration (hours) by Bluetooth driver"
                   />
                 </Col>
               </Row>
@@ -231,19 +257,16 @@ const Dashboard = () => {
         </Row>
 
         {/* Machine status area */}
-        <Row className="my-6">
+        {/* <Row className="my-6">
           <Col lg={12} md={12} xs={12}>
             <Card className="p-3 mb-4">
               <h4 className="mb-2">Platform Status Dashboard</h4>
               <Row>
-                {/* <Col lg={6} md={12} xs={12}>
-                  <MachineStatusDashboard />
-                </Col> */}
-                {/* <PlatformStatusDashboard /> */}
+                <PlatformStatusDashboard />
               </Row>
             </Card>
           </Col>
-        </Row>
+        </Row> */}
 
 
         {/* Filter area */}

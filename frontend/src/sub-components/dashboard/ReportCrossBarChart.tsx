@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   BarChart,
   Bar,
@@ -13,6 +13,7 @@ import {
 import { useReports } from "../../hooks/useReports";
 
 interface ReportCrossBarChartProps {
+  reports?: any[];   // ⬅️ 可傳入 filteredReports
   fieldX: string;
   fieldY: string;
   title: string;
@@ -21,14 +22,16 @@ interface ReportCrossBarChartProps {
 const COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff7f50", "#a4de6c", "#d0ed57"];
 
 const ReportCrossBarChart: React.FC<ReportCrossBarChartProps> = ({
+  reports: externalReports,
   fieldX,
   fieldY,
   title,
 }) => {
-  const { reports, loading } = useReports();
+  const { reports: allReports, loading } = useReports();
+  const reports = externalReports ?? allReports;  // ⬅️ 優先用外部傳的
 
-  if (loading) return <div>Loading...</div>;
-  if (!reports.length) return <div>No data</div>;
+  if (loading && !externalReports) return <div>Loading...</div>;
+  if (!reports || !reports.length) return <div>No data</div>;
 
   // Step 1: 建立二維統計
   const dataMap: Record<string, Record<string, number>> = {};
@@ -48,9 +51,13 @@ const ReportCrossBarChart: React.FC<ReportCrossBarChartProps> = ({
   // Step 3: 轉成 Recharts 格式
   const data = Object.entries(dataMap).map(([xKey, yCounts]) => {
     const row: Record<string, any> = { name: xKey };
+    let total = 0;
     yCategories.forEach((y) => {
-      row[y] = yCounts[y] || 0;
+      const count = yCounts[y] || 0;
+      row[y] = count;
+      total += count;
     });
+    row.total = total;
     return row;
   });
 
@@ -72,7 +79,45 @@ const ReportCrossBarChart: React.FC<ReportCrossBarChartProps> = ({
           <Legend />
           {yCategories.map((y, idx) => (
             <Bar key={y} dataKey={y} stackId="a" fill={COLORS[idx % COLORS.length]}>
-              <LabelList dataKey={y} position="center" fill="#fff" />
+              <LabelList
+                dataKey={y}
+                content={({ x, y: yCoord, width, height, value }) => {
+                  if (!value || value === 0) return null;
+                  return (
+                    <text
+                      x={Number(x) + Number(width) / 2}
+                      y={Number(yCoord) + Number(height) / 2}
+                      fill="#fff"
+                      textAnchor="middle"
+                      dominantBaseline="middle"
+                      fontSize={16}
+                      fontWeight="bold"
+                    >
+                      {value}
+                    </text>
+                  );
+                }}
+              />
+              <LabelList
+                dataKey="total"
+                position="right"
+                content={({ x, y: yCoord, width, height, value }) => {
+                  if (!value || value === 0) return null;
+                  return (
+                    <text
+                      x={Number(x) + Number(width) + 10}
+                      y={Number(yCoord) + Number(height) / 2}
+                      fill="#000"
+                      textAnchor="start"
+                      dominantBaseline="middle"
+                      fontSize={16}
+                      fontWeight="bold"
+                    >
+                      {value}
+                    </text>
+                  );
+                }}
+              />
             </Bar>
           ))}
         </BarChart>

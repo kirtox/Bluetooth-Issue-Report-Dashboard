@@ -10,11 +10,10 @@ const Documentation = () => {
           <div className="border-bottom pb-4 mb-4 d-md-flex justify-content-between align-items-center">
             <div className="mb-3 mb-md-0">
               <h1 className="mb-0 h2 fw-bold">
-                Dash UI React With Vite and TypeScript
+                Bluetooth Issue Report Dashboard
               </h1>
               <p className="mb-0">
-                Welcome to the Dash UI React JS version of the original Dash UI
-                theme.
+                Welcome to the Bluetooth Issue Report Dashboard.
               </p>
             </div>
           </div>
