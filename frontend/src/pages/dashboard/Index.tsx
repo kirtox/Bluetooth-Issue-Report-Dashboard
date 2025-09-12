@@ -163,30 +163,61 @@ const Dashboard = () => {
         </Row>
 
         {/* Gauge chart summary area */}
-        {/* <Row className="my-6">
+        <Row className="my-6">
           <Col lg={12} md={12} xs={12}>
             <Card className="p-3 mb-4">
-              <Row>
+              <Row className="my-4">
                 <Col lg={6} md={12} xs={12}>
                   <ReportGaugeChart
                     reports={filteredReports}
-                    driver="bt_driver"
-                    valueField="duration"
-                    title="Bluetooth Driver Cumulative Hours"
+                    groupBy="bt_driver"
+                    calcField="duration"
+                    calcType="sum"
+                    max={720}
+                    thresholds={[
+                      { value: 72, color: "#82ca9d" },  // 綠82ca9d
+                      { value: 360, color: "#ffc658" },  // 黃ffc658
+                      { value: 720, color: "#ff7f50" }, // 紅ff7f50
+                    ]}
+                    title="Driver Duration Dashboard"
                   />
+                </Col>
+                {/* <Col lg={6} md={12} xs={12}>
+                  <ReportGaugeChart
+                      reports={filteredReports}
+                      groupBy="bt_driver"
+                      groupValue="23.160.0.7"
+                      calcField="duration"
+                      calcType="sum"
+                      title="23.160.0.7/hours"
+                      max={500}
+                      thresholds={[
+                        { value: 30, color: "red" },
+                        { value: 50, color: "orange" },
+                        { value: 100, color: "green" }
+                      ]}
+                    />
                 </Col>
                 <Col lg={6} md={12} xs={12}>
                   <ReportGaugeChart
-                    reports={filteredReports}
-                    driver="scenario"
-                    valueField="duration"
-                    title="Scenario Cumulative Hours"
-                  />
-                </Col>
+                      reports={filteredReports}
+                      groupBy="bt_driver"
+                      groupValue="23.160.0.4"
+                      calcField="duration"
+                      calcType="sum"
+                      title="23.160.0.4/hours"
+                      max={500}
+                      thresholds={[
+                        { value: 30, color: "red" },
+                        { value: 50, color: "orange" },
+                        { value: 100, color: "green" }
+                      ]}
+                    />
+                </Col> */}
               </Row>
             </Card>
           </Col>
-        </Row> */}
+        </Row>
 
         {/* Pie chart summary area */}
         <Row className="my-6">
