@@ -193,7 +193,7 @@ const Dashboard = () => {
           <Col lg={12} md={12} xs={12}>
             <Card className="p-3 mb-4">
               {/* <h4 className="mb-2">Pie Charts</h4> */}
-              <Row>
+              <Row className="my-4">
                 <Col lg={6} md={12} xs={12}>
                   <ReportDoughnutChart reports={filteredReports} field="result" title="Total test results" />
                 </Col>
@@ -225,53 +225,60 @@ const Dashboard = () => {
           </Col>
         </Row> */}
 
-        {/* Cross Bar summary area */}
+        {/* Cross Bar (data) summary area */}
         <Row className="my-6">
           <Col lg={12} md={12} xs={12}>
             <Card className="p-3 mb-4">
-              {/* <h4 className="mb-2">Bar Charts</h4> */}
-              <Row>
-                <Col lg={6} md={12} xs={12}>
-                  <ReportCrossBarChart
-                    reports={filteredReports}
-                    fieldX="bt_driver"
-                    fieldY="platform"
-                    title="Total completed tests by Bluetooth driver Ver. and platform"
-                  />
-                </Col>
+              <h3 className="mb-2">Amount of test data</h3>
+
+              <Row className="my-4">
                 <Col lg={6} md={12} xs={12}>
                   <ReportCrossBarChart
                     reports={filteredReports}
                     fieldX="bt_driver"
                     fieldY="scenario"
-                    title="Total completed tests by Bluetooth driver Ver. and scenario"
+                    title="Total completed tests by Bluetooth Driver and Scenario"
                   />
                 </Col>
-              </Row>
-              <Row>
                 <Col lg={6} md={12} xs={12}>
                   <ReportCrossBarChart
                     reports={filteredReports}
                     fieldX="platform"
                     fieldY="scenario"
-                    title="Total completed tests by platform and scenario"
+                    title="Total completed tests by Platform and Scenario"
+                  />
+                </Col>
+                
+              </Row>
+              <Row className="my-4">
+                <Col lg={6} md={12} xs={12}>
+                  <ReportCrossBarChart
+                    reports={filteredReports}
+                    fieldX="bt_driver"
+                    fieldY="wlan"
+                    title="Total completed tests by Bluetooth Driver and wlan"
                   />
                 </Col>
                 <Col lg={6} md={12} xs={12}>
-                  {/* <ReportDurationChart title="BT Driver Duration Accumulation" /> */}
-                  <ReportDurationChart
+                  <ReportCrossBarChart
                     reports={filteredReports}
-                    title="Duration (hours) by Bluetooth driver"
+                    fieldX="wlan"
+                    fieldY="platform"
+                    title="Total completed tests by WLAN and Platform"
                   />
-                  {/* BT Driver 的 duration 累計 */}
-                  {/* <AggregateBarChart
-                    fieldKey="bt_driver"
-                    valueKey="duration"
-                    title="BT Driver Duration 累計"
-                  /> */}
                 </Col>
               </Row>
-              <Row>
+            </Card>
+          </Col>
+        </Row>
+
+        {/* Cross Bar (duration) summary area */}
+        <Row className="my-6">
+          <Col lg={12} md={12} xs={12}>
+            <Card className="p-3 mb-4">
+              <h3 className="mb-2">Amount of test duration (hours)</h3>
+              
+              <Row className="my-4">
                 <Col lg={6} md={12} xs={12}>
                   <ReportDurationMultipleBarChart
                     reports={filteredReports}
@@ -291,6 +298,26 @@ const Dashboard = () => {
                   />
                 </Col>
               </Row>
+              <Row className="my-4">
+                <Col lg={6} md={12} xs={12}>
+                  <ReportDurationMultipleBarChart
+                    reports={filteredReports}
+                    fieldX="bt_driver"
+                    fieldY="duration"
+                    groupBy="wlan"
+                    title="Duration (hours) by Bluetooth Driver and WLAN"
+                  />
+                </Col>
+                <Col lg={6} md={12} xs={12}>
+                  <ReportDurationMultipleBarChart
+                    reports={filteredReports}
+                    fieldX="wlan"
+                    fieldY="duration"
+                    groupBy="platform"
+                    title="Duration (hours) by WLAN and platform"
+                  />
+                </Col>
+              </Row>
             </Card>
           </Col>
         </Row>
@@ -300,7 +327,7 @@ const Dashboard = () => {
           <Col lg={12} md={12} xs={12}>
             <Card className="p-3 mb-4">
               <h4 className="mb-2">Platform Status Dashboard</h4>
-              <Row>
+              <Row className="my-4">
                 <PlatformStatusDashboard />
               </Row>
             </Card>
@@ -313,6 +340,7 @@ const Dashboard = () => {
           <Col lg={12} md={12} xs={12}>
             <Card className="p-3 mb-4">
               <h4 className="mb-2">Report Filters</h4>
+
               <ReportFilters
                 searchTerm={searchTerm}
                 setSearchTerm={setSearchTerm}
