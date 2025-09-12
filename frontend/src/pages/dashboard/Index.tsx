@@ -30,9 +30,10 @@ import ReportDoughnutChart from "sub-components/dashboard/ReportDoughnutChart";
 
 
 import ReportCrossBarChart from "sub-components/dashboard/ReportCrossBarChart";
-import ReportDurationChart from "sub-components/dashboard/ReportDurationChart";
+// import ReportDurationChart from "sub-components/dashboard/ReportDurationChart";
 import ReportDurationMultipleBarChart from "sub-components/dashboard/ReportDurationMultipleBarChart";
 import ReportGaugeChart from "sub-components/dashboard/ReportGaugeChart";
+import ReportGaugeAreaChart from "sub-components/dashboard/ReportGaugeAreaChart";
 
 const Dashboard = () => {
   const { stats, loading } = useCPUStats();
@@ -167,7 +168,7 @@ const Dashboard = () => {
           <Col lg={12} md={12} xs={12}>
             <Card className="p-3 mb-4">
               <Row className="my-4">
-                <Col lg={6} md={12} xs={12}>
+                <Col lg={12} md={12} xs={12}>
                   <ReportGaugeChart
                     reports={filteredReports}
                     groupBy="bt_driver"
@@ -214,6 +215,24 @@ const Dashboard = () => {
                       ]}
                     />
                 </Col> */}
+              </Row>
+              <Row className="my-4">
+                <Col lg={12} md={12} xs={12}>
+                  <ReportGaugeAreaChart
+                    reports={filteredReports}
+                    groupBy="bt_driver"
+                    calcField="duration"
+                    calcType="sum"
+                    max={720}
+                    thresholds={[
+                      { value: 168, color: "#ff4d4f", label: "Poor" },
+                      { value: 336, color: "#ff8c42", label: "Fair" },
+                      { value: 504, color: "#ffc658", label: "OK" },
+                      { value: 720, color: "#82ca9d", label: "Great" },
+                    ]}
+                    title="Driver Duration Dashboard"
+                  />
+                </Col>
               </Row>
             </Card>
           </Col>
