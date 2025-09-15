@@ -167,7 +167,7 @@ const Dashboard = () => {
         <Row className="my-6">
           <Col lg={12} md={12} xs={12}>
             <Card className="p-3 mb-4">
-              <Row className="my-4">
+              {/* <Row className="my-4">
                 <Col lg={12} md={12} xs={12}>
                   <ReportGaugeChart
                     reports={filteredReports}
@@ -183,39 +183,7 @@ const Dashboard = () => {
                     title="Driver Duration Dashboard"
                   />
                 </Col>
-                {/* <Col lg={6} md={12} xs={12}>
-                  <ReportGaugeChart
-                      reports={filteredReports}
-                      groupBy="bt_driver"
-                      groupValue="23.160.0.7"
-                      calcField="duration"
-                      calcType="sum"
-                      title="23.160.0.7/hours"
-                      max={500}
-                      thresholds={[
-                        { value: 30, color: "red" },
-                        { value: 50, color: "orange" },
-                        { value: 100, color: "green" }
-                      ]}
-                    />
-                </Col>
-                <Col lg={6} md={12} xs={12}>
-                  <ReportGaugeChart
-                      reports={filteredReports}
-                      groupBy="bt_driver"
-                      groupValue="23.160.0.4"
-                      calcField="duration"
-                      calcType="sum"
-                      title="23.160.0.4/hours"
-                      max={500}
-                      thresholds={[
-                        { value: 30, color: "red" },
-                        { value: 50, color: "orange" },
-                        { value: 100, color: "green" }
-                      ]}
-                    />
-                </Col> */}
-              </Row>
+              </Row> */}
               <Row className="my-4">
                 <Col lg={12} md={12} xs={12}>
                   <ReportGaugeAreaChart
@@ -225,12 +193,62 @@ const Dashboard = () => {
                     calcType="sum"
                     max={720}
                     thresholds={[
-                      { value: 168, color: "#ff4d4f", label: "Poor" },
-                      { value: 336, color: "#ff8c42", label: "Fair" },
-                      { value: 504, color: "#ffc658", label: "OK" },
-                      { value: 720, color: "#82ca9d", label: "Great" },
+                      { value: 336, color: "#ff8c42", label: "Low" },
+                      { value: 504, color: "#ffc658", label: "Medium" },
+                      { value: 720, color: "#82ca9d", label: "High" },
                     ]}
-                    title="Driver Duration Dashboard"
+                    title="Driver Test Duration Dashboard"
+                  />
+                </Col>
+              </Row>
+              <Row className="my-4">
+                <Col lg={12} md={12} xs={12}>
+                  <ReportGaugeAreaChart
+                    reports={filteredReports}
+                    groupBy="scenario"
+                    calcField="duration"
+                    calcType="sum"
+                    max={720}
+                    thresholds={[
+                      { value: 336, color: "#ff8c42", label: "Low" },
+                      { value: 504, color: "#ffc658", label: "Medium" },
+                      { value: 720, color: "#82ca9d", label: "High" },
+                    ]}
+                    title="Scenarios Test Duration Dashboard"
+                  />
+                </Col>
+              </Row>
+              <Row className="my-4">
+                <Col lg={12} md={12} xs={12}>
+                  <ReportGaugeAreaChart
+                    reports={filteredReports}
+                    groupBy="platform"
+                    calcField="duration"
+                    calcType="sum"
+                    max={720}
+                    thresholds={[
+                      { value: 336, color: "#ff8c42", label: "Low" },
+                      { value: 504, color: "#ffc658", label: "Medium" },
+                      { value: 720, color: "#82ca9d", label: "High" },
+                    ]}
+                    title="Platform cDuration Dashboard"
+                  />
+                </Col>
+              </Row>
+              <Row className="my-4">
+                <Col lg={12} md={12} xs={12}>
+                  <ReportGaugeAreaChart
+                    reports={filteredReports}
+                    groupBy="wlan"
+                    calcField="duration"
+                    calcType="sum"
+                    max={720}
+                    thresholds={[
+                      { value: 336, color: "#ff8c42", label: "Low" },
+                      { value: 504, color: "#ffc658", label: "Medium" },
+                      { value: 720, color: "#82ca9d", label: "High" },
+                    ]}
+                    title="WLAN Test Duration Dashboard"
                   />
                 </Col>
               </Row>

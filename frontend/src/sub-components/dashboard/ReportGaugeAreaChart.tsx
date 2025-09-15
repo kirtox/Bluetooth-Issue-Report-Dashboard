@@ -290,7 +290,7 @@ const ReportGaugeAreaChart: React.FC<ReportGaugeAreaChartProps> = ({
                 boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
               }}
             >
-              <h3 className="text-center mb-2">{name}</h3>
+              <h4 className="text-center mb-2">{name}</h4>
               <div style={{ width: 300, margin: "0 auto" }}>
                 <ResponsiveContainer width="100%" height={220}>
                   <PieChart margin={{ top: 0, right: 0, bottom: 20, left: 0 }}>
