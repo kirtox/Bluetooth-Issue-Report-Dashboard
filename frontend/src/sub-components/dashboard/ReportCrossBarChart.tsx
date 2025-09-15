@@ -11,13 +11,14 @@ import {
   LabelList,
 } from "recharts";
 import { useReports } from "../../hooks/useReports";
+import { ReportCrossBarChartProps } from "types";
 
-interface ReportCrossBarChartProps {
-  reports?: any[];   // ⬅️ 可傳入 filteredReports
-  fieldX: string;
-  fieldY: string;
-  title: string;
-}
+// interface ReportCrossBarChartProps {
+//   reports?: any[];   // Load filteredReports
+//   fieldX: string;
+//   fieldY: string;
+//   title: string;
+// }
 
 const COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff7f50", "#a4de6c", "#d0ed57"];
 
@@ -28,12 +29,12 @@ const ReportCrossBarChart: React.FC<ReportCrossBarChartProps> = ({
   title,
 }) => {
   const { reports: allReports, loading } = useReports();
-  const reports = externalReports ?? allReports;  // ⬅️ 優先用外部傳的
+  const reports = externalReports ?? allReports;  // Prioritize external transmission
 
   if (loading && !externalReports) return <div>Loading...</div>;
   if (!reports || !reports.length) return <div>No data</div>;
 
-  // Step 1: 建立二維統計
+  // Step 1: Create two-dimensional statistics
   const dataMap: Record<string, Record<string, number>> = {};
   reports.forEach((r) => {
     const xKey = (r[fieldX] || "(Empty)").toString();
@@ -43,12 +44,12 @@ const ReportCrossBarChart: React.FC<ReportCrossBarChartProps> = ({
     dataMap[xKey][yKey] = (dataMap[xKey][yKey] || 0) + 1;
   });
 
-  // Step 2: 收集所有 Y 分類
+  // Step 2: Collect all Y categories
   const yCategories = Array.from(
     new Set(reports.map((r) => (r[fieldY] || "(Empty)").toString()))
   );
 
-  // Step 3: 轉成 Recharts 格式
+  // Step 3: Convert to Recharts format
   const data = Object.entries(dataMap).map(([xKey, yCounts]) => {
     const row: Record<string, any> = { name: xKey };
     let total = 0;

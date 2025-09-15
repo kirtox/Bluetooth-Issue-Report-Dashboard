@@ -180,3 +180,34 @@ export interface PlatformStatusProps {
   wlan: string | null;
   report_date: string | null;
 }
+
+export interface ReportCrossBarChartProps {
+  reports?: any[];   // Load filteredReports
+  fieldX: string;
+  fieldY: string;
+  title: string;
+}
+
+export interface ReportDurationMultipleBarChartProps {
+  reports?: any[];       // Load filteredReports
+  title: string;
+  fieldX?: string;       // X-axis field, default is bt_driver
+  fieldY?: string;       // Cumulative field, default is duration
+  groupBy?: string;      // Grouping field, default is scenario
+}
+
+export interface Threshold {
+  value: number;
+  color: string;
+  label?: string;
+}
+
+export interface ReportGaugeAreaChartProps {
+  reports: any[];
+  groupBy: string;
+  calcField?: string;
+  calcType?: "sum" | "count";
+  max?: number;
+  thresholds?: Threshold[];
+  title?: string;
+}

@@ -11,14 +11,15 @@ import {
   LabelList,
 } from "recharts";
 import { useReports } from "../../hooks/useReports";
+import { ReportDurationMultipleBarChartProps } from "types";
 
-interface ReportDurationMultipleBarChartProps {
-  reports?: any[];       // 可傳入 filteredReports
-  title: string;
-  fieldX?: string;       // X 軸欄位，預設 bt_driver
-  fieldY?: string;       // 累計欄位，預設 duration
-  groupBy?: string;      // 分組欄位，預設 scenario
-}
+// interface ReportDurationMultipleBarChartProps {
+//   reports?: any[];       // Load filteredReports
+//   title: string;
+//   fieldX?: string;       // X-axis field, default is bt_driver
+//   fieldY?: string;       // Cumulative field, default is duration
+//   groupBy?: string;      // Grouping field, default is scenario
+// }
 
 const COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff7f50", "#a4de6c", "#d0ed57"];
 
