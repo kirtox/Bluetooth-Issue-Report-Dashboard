@@ -231,7 +231,7 @@ const Dashboard = () => {
                       { value: 504, color: "#ffc658", label: "Medium" },
                       { value: 720, color: "#82ca9d", label: "High" },
                     ]}
-                    title="Platform cDuration Dashboard"
+                    title="Platform Test Duration Dashboard"
                   />
                 </Col>
               </Row>
