@@ -125,7 +125,7 @@ const Dashboard = () => {
             <div>
               <div className="d-flex justify-content-between align-items-center">
                 <div className="mb-2 mb-lg-0">
-                  <h3 className="mb-0  text-white">Bluetooth Issue Report Dashboard</h3>
+                  <h1 className="mb-0  text-white">Bluetooth Issue Report Dashboard</h1>
                 </div>
                 {/* <div>
                   <Link to="#" className="btn btn-white">
@@ -163,238 +163,11 @@ const Dashboard = () => {
           </Row>
         </Row>
 
-        {/* Gauge chart summary area */}
-        <Row className="my-6">
+                {/* Platform Status Area */}
+                <Row className="my-6">
           <Col lg={12} md={12} xs={12}>
             <Card className="p-3 mb-4">
-              {/* <Row className="my-4">
-                <Col lg={12} md={12} xs={12}>
-                  <ReportGaugeChart
-                    reports={filteredReports}
-                    groupBy="bt_driver"
-                    calcField="duration"
-                    calcType="sum"
-                    max={720}
-                    thresholds={[
-                      { value: 72, color: "#82ca9d" },  // 綠82ca9d
-                      { value: 360, color: "#ffc658" },  // 黃ffc658
-                      { value: 720, color: "#ff7f50" }, // 紅ff7f50
-                    ]}
-                    title="Driver Duration Dashboard"
-                  />
-                </Col>
-              </Row> */}
-              <Row className="my-4">
-                <Col lg={12} md={12} xs={12}>
-                  <ReportGaugeAreaChart
-                    reports={filteredReports}
-                    groupBy="bt_driver"
-                    calcField="duration"
-                    calcType="sum"
-                    max={720}
-                    thresholds={[
-                      { value: 336, color: "#ff8c42", label: "Low" },
-                      { value: 504, color: "#ffc658", label: "Medium" },
-                      { value: 720, color: "#82ca9d", label: "High" },
-                    ]}
-                    title="Driver Test Duration Dashboard"
-                  />
-                </Col>
-              </Row>
-              <Row className="my-4">
-                <Col lg={12} md={12} xs={12}>
-                  <ReportGaugeAreaChart
-                    reports={filteredReports}
-                    groupBy="scenario"
-                    calcField="duration"
-                    calcType="sum"
-                    max={720}
-                    thresholds={[
-                      { value: 336, color: "#ff8c42", label: "Low" },
-                      { value: 504, color: "#ffc658", label: "Medium" },
-                      { value: 720, color: "#82ca9d", label: "High" },
-                    ]}
-                    title="Scenarios Test Duration Dashboard"
-                  />
-                </Col>
-              </Row>
-              <Row className="my-4">
-                <Col lg={12} md={12} xs={12}>
-                  <ReportGaugeAreaChart
-                    reports={filteredReports}
-                    groupBy="platform"
-                    calcField="duration"
-                    calcType="sum"
-                    max={720}
-                    thresholds={[
-                      { value: 336, color: "#ff8c42", label: "Low" },
-                      { value: 504, color: "#ffc658", label: "Medium" },
-                      { value: 720, color: "#82ca9d", label: "High" },
-                    ]}
-                    title="Platform Test Duration Dashboard"
-                  />
-                </Col>
-              </Row>
-              <Row className="my-4">
-                <Col lg={12} md={12} xs={12}>
-                  <ReportGaugeAreaChart
-                    reports={filteredReports}
-                    groupBy="wlan"
-                    calcField="duration"
-                    calcType="sum"
-                    max={720}
-                    thresholds={[
-                      { value: 336, color: "#ff8c42", label: "Low" },
-                      { value: 504, color: "#ffc658", label: "Medium" },
-                      { value: 720, color: "#82ca9d", label: "High" },
-                    ]}
-                    title="WLAN Test Duration Dashboard"
-                  />
-                </Col>
-              </Row>
-            </Card>
-          </Col>
-        </Row>
-
-        {/* Pie chart summary area */}
-        <Row className="my-6">
-          <Col lg={12} md={12} xs={12}>
-            <Card className="p-3 mb-4">
-              {/* <h4 className="mb-2">Pie Charts</h4> */}
-              <Row className="my-4">
-                <Col lg={6} md={12} xs={12}>
-                  <ReportDoughnutChart reports={filteredReports} field="result" title="Total test results" />
-                </Col>
-                <Col lg={6} md={12} xs={12}>
-                  <ReportDoughnutChart reports={filteredReports} field="bt_driver" title="Test by Bluetooth driver version" />
-                </Col>
-                <Col lg={12} md={12} xs={12} className="mt-4">
-                  <ReportDoughnutChart reports={filteredReports} field="scenario" title="Total test by scenario" />
-                </Col>
-              </Row>
-            </Card>
-          </Col>
-        </Row>
-
-        {/* Bar chart summary area */}
-        {/* <Row className="my-6">
-          <Col lg={12} md={12} xs={12}>
-            <Card className="p-3 mb-4">
-              <h4 className="mb-2">Trend Charts</h4>
-              <Row>
-                <Col lg={6} md={12} xs={12}>
-                  <ReportBarChart reports={filteredReports} field="bt_driver" title="BT drivers" />
-                </Col>
-                <Col lg={6} md={12} xs={12}>
-                  <ReportBarChart reports={filteredReports} field="platform_brand" title="Platform Brand" />
-                </Col>
-              </Row>
-            </Card>
-          </Col>
-        </Row> */}
-
-        {/* Cross Bar (data) summary area */}
-        <Row className="my-6">
-          <Col lg={12} md={12} xs={12}>
-            <Card className="p-3 mb-4">
-              <h3 className="mb-2">Amount of test data</h3>
-
-              <Row className="my-4">
-                <Col lg={6} md={12} xs={12}>
-                  <ReportCrossBarChart
-                    reports={filteredReports}
-                    fieldX="bt_driver"
-                    fieldY="scenario"
-                    title="Total completed tests by Bluetooth Driver and Scenario"
-                  />
-                </Col>
-                <Col lg={6} md={12} xs={12}>
-                  <ReportCrossBarChart
-                    reports={filteredReports}
-                    fieldX="platform"
-                    fieldY="scenario"
-                    title="Total completed tests by Platform and Scenario"
-                  />
-                </Col>
-                
-              </Row>
-              <Row className="my-4">
-                <Col lg={6} md={12} xs={12}>
-                  <ReportCrossBarChart
-                    reports={filteredReports}
-                    fieldX="bt_driver"
-                    fieldY="wlan"
-                    title="Total completed tests by Bluetooth Driver and WLAN"
-                  />
-                </Col>
-                <Col lg={6} md={12} xs={12}>
-                  <ReportCrossBarChart
-                    reports={filteredReports}
-                    fieldX="wlan"
-                    fieldY="platform"
-                    title="Total completed tests by WLAN and Platform"
-                  />
-                </Col>
-              </Row>
-            </Card>
-          </Col>
-        </Row>
-
-        {/* Cross Bar (duration) summary area */}
-        <Row className="my-6">
-          <Col lg={12} md={12} xs={12}>
-            <Card className="p-3 mb-4">
-              <h3 className="mb-2">Amount of test duration (hours)</h3>
-              
-              <Row className="my-4">
-                <Col lg={6} md={12} xs={12}>
-                  <ReportDurationMultipleBarChart
-                    reports={filteredReports}
-                    fieldX="bt_driver"
-                    fieldY="duration"
-                    groupBy="scenario"
-                    title="Duration (hours) by Bluetooth Driver and Scenario"
-                  />
-                </Col>
-                <Col lg={6} md={12} xs={12}>
-                  <ReportDurationMultipleBarChart
-                    reports={filteredReports}
-                    fieldX="platform"
-                    fieldY="duration"
-                    groupBy="scenario"
-                    title="Duration (hours) by Platform and Scenario"
-                  />
-                </Col>
-              </Row>
-              <Row className="my-4">
-                <Col lg={6} md={12} xs={12}>
-                  <ReportDurationMultipleBarChart
-                    reports={filteredReports}
-                    fieldX="bt_driver"
-                    fieldY="duration"
-                    groupBy="wlan"
-                    title="Duration (hours) by Bluetooth Driver and WLAN"
-                  />
-                </Col>
-                <Col lg={6} md={12} xs={12}>
-                  <ReportDurationMultipleBarChart
-                    reports={filteredReports}
-                    fieldX="wlan"
-                    fieldY="duration"
-                    groupBy="platform"
-                    title="Duration (hours) by WLAN and platform"
-                  />
-                </Col>
-              </Row>
-            </Card>
-          </Col>
-        </Row>
-
-        {/* Platform Status Area */}
-        <Row className="my-6">
-          <Col lg={12} md={12} xs={12}>
-            <Card className="p-3 mb-4">
-              <h4 className="mb-2">Platform Status Dashboard</h4>
+              <h3 className="mb-2">Platform Status Dashboard</h3>
               <Row className="my-4">
                 <PlatformStatusDashboard />
               </Row>
@@ -407,15 +180,15 @@ const Dashboard = () => {
         <Row className="my-6">
           <Col lg={12} md={12} xs={12}>
             <Card className="p-3 mb-4">
-              <h4 className="mb-2">Report Filters</h4>
+              <h3 className="mb-2">Report Filters</h3>
 
               <ReportFilters
                 searchTerm={searchTerm}
                 setSearchTerm={setSearchTerm}
                 
-                platformBrandOptions={[...new Set(reports.map(r => r.platform_brand))]}
-                selectedPlatformBrands={selectedPlatformBrands}
-                setSelectedPlatformBrands={setSelectedPlatformBrands}
+                // platformBrandOptions={[...new Set(reports.map(r => r.platform_brand))]}
+                // selectedPlatformBrands={selectedPlatformBrands}
+                // setSelectedPlatformBrands={setSelectedPlatformBrands}
 
                 platformOptions={[...new Set(reports.map(r => r.platform))]}
                 selectedPlatforms={selectedPlatforms}
@@ -450,8 +223,233 @@ const Dashboard = () => {
           
           {/* Table area */}
           <Col lg={12} md={12} xs={12}>
-            {/* <ReportTable reports={filteredReports} /> */}
             <ReportTable reports={filteredReports} onReload={fetchReports} />
+          </Col>
+        </Row>
+
+        {/* Gauge chart summary area */}
+        <Row className="my-6">
+          <Col lg={12} md={12} xs={12}>
+            <Card className="p-3 mb-4">
+              {/* <Row className="my-4">
+                <Col lg={12} md={12} xs={12}>
+                  <ReportGaugeChart
+                    reports={filteredReports}
+                    groupBy="bt_driver"
+                    calcField="duration"
+                    calcType="sum"
+                    max={720}
+                    thresholds={[
+                      { value: 72, color: "#82ca9d" },  // 綠82ca9d
+                      { value: 360, color: "#ffc658" },  // 黃ffc658
+                      { value: 720, color: "#ff7f50" }, // 紅ff7f50
+                    ]}
+                    title="Driver Duration Dashboard"
+                  />
+                </Col>
+              </Row> */}
+              <Row className="my-4">
+                <Col lg={12} md={12} xs={12}>
+                  <ReportGaugeAreaChart
+                    reports={filteredReports}
+                    groupBy="bt_driver"
+                    calcField="duration"
+                    calcType="sum"
+                    max={720}
+                    thresholds={[
+                      { value: 336, color: "#A3D1D1", label: "Low" },
+                      { value: 504, color: "#6FB7B7", label: "Medium" },
+                      { value: 720, color: "#408080", label: "High" },
+                    ]}
+                    title="Integration Test"
+                  />
+                </Col>
+              </Row>
+              <Row className="my-4">
+                <Col lg={12} md={12} xs={12}>
+                  <ReportGaugeAreaChart
+                    reports={filteredReports}
+                    groupBy="scenario"
+                    calcField="duration"
+                    calcType="sum"
+                    max={720}
+                    thresholds={[
+                      { value: 336, color: "#C7C7E2", label: "Low" },
+                      { value: 504, color: "#9999CC", label: "Medium" },
+                      { value: 720, color: "#5A5AAD", label: "High" },
+                    ]}
+                    title="Bluetooth Driver Reliability"
+                  />
+                </Col>
+              </Row>
+              <Row className="my-4">
+                <Col lg={12} md={12} xs={12}>
+                  <ReportGaugeAreaChart
+                    reports={filteredReports}
+                    groupBy="platform"
+                    calcField="duration"
+                    calcType="sum"
+                    max={720}
+                    thresholds={[
+                      { value: 336, color: "#FFC78E", label: "Low" },
+                      { value: 504, color: "#FFA042", label: "Medium" },
+                      { value: 720, color: "#EA7500", label: "High" },
+                    ]}
+                    title="Platform Summary"
+                  />
+                </Col>
+              </Row>
+              <Row className="my-4">
+                <Col lg={12} md={12} xs={12}>
+                  <ReportGaugeAreaChart
+                    reports={filteredReports}
+                    groupBy="wlan"
+                    calcField="duration"
+                    calcType="sum"
+                    max={720}
+                    thresholds={[
+                      { value: 336, color: "#84C1FF", label: "Low" },
+                      { value: 504, color: "#2894FF", label: "Medium" },
+                      { value: 720, color: "#0066CC", label: "High" },
+                    ]}
+                    title="WLAN Reliability"
+                  />
+                </Col>
+              </Row>
+            </Card>
+          </Col>
+        </Row>
+
+        {/* Pie chart summary area */}
+        {/* <Row className="my-6">
+          <Col lg={12} md={12} xs={12}>
+            <Card className="p-3 mb-4">
+              <Row className="my-4">
+                <Col lg={6} md={12} xs={12}>
+                  <ReportDoughnutChart reports={filteredReports} field="result" title="Total test results" />
+                </Col>
+                <Col lg={6} md={12} xs={12}>
+                  <ReportDoughnutChart reports={filteredReports} field="bt_driver" title="Test by Bluetooth driver version" />
+                </Col>
+                <Col lg={12} md={12} xs={12} className="mt-4">
+                  <ReportDoughnutChart reports={filteredReports} field="scenario" title="Total test by scenario" />
+                </Col>
+              </Row>
+            </Card>
+          </Col>
+        </Row> */}
+
+        {/* Bar chart summary area */}
+        {/* <Row className="my-6">
+          <Col lg={12} md={12} xs={12}>
+            <Card className="p-3 mb-4">
+              <h4 className="mb-2">Trend Charts</h4>
+              <Row>
+                <Col lg={6} md={12} xs={12}>
+                  <ReportBarChart reports={filteredReports} field="bt_driver" title="BT drivers" />
+                </Col>
+                <Col lg={6} md={12} xs={12}>
+                  <ReportBarChart reports={filteredReports} field="platform_brand" title="Platform Brand" />
+                </Col>
+              </Row>
+            </Card>
+          </Col>
+        </Row> */}
+
+        {/* Cross Bar (data) summary area */}
+        <Row className="my-6">
+          <Col lg={12} md={12} xs={12}>
+            <Card className="p-3 mb-4">
+              <h3 className="mb-2">Key Experience Indicator Dashboard - Reliability</h3>
+
+              <Row className="my-4">
+                <Col lg={6} md={12} xs={12}>
+                  <ReportCrossBarChart
+                    reports={filteredReports}
+                    fieldX="bt_driver"
+                    fieldY="scenario"
+                    title="Integration Test"
+                  />
+                </Col>
+                <Col lg={6} md={12} xs={12}>
+                  <ReportCrossBarChart
+                    reports={filteredReports}
+                    fieldX="platform"
+                    fieldY="scenario"
+                    title="Platform Summary"
+                  />
+                </Col>
+                
+              </Row>
+              <Row className="my-4">
+                <Col lg={6} md={12} xs={12}>
+                  <ReportCrossBarChart
+                    reports={filteredReports}
+                    fieldX="bt_driver"
+                    fieldY="wlan"
+                    title="Bluetooth Driver Reliability"
+                  />
+                </Col>
+                <Col lg={6} md={12} xs={12}>
+                  <ReportCrossBarChart
+                    reports={filteredReports}
+                    fieldX="wlan"
+                    fieldY="platform"
+                    title="WLAN Relibility"
+                  />
+                </Col>
+              </Row>
+            </Card>
+          </Col>
+        </Row>
+
+        {/* Cross Bar (duration) summary area */}
+        <Row className="my-6">
+          <Col lg={12} md={12} xs={12}>
+            <Card className="p-3 mb-4">
+              <h3 className="mb-2">Key Experience Indicator Dashboard - Durability</h3>
+              
+              <Row className="my-4">
+                <Col lg={6} md={12} xs={12}>
+                  <ReportDurationMultipleBarChart
+                    reports={filteredReports}
+                    fieldX="bt_driver"
+                    fieldY="duration"
+                    groupBy="scenario"
+                    title="Intgration Test"
+                  />
+                </Col>
+                <Col lg={6} md={12} xs={12}>
+                  <ReportDurationMultipleBarChart
+                    reports={filteredReports}
+                    fieldX="platform"
+                    fieldY="duration"
+                    groupBy="scenario"
+                    title="Platform Summary"
+                  />
+                </Col>
+              </Row>
+              <Row className="my-4">
+                <Col lg={6} md={12} xs={12}>
+                  <ReportDurationMultipleBarChart
+                    reports={filteredReports}
+                    fieldX="bt_driver"
+                    fieldY="duration"
+                    groupBy="wlan"
+                    title="Bluetooth Driver Durability"
+                  />
+                </Col>
+                <Col lg={6} md={12} xs={12}>
+                  <ReportDurationMultipleBarChart
+                    reports={filteredReports}
+                    fieldX="wlan"
+                    fieldY="duration"
+                    groupBy="platform"
+                    title="WLAN Durability"
+                  />
+                </Col>
+              </Row>
+            </Card>
           </Col>
         </Row>
 

@@ -60,18 +60,18 @@ const Needle: React.FC<{
 };
 
 // ✅ 依據圖表寬高自動計算中心與半徑，讓百分比定位下仍可正確繪製指針
-const NeedleFromChart: React.FC<{
-  value: number;
-  max: number;
-  chartWidth: number;
-  chartHeight: number;
-}> = ({ value, max, chartWidth, chartHeight }) => {
-  const cx = chartWidth / 2; // 與 cx="50%" 對齊
-  const cy = chartHeight; // 與 cy="100%" 對齊（在底部）
-  const outerRadius = Math.min(chartHeight, chartWidth / 2); // 避免超出左右邊界
+// const NeedleFromChart: React.FC<{
+//   value: number;
+//   max: number;
+//   chartWidth: number;
+//   chartHeight: number;
+// }> = ({ value, max, chartWidth, chartHeight }) => {
+//   const cx = chartWidth / 2; // 與 cx="50%" 對齊
+//   const cy = chartHeight; // 與 cy="100%" 對齊（在底部）
+//   const outerRadius = Math.min(chartHeight, chartWidth / 2); // 避免超出左右邊界
 
-  return <Needle value={value} max={max} cx={cx} cy={cy} outerRadius={outerRadius} />;
-};
+//   return <Needle value={value} max={max} cx={cx} cy={cy} outerRadius={outerRadius} />;
+// };
 
 const ReportGaugeAreaChart: React.FC<ReportGaugeAreaChartProps> = ({
   reports,
@@ -105,9 +105,9 @@ const ReportGaugeAreaChart: React.FC<ReportGaugeAreaChartProps> = ({
   return (
     <div style={{ width: "100%", padding: 20 }}>
       {title && (
-        <h4 className="text-center fw-bold mb-4" style={{ fontSize: "1.5rem" }}>
+        <h3 className="text-center fw-bold mb-4" style={{ fontSize: "1.5rem" }}>
           {title}
-        </h4>
+        </h3>
       )}
       <div
         style={{

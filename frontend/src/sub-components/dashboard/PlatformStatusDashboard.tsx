@@ -73,8 +73,8 @@ const PlatformStatusDashboard: React.FC = () => {
   const summaryData = [
     { label: "Total", value: summary.total },
     { label: "Online", value: summary.online, className: "text-success" },
-    { label: "Running", value: summary.running, className: "text-primary" },
-    { label: "Offline", value: summary.offline, className: "text-danger" },
+    { label: "Running", value: summary.running, className: "text-warning" },
+    { label: "Offline", value: summary.offline, className: "text-secondary" },
   ];
 
   // 根據 platform 判斷 icon
@@ -172,8 +172,7 @@ const PlatformStatusDashboard: React.FC = () => {
         {summaryData.map((item, idx) => (
           <Col key={idx} xl={3} lg={6} md={12} xs={12} className="mt-6">
             <Card className="p-3 text-center shadow-sm">
-              <h6 className={item.className}>{item.label}</h6>
-              <h5>{item.value}</h5>
+              <h3 className={item.className}>{item.label}: {item.value}</h3>
             </Card>
           </Col>
         ))}
@@ -220,7 +219,7 @@ const PlatformStatusDashboard: React.FC = () => {
               <img
                 src={getPlatformIcon(platform.platform_brand)}
                 alt={platform.platform_brand ?? "Unknown"}
-                style={{ width: "40px", height: "40px", marginBottom: "10px" }}
+                style={{ width: "90px", height: "90px", marginBottom: "10px" }}
               />
               <Badge bg={getBadgeVariant(platform.current_status)}>
                 {platform.current_status}

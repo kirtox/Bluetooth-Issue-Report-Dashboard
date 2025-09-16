@@ -49,9 +49,9 @@ interface ReportFiltersProps {
 const ReportFilters: React.FC<ReportFiltersProps> = ({
   searchTerm,
   setSearchTerm,
-  platformBrandOptions,
-  selectedPlatformBrands,
-  setSelectedPlatformBrands,
+  // platformBrandOptions,
+  // selectedPlatformBrands,
+  // setSelectedPlatformBrands,
   platformOptions,
   selectedPlatforms,
   setSelectedPlatforms,
@@ -158,7 +158,7 @@ const ReportFilters: React.FC<ReportFiltersProps> = ({
         className="form-control w-auto"
         />
 
-        <div className="w-auto flex-shrink-0" style={{ minWidth: 240 }}>
+        {/* <div className="w-auto flex-shrink-0" style={{ minWidth: 240 }}>
           <MultiSelect
           options={platformBrandOptions.map(pb => ({ label: pb, value: pb }))}
           value={selectedPlatformBrands.map(pb => ({ label: pb, value: pb }))}
@@ -167,7 +167,7 @@ const ReportFilters: React.FC<ReportFiltersProps> = ({
           className="w-auto"
           overrideStrings={{ selectSomeItems: 'Select Platform Brands' }}
           />
-        </div>
+        </div> */}
 
         <div className="w-auto flex-shrink-0" style={{ minWidth: 240 }}>
           <MultiSelect
