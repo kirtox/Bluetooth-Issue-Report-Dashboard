@@ -99,28 +99,32 @@ const ReportCrossBarChart: React.FC<ReportCrossBarChartProps> = ({
                   );
                 }}
               />
-              <LabelList
-                dataKey="total"
-                position="right"
-                content={({ x, y: yCoord, width, height, value }) => {
-                  if (!value || value === 0) return null;
-                  return (
-                    <text
-                      x={Number(x) + Number(width) + 10}
-                      y={Number(yCoord) + Number(height) / 2}
-                      fill="#000"
-                      textAnchor="start"
-                      dominantBaseline="middle"
-                      fontSize={16}
-                      fontWeight="bold"
-                    >
-                      {value}
-                    </text>
-                  );
-                }}
-              />
             </Bar>
           ))}
+          
+          {/* A separate transparent Bar to place the total label at the true right edge */}
+          {/* <Bar dataKey="total" fill="transparent" stroke="transparent" isAnimationActive={false} legendType="none">
+            <LabelList
+              dataKey="total"
+              position="right"
+              content={({ x, y: yCoord, width, height, value }) => {
+                if (!value || value === 0) return null;
+                return (
+                  <text
+                    x={Number(x) + Number(width) + 10}
+                    y={Number(yCoord) + Number(height) / 2}
+                    fill="#000"
+                    textAnchor="start"
+                    dominantBaseline="middle"
+                    fontSize={16}
+                    fontWeight="bold"
+                  >
+                    {value}
+                  </text>
+                );
+              }}
+            />
+          </Bar> */}
         </BarChart>
       </ResponsiveContainer>
     </div>

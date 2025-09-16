@@ -103,8 +103,9 @@ const ReportDurationMultipleBarChart: React.FC<ReportDurationMultipleBarChartPro
                   );
                 }}
               />
+
               {/* 該列 total */}
-              <LabelList
+              {/* <LabelList
                 dataKey="total"
                 position="right"
                 content={({ x, y, width, height, value }) => {
@@ -123,7 +124,8 @@ const ReportDurationMultipleBarChart: React.FC<ReportDurationMultipleBarChartPro
                     </text>
                   );
                 }}
-              />
+              /> */}
+              
             </Bar>
           ))}
         </BarChart>

@@ -324,7 +324,7 @@ const Dashboard = () => {
                     reports={filteredReports}
                     fieldX="bt_driver"
                     fieldY="wlan"
-                    title="Total completed tests by Bluetooth Driver and wlan"
+                    title="Total completed tests by Bluetooth Driver and WLAN"
                   />
                 </Col>
                 <Col lg={6} md={12} xs={12}>
