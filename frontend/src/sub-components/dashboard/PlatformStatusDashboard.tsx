@@ -118,10 +118,14 @@ const PlatformStatusDashboard: React.FC = () => {
     xiaomi: XiaomiIcon,
   };
   
-  const getPlatformIcon = (brand: string): string => {
+  const getPlatformIcon = (brand?: string | null): string => {
     if (!brand) return OthersIcon;
     const key = brand.toLowerCase();
     return platformIcons[key] || OthersIcon;
+  };
+
+  const formatDate = (value: string | null): string => {
+    return value ? new Date(value).toLocaleString() : "—";
   };
 
   if (loading) {
@@ -194,15 +198,15 @@ const PlatformStatusDashboard: React.FC = () => {
               <Popover id={`popover-${platform.id}`} className="shadow-lg">
                 <Card style={{ width: "220px" }}>
                   <Card.Body>
-                    <Card.Title className="fs-6">{platform.platform_brand}</Card.Title>
+                    <Card.Title className="fs-6"><h4>{platform.platform_brand}</h4></Card.Title>
                     <ul className="list-unstyled mb-0">
                       <li><strong>Serial Number:</strong> {platform.serial_num}</li>
                       <li><strong>Platform:</strong> {platform.platform}</li>
                       <li><strong>CPU:</strong> {platform.cpu}</li>
                       <li><strong>WLAN:</strong> {platform.wlan}</li>
                       <li><strong>Status:</strong> {platform.current_status}</li>
-                      <li><strong>Last Status Updated:</strong> {new Date(platform.platform_date).toLocaleString()}</li>
-                      <li><strong>Last Report Updated:</strong> {new Date(platform.report_date).toLocaleString()}</li>
+                      <li><strong>Last Status Updated:</strong> {formatDate(platform.platform_date)}</li>
+                      <li><strong>Last Report Updated:</strong> {formatDate(platform.report_date)}</li>
                     </ul>
                   </Card.Body>
                 </Card>
@@ -215,7 +219,7 @@ const PlatformStatusDashboard: React.FC = () => {
             >
               <img
                 src={getPlatformIcon(platform.platform_brand)}
-                alt={platform.platform_brand}
+                alt={platform.platform_brand ?? "Unknown"}
                 style={{ width: "40px", height: "40px", marginBottom: "10px" }}
               />
               <Badge bg={getBadgeVariant(platform.current_status)}>

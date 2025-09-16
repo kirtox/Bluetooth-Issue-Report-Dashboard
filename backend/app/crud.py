@@ -77,57 +77,57 @@ def delete_platform(db: Session, platform_id: int):
     db.commit()
     return {"deleted": True}
 
-# def get_platform_latest_reports(db: Session):
-#     # Subquery: find latest report date for each serial_num
-#     subquery = (
-#         db.query(
-#             models.Report.serial_num.label("serial_num"),
-#             func.max(models.Report.date).label("date")
-#         )
-#         .group_by(models.Report.serial_num)
-#         .subquery()
-#     )
+def get_platform_latest_reports(db: Session):
+    # Subquery: find latest report date for each serial_num
+    subquery = (
+        db.query(
+            models.Report.serial_num.label("serial_num"),
+            func.max(models.Report.date).label("date")
+        )
+        .group_by(models.Report.serial_num)
+        .subquery()
+    )
 
-#     # JOIN subquery and get latest report
-#     latest_reports = (
-#         db.query(models.Report)
-#         .join(subquery, (models.Report.serial_num == subquery.c.serial_num) & (models.Report.date == subquery.c.date))
-#         .subquery()
-#     )
+    # JOIN subquery and get latest report
+    latest_reports = (
+        db.query(models.Report)
+        .join(subquery, (models.Report.serial_num == subquery.c.serial_num) & (models.Report.date == subquery.c.date))
+        .subquery()
+    )
 
-#     # At the end, JOIN platform
-#     rows = (
-#         db.query(
-#             models.Platform.id,
-#             models.Platform.serial_num,
-#             models.Platform.current_status,
-#             models.Platform.date.label("platform_date"),
-#             latest_reports.c.platform_brand,
-#             latest_reports.c.platform,
-#             latest_reports.c.cpu,
-#             latest_reports.c.wlan,
-#             latest_reports.c.date.label("report_date")
-#         )
-#         .outerjoin(latest_reports, models.Platform.serial_num == latest_reports.c.serial_num)
-#         .all()
-#     )
+    # At the end, JOIN platform
+    rows = (
+        db.query(
+            models.Platform.id,
+            models.Platform.serial_num,
+            models.Platform.current_status,
+            models.Platform.date.label("platform_date"),
+            latest_reports.c.platform_brand,
+            latest_reports.c.platform,
+            latest_reports.c.cpu,
+            latest_reports.c.wlan,
+            latest_reports.c.date.label("report_date")
+        )
+        .outerjoin(latest_reports, models.Platform.serial_num == latest_reports.c.serial_num)
+        .all()
+    )
 
-#     result = [
-#         {
-#             "id": row.id,
-#             "serial_num": row.serial_num,
-#             "current_status": row.current_status,
-#             "platform_date": row.platform_date,
-#             "platform_brand": row.platform_brand,
-#             "platform": row.platform,
-#             "cpu": row.cpu,
-#             "wlan": row.wlan,
-#             "report_date": row.report_date,
-#         }
-#         for row in rows
-#     ]
+    result = [
+        {
+            "id": row.id,
+            "serial_num": row.serial_num,
+            "current_status": row.current_status,
+            "platform_date": row.platform_date,
+            "platform_brand": row.platform_brand,
+            "platform": row.platform,
+            "cpu": row.cpu,
+            "wlan": row.wlan,
+            "report_date": row.report_date,
+        }
+        for row in rows
+    ]
 
-#     return result
+    return result
 
 # User CRUD
 def get_user(db: Session, username: str):

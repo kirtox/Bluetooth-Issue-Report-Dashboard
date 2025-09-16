@@ -26,13 +26,13 @@ import ReportDoughnutChart from "sub-components/dashboard/ReportDoughnutChart";
 // import ReportBarChart from "sub-components/dashboard/ReportBarChart";
 
 // Need to fix
-// import PlatformStatusDashboard from "sub-components/dashboard/PlatformStatusDashboard";
+import PlatformStatusDashboard from "sub-components/dashboard/PlatformStatusDashboard";
 
 
 import ReportCrossBarChart from "sub-components/dashboard/ReportCrossBarChart";
 // import ReportDurationChart from "sub-components/dashboard/ReportDurationChart";
 import ReportDurationMultipleBarChart from "sub-components/dashboard/ReportDurationMultipleBarChart";
-import ReportGaugeChart from "sub-components/dashboard/ReportGaugeChart";
+// import ReportGaugeChart from "sub-components/dashboard/ReportGaugeChart";
 import ReportGaugeAreaChart from "sub-components/dashboard/ReportGaugeAreaChart";
 
 const Dashboard = () => {
@@ -390,8 +390,8 @@ const Dashboard = () => {
           </Col>
         </Row>
 
-        {/* Machine status area */}
-        {/* <Row className="my-6">
+        {/* Platform Status Area */}
+        <Row className="my-6">
           <Col lg={12} md={12} xs={12}>
             <Card className="p-3 mb-4">
               <h4 className="mb-2">Platform Status Dashboard</h4>
@@ -400,7 +400,7 @@ const Dashboard = () => {
               </Row>
             </Card>
           </Col>
-        </Row> */}
+        </Row>
 
 
         {/* Filter area */}

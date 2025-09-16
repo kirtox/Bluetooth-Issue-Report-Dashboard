@@ -150,6 +150,7 @@ def simulate_multiple_platforms(serial_nums: list[str]):
 
 if __name__ == "__main__":
     print("post_dell_data.py running...")
+
     # Import Dell report data
     print("create_report_data_single() running...")
     create_report_data_single()
