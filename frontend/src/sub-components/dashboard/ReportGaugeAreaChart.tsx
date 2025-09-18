@@ -148,7 +148,7 @@ const ReportGaugeAreaChart: React.FC<ReportGaugeAreaChartProps> = ({
                       endAngle={0}
                       innerRadius={70}
                       outerRadius={100}
-                      cx={150}
+                      cx={130}
                       cy={150}
                       stroke="none"
                       label={({ name }) => name}
@@ -165,7 +165,7 @@ const ReportGaugeAreaChart: React.FC<ReportGaugeAreaChartProps> = ({
                         <Needle
                           value={value}
                           max={max}
-                          cx={150}
+                          cx={130}
                           cy={150}
                           outerRadius={100}
                         />

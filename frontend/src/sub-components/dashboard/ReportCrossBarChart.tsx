@@ -20,7 +20,21 @@ import { ReportCrossBarChartProps } from "types";
 //   title: string;
 // }
 
-const COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff7f50", "#a4de6c", "#d0ed57"];
+// const COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff7f50", "#a4de6c", "#d0ed57"];
+const COLORS = [
+  "#8884d8", // 紫
+  "#82ca9d", // 綠
+  "#ffc658", // 黃
+  "#ff7f50", // 珊瑚橘
+  "#a4de6c", // 淡綠
+  "#d0ed57", // 淡黃綠
+  "#8dd1e1", // 淡藍
+  "#83a6ed", // 藍紫
+  "#8e4585", // 淡紫紅
+  "#ffb6b9", // 淡粉
+  "#ffd700", // 金黃
+  "#7fc8a9", // 青綠
+];
 
 const ReportCrossBarChart: React.FC<ReportCrossBarChartProps> = ({
   reports: externalReports,
@@ -71,13 +85,13 @@ const ReportCrossBarChart: React.FC<ReportCrossBarChartProps> = ({
         <BarChart
           data={data}
           layout="vertical"
-          margin={{ top: 20, right: 30, left: 40, bottom: 20 }}
+          margin={{ top: 20, right: 30, left: 40, bottom: 40 }}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis type="number" allowDecimals={false} />
           <YAxis type="category" dataKey="name" width={120} />
-          <Tooltip />
-          <Legend />
+          <Tooltip wrapperStyle={{ zIndex: 1000 }} />
+          <Legend verticalAlign="bottom" align="center" wrapperStyle={{ paddingTop: 8 }} />
           {yCategories.map((y, idx) => (
             <Bar key={y} dataKey={y} stackId="a" fill={COLORS[idx % COLORS.length]}>
               <LabelList
