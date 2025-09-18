@@ -51,7 +51,6 @@ const Sidebar: React.FC<SidebarProps> = ({ showMenu, toggleMenu }) => {
           <Link to="/" className="navbar-brand">
             <Image src="/images/brand/logo/logo.svg" alt="" fluid={false}/>
           </Link>
-          {/* <img src="/images/brand/logo/logo.svg" alt="" /> */}
         </div>
         {/* Dashboard Menu */}
         <Accordion

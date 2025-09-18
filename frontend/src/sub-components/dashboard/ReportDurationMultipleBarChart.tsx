@@ -77,7 +77,7 @@ const ReportDurationMultipleBarChart: React.FC<ReportDurationMultipleBarChartPro
           margin={{ top: 20, right: 30, left: 40, bottom: 20 }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis type="number" allowDecimals={false} />
+          <XAxis type="number" allowDecimals={false} label={{ value: "(hr)", position: "insideBottomRight", offset: -5 }} />
           <YAxis type="category" dataKey="name" width={120} />
           <Tooltip />
           <Legend />

@@ -12,9 +12,9 @@ interface ReportFiltersProps {
   searchTerm: string;
   setSearchTerm: (value: string) => void;
 
-  platformBrandOptions: string[];
-  selectedPlatformBrands: string[];
-  setSelectedPlatformBrands: (values: string[]) => void;
+  // platformBrandOptions: string[];
+  // selectedPlatformBrands: string[];
+  // setSelectedPlatformBrands: (values: string[]) => void;
 
   platformOptions: string[];
   selectedPlatforms: string[];

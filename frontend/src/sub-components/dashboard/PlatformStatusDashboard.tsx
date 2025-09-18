@@ -52,7 +52,7 @@ const PlatformStatusDashboard: React.FC = () => {
       case "online":
         return "success";
       case "running":
-        return "primary";
+        return "warning";
       case "offline":
         return "danger";
       default:

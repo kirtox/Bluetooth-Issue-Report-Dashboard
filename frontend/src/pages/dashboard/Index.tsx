@@ -22,7 +22,7 @@ import ReportFilters from "sub-components/filters/ReportFilters";
 import { Report } from "types";
 
 // import ReportPieChart from "sub-components/dashboard/ReportPieChart";
-import ReportDoughnutChart from "sub-components/dashboard/ReportDoughnutChart";
+// import ReportDoughnutChart from "sub-components/dashboard/ReportDoughnutChart";
 // import ReportBarChart from "sub-components/dashboard/ReportBarChart";
 
 // Need to fix
@@ -118,14 +118,14 @@ const Dashboard = () => {
   console.log("Dashboard");
   return (
     <Fragment>
-      <div className="bg-primary pt-10 pb-21"></div>
+      <div className="pt-10 pb-21" style={{ backgroundImage: "url(/images/background/banner_adobestock1.jpeg)", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat: "no-repeat" }}></div>
       <Container fluid className="mt-n22 px-6">
         <Row>
           <Col lg={12} md={12} xs={12}>
             <div>
               <div className="d-flex justify-content-between align-items-center">
                 <div className="mb-2 mb-lg-0">
-                  <h1 className="mb-0  text-white">Bluetooth Issue Report Dashboard</h1>
+                  <h1 className="mb-0  text-white">Intel Bluetooth Issue Report Dashboard</h1>
                 </div>
                 {/* <div>
                   <Link to="#" className="btn btn-white">
@@ -261,7 +261,7 @@ const Dashboard = () => {
                       { value: 504, color: "#6FB7B7", label: "Medium" },
                       { value: 720, color: "#408080", label: "High" },
                     ]}
-                    title="Integration Test"
+                    title="Bluetooth Driver Reliability"
                   />
                 </Col>
               </Row>
@@ -278,7 +278,7 @@ const Dashboard = () => {
                       { value: 504, color: "#9999CC", label: "Medium" },
                       { value: 720, color: "#5A5AAD", label: "High" },
                     ]}
-                    title="Bluetooth Driver Reliability"
+                    title="Integration Test"
                   />
                 </Col>
               </Row>
