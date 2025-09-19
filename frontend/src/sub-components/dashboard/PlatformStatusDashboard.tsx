@@ -5,7 +5,7 @@ import { PlatformStatusProps } from "types";
 // Define API_BASE_URL
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-// 動態匯入 icons（也可以用 Vite 的 import.meta.glob）
+// Dynamically import icons (you can also use Vite's import.meta.glob)
 import DellIcon from "@/assets/platform-icons/platform_dell.png";
 import HpIcon from "@/assets/platform-icons/platform_hp.png";
 import LenovoIcon from "@/assets/platform-icons/platform_lenovo.png";

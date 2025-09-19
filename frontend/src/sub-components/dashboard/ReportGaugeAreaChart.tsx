@@ -24,7 +24,7 @@ import { ReportGaugeAreaChartProps } from "types";
 //   title?: string;
 // }
 
-// ✅ 指針元件 (含動畫)
+// Pointer component (including animation)
 const Needle: React.FC<{
   value: number;
   max: number;
@@ -51,27 +51,13 @@ const Needle: React.FC<{
         strokeWidth={4}
         strokeLinecap="round"
         style={{
-          transition: "all 0.8s ease-out", // ✅ 動畫
+          transition: "all 0.8s ease-out", // animation
         }}
       />
       <circle cx={cx} cy={cy} r={6} fill="#000" />
     </g>
   );
 };
-
-// ✅ 依據圖表寬高自動計算中心與半徑，讓百分比定位下仍可正確繪製指針
-// const NeedleFromChart: React.FC<{
-//   value: number;
-//   max: number;
-//   chartWidth: number;
-//   chartHeight: number;
-// }> = ({ value, max, chartWidth, chartHeight }) => {
-//   const cx = chartWidth / 2; // 與 cx="50%" 對齊
-//   const cy = chartHeight; // 與 cy="100%" 對齊（在底部）
-//   const outerRadius = Math.min(chartHeight, chartWidth / 2); // 避免超出左右邊界
-
-//   return <Needle value={value} max={max} cx={cx} cy={cy} outerRadius={outerRadius} />;
-// };
 
 const ReportGaugeAreaChart: React.FC<ReportGaugeAreaChartProps> = ({
   reports,
@@ -88,7 +74,7 @@ const ReportGaugeAreaChart: React.FC<ReportGaugeAreaChartProps> = ({
 }) => {
   if (!reports || !reports.length) return <div>No data</div>;
 
-  // 分組計算
+  // Group calculation
   const grouped: Record<string, number> = {};
   reports.forEach((r) => {
     const key = r[groupBy] || "(Empty)";
@@ -117,7 +103,7 @@ const ReportGaugeAreaChart: React.FC<ReportGaugeAreaChartProps> = ({
         }}
       >
         {groups.map(({ name, value }) => {
-          // 轉換 thresholds → Pie 資料
+          // Convert thresholds to Pie data
           const data = thresholds.map((t, i) => {
             const prev = thresholds[i - 1]?.value || 0;
             return {
@@ -159,7 +145,7 @@ const ReportGaugeAreaChart: React.FC<ReportGaugeAreaChartProps> = ({
                       ))}
                     </Pie>
 
-                    {/* ✅ 指針 */}
+                    {/* Pointer */}
                     <Customized
                       component={
                         <Needle

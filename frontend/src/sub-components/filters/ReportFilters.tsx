@@ -36,10 +36,6 @@ interface ReportFiltersProps {
   selectedResults: string[];
   setSelectedResults: (values: string[]) => void;
 
-  // statusOptions: string[];
-  // selectedStatuses: string[];
-  // setSelectedStatuses: (values: string[]) => void;
-
   dateRange: { startDate: Date | null; endDate: Date | null };
   setDateRange: (range: { startDate: Date | null; endDate: Date | null }) => void;
 
@@ -67,9 +63,6 @@ const ReportFilters: React.FC<ReportFiltersProps> = ({
   resultOptions,
   selectedResults,
   setSelectedResults,
-  // statusOptions,
-  // selectedStatuses,
-  // setSelectedStatuses,
   dateRange,
   setDateRange,
   onClear,

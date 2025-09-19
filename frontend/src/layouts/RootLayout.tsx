@@ -21,7 +21,7 @@ const RootLayout = () => {
     });
   };
 
-  // 監聽滾動事件，當滾動超過 300px 時顯示按鈕
+  // Listen for scroll events and display the button when the scroll exceeds 300px
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 300) {
@@ -81,7 +81,7 @@ const RootLayout = () => {
           e.currentTarget.style.transform = 'translateY(0) scale(1)';
           e.currentTarget.style.boxShadow = '0 8px 25px rgba(102, 126, 234, 0.4)';
         }}
-        title="回到頂部"
+        title="Back to Top"
       >
         <svg 
           width="24" 

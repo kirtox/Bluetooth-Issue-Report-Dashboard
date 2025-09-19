@@ -81,19 +81,6 @@ function ReportTable({ reports, onReload }: ReportTableProps) {
     }
   };
 
-  // const ActionMenu = () => {
-  //   return (
-  //     <Dropdown>
-  //       <Dropdown.Toggle as={CustomToggle}>
-  //         <MoreVertical size="15px" className="text-muted" />
-  //       </Dropdown.Toggle>
-  //       <Dropdown.Menu align={"end"}>
-  //         <Dropdown.Item eventKey="1">Edit</Dropdown.Item>
-  //         <Dropdown.Item eventKey="2">Delete</Dropdown.Item>
-  //       </Dropdown.Menu>
-  //     </Dropdown>
-  //   );
-  // };
   const ActionMenu = ({ onEdit, onDelete }: { onEdit: () => void; onDelete: () => void }) => (
     <Dropdown>
       <Dropdown.Toggle as={CustomToggle}>
@@ -251,9 +238,6 @@ function ReportTable({ reports, onReload }: ReportTableProps) {
           <th onClick={() => handleSort('fail_rate')} style={{ cursor: 'pointer' }}>
             Fail Rate {sortField === 'fail_rate' ? (sortOrder === 'asc' ? '▲' : '▼') : ''}
           </th>
-          {/* <th onClick={() => handleSort('current_status')} style={{ cursor: 'pointer' }}>
-            Status {sortField === 'current_status' ? (sortOrder === 'asc' ? '▲' : '▼') : ''}
-          </th> */}
           <th onClick={() => handleSort('log_path')} style={{ cursor: 'pointer' }}>
             Log {sortField === 'log_path' ? (sortOrder === 'asc' ? '▲' : '▼') : ''}
           </th>
@@ -307,31 +291,6 @@ function ReportTable({ reports, onReload }: ReportTableProps) {
                   item.fail_cycles + "/" + item.cycles
                 )}
               </td>
-              {/* <td className="align-middle">
-                {item.current_status?.toUpperCase() === 'FINISH' ? (
-                  <span className="badge bg-success d-flex align-items-center justify-content-center" style={{ height: "2em" }}>
-                    {item.current_status}
-                  </span>
-                ) : item.current_status?.toUpperCase() === 'RUNNING' ? (
-                  <span className="badge bg-warning d-flex align-items-center justify-content-center" style={{ height: "2em" }}>
-                    <Spinner
-                      as="span"
-                      animation="border"
-                      size="sm"
-                      role="status"
-                      aria-hidden="true"
-                      className="me-1"
-                    />
-                    {item.current_status}
-                  </span>
-                ) : item.current_status?.toUpperCase() === 'STOP' ? (
-                  <span className="badge bg-danger d-flex align-items-center justify-content-center" style={{ height: "2em" }}>
-                    {item.current_status}
-                  </span>
-                ) : (
-                  <span>{item.current_status || ''}</span>
-                )}
-              </td> */}
               <td className="align-middle">
                 <a href={item.log_path} className="text-blue-600 underline" target="_blank" rel="noreferrer">
                   Log Link

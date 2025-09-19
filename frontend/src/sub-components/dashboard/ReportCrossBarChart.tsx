@@ -22,18 +22,18 @@ import { ReportCrossBarChartProps } from "types";
 
 // const COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff7f50", "#a4de6c", "#d0ed57"];
 const COLORS = [
-  "#8884d8", // 紫
-  "#82ca9d", // 綠
-  "#ffc658", // 黃
-  "#ff7f50", // 珊瑚橘
-  "#a4de6c", // 淡綠
-  "#d0ed57", // 淡黃綠
-  "#8dd1e1", // 淡藍
-  "#83a6ed", // 藍紫
-  "#8e4585", // 淡紫紅
-  "#ffb6b9", // 淡粉
-  "#ffd700", // 金黃
-  "#7fc8a9", // 青綠
+  "#8884d8", // Purple
+  "#82ca9d", // Green
+  "#ffc658", // Yellow
+  "#ff7f50", // Coral orange
+  "#a4de6c", // Light green
+  "#d0ed57", // Light yellow-green
+  "#8dd1e1", // Light blue
+  "#83a6ed", // Blue-purple
+  "#8e4585", // Lilac
+  "#ffb6b9", // Light pink
+  "#ffd700", // Golden
+  "#7fc8a9", // Blue-green
 ];
 
 const ReportCrossBarChart: React.FC<ReportCrossBarChartProps> = ({

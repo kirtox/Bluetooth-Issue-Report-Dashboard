@@ -75,37 +75,11 @@ def get_cpu_stats(db: Session = Depends(get_db)):
 def read_platforms(db: Session = Depends(get_db)):
     return crud.get_platforms(db)
 
+# /platforms/latest_reports must place before /platform/{serial_num}
+# Otherwise, it would happen internal server error.
 @app.get("/platforms/latest_reports", response_model=list[PlatformWithLatestReportInDB])
 def get_platform_latest_reports(db: Session = Depends(get_db)):
     return crud.get_platform_latest_reports(db)
-
-    # 假資料，符合 PlatformWithLatestReportInDB
-    # fake_data = [
-    #     {
-    #         "id": 1,
-    #         "serial_num": "ABC12345",
-    #         "current_status": "PASS",
-    #         "platform_date": "2025-09-10T12:00:00",
-    #         "platform_brand": "Intel",
-    #         "platform": "AlderLake",
-    #         "cpu": "i7-12700K",
-    #         "wlan": "AX210",
-    #         "report_date": "2025-09-09T15:30:00",
-    #     },
-    #     {
-    #         "id": 2,
-    #         "serial_num": "XYZ67890",
-    #         "current_status": "FAIL",
-    #         "platform_date": "2025-09-08T09:00:00",
-    #         "platform_brand": "AMD",
-    #         "platform": "Ryzen 7",
-    #         "cpu": "5800X",
-    #         "wlan": "AX200",
-    #         "report_date": "2025-09-09T15:30:00",
-    #     },
-    # ]
-
-    # return fake_data
 
 @app.get("/platforms/{serial_num}", response_model=PlatformInDB)
 def get_platform_by_serial_num(serial_num: str, db: Session = Depends(get_db)):

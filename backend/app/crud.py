@@ -46,9 +46,9 @@ def get_platforms(db: Session):
 
 def get_platform_by_serial_num(db: Session, serial_num: str):
     """
-    依照 serial_num 查詢 Platform
-    因為 serial_num 在 model 裡是 unique=True
-    所以回傳單筆 (如果不存在就回傳 None)
+    Query Platform by serial_num
+    Because serial_num is unique=True in the model
+    It returns a single entry (or None if it doesn't exist)
     """
     return db.query(models.Platform).filter(models.Platform.serial_num == serial_num).first()
 
