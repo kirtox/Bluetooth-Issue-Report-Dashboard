@@ -102,7 +102,6 @@ const ReportGaugeChart: React.FC<ReportGaugeChartProps> = ({
                     dataKey="value"
                     cornerRadius={10}
                     background
-                    clockWise
                   />
                 </RadialBarChart>
               </ResponsiveContainer>
