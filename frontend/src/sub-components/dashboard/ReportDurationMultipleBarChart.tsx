@@ -23,18 +23,18 @@ import { ReportDurationMultipleBarChartProps } from "types";
 
 // const COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff7f50", "#a4de6c", "#d0ed57"];
 const COLORS = [
-  "#8884d8", // 紫
-  "#82ca9d", // 綠
-  "#ffc658", // 黃
-  "#ff7f50", // 珊瑚橘
-  "#a4de6c", // 淡綠
-  "#d0ed57", // 淡黃綠
-  "#8dd1e1", // 淡藍
-  "#83a6ed", // 藍紫
-  "#8e4585", // 淡紫紅
-  "#ffb6b9", // 淡粉
-  "#ffd700", // 金黃
-  "#7fc8a9", // 青綠
+  "#8884d8", // Purple
+  "#82ca9d", // Green
+  "#ffc658", // Yellow
+  "#ff7f50", // Coral orange
+  "#a4de6c", // Light green
+  "#d0ed57", // Light yellow-green
+  "#8dd1e1", // Light blue
+  "#83a6ed", // Blue-purple
+  "#8e4585", // Lilac
+  "#ffb6b9", // Light pink
+  "#ffd700", // Golden
+  "#7fc8a9", // Blue-green
 ];
 
 const ReportDurationMultipleBarChart: React.FC<ReportDurationMultipleBarChartProps> = ({
@@ -50,7 +50,7 @@ const ReportDurationMultipleBarChart: React.FC<ReportDurationMultipleBarChartPro
   if (loading && !externalReports) return <div>Loading...</div>;
   if (!reports || !reports.length) return <div>No data</div>;
 
-  // Step 1: 建立二維累計 map
+  // Step 1: Create a two-dimensional cumulative map
   const dataMap: Record<string, Record<string, number>> = {};
   const groupSet = new Set<string>();
 
@@ -66,7 +66,7 @@ const ReportDurationMultipleBarChart: React.FC<ReportDurationMultipleBarChartPro
 
   const groups = Array.from(groupSet);
 
-  // Step 2: 轉成 Recharts 格式並計算 total
+  // Step 2: Convert to Recharts format and calculate total
   const data = Object.entries(dataMap).map(([xKey, groupValues]) => {
     const row: Record<string, any> = { name: xKey };
     let total = 0;
@@ -97,7 +97,7 @@ const ReportDurationMultipleBarChart: React.FC<ReportDurationMultipleBarChartPro
           <Legend verticalAlign="bottom" align="center" wrapperStyle={{ paddingTop: 8 }} />
           {groups.map((g, idx) => (
             <Bar key={g} dataKey={g} stackId="a" fill={COLORS[idx % COLORS.length]}>
-              {/* 單個 bar 數值 */}
+              {/* Single bar value */}
               <LabelList
                 dataKey={g}
                 content={({ x, y, width, height, value }) => {
@@ -118,7 +118,7 @@ const ReportDurationMultipleBarChart: React.FC<ReportDurationMultipleBarChartPro
                 }}
               />
 
-              {/* 該列 total */}
+              {/* The column total */}
               {/* <LabelList
                 dataKey="total"
                 position="right"
