@@ -6,7 +6,7 @@ import {
   ResponsiveContainer,
   Customized,
 } from "recharts";
-import { ReportGaugeAreaChartProps } from "types";
+import { ReportMultipleGaugeChartProps } from "types";
 
 // interface Threshold {
 //     value: number;
@@ -14,7 +14,7 @@ import { ReportGaugeAreaChartProps } from "types";
 //     label?: string;
 // }
 
-// interface ReportGaugeAreaChartProps {
+// interface ReportMultipleGaugeChartProps {
 //   reports: any[];
 //   groupBy: string;
 //   calcField?: string;
@@ -59,7 +59,7 @@ const Needle: React.FC<{
   );
 };
 
-const ReportGaugeAreaChart: React.FC<ReportGaugeAreaChartProps> = ({
+const ReportMultipleGaugeChart: React.FC<ReportMultipleGaugeChartProps> = ({
   reports,
   groupBy,
   calcField = "duration",
@@ -179,4 +179,4 @@ const ReportGaugeAreaChart: React.FC<ReportGaugeAreaChartProps> = ({
   );
 };
 
-export default ReportGaugeAreaChart;
+export default ReportMultipleGaugeChart;

@@ -181,14 +181,14 @@ export interface PlatformStatusProps {
   report_date: string | null;
 }
 
-export interface ReportCrossBarChartProps {
+export interface ReportMultipleCrossBarChartProps {
   reports?: any[];   // Load filteredReports
   fieldX: string;
   fieldY: string;
   title: string;
 }
 
-export interface ReportDurationMultipleBarChartProps {
+export interface ReportMultipleDurationCrossBarChartProps {
   reports?: any[];       // Load filteredReports
   title: string;
   fieldX?: string;       // X-axis field, default is bt_driver
@@ -202,7 +202,7 @@ export interface Threshold {
   label?: string;
 }
 
-export interface ReportGaugeAreaChartProps {
+export interface ReportMultipleGaugeChartProps {
   reports: any[];
   groupBy: string;
   calcField?: string;

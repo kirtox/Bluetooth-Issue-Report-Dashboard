@@ -11,14 +11,13 @@ import {
   LabelList,
 } from "recharts";
 import { useReports } from "../../hooks/useReports";
-import { ReportDurationMultipleBarChartProps } from "types";
+import { ReportMultipleCrossBarChartProps } from "types";
 
-// interface ReportDurationMultipleBarChartProps {
-//   reports?: any[];       // Load filteredReports
+// interface ReportMultipleCrossBarChartProps {
+//   reports?: any[];   // Load filteredReports
+//   fieldX: string;
+//   fieldY: string;
 //   title: string;
-//   fieldX?: string;       // X-axis field, default is bt_driver
-//   fieldY?: string;       // Cumulative field, default is duration
-//   groupBy?: string;      // Grouping field, default is scenario
 // }
 
 // const COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff7f50", "#a4de6c", "#d0ed57"];
@@ -37,43 +36,41 @@ const COLORS = [
   "#7fc8a9", // Blue-green
 ];
 
-const ReportDurationMultipleBarChart: React.FC<ReportDurationMultipleBarChartProps> = ({
+const ReportMultipleCrossBarChart: React.FC<ReportMultipleCrossBarChartProps> = ({
   reports: externalReports,
+  fieldX,
+  fieldY,
   title,
-  fieldX = "bt_driver",
-  fieldY = "duration",
-  groupBy = "scenario",
 }) => {
   const { reports: allReports, loading } = useReports();
-  const reports = externalReports ?? allReports;
+  const reports = externalReports ?? allReports;  // Prioritize external transmission
 
   if (loading && !externalReports) return <div>Loading...</div>;
   if (!reports || !reports.length) return <div>No data</div>;
 
-  // Step 1: Create a two-dimensional cumulative map
+  // Step 1: Create two-dimensional statistics
   const dataMap: Record<string, Record<string, number>> = {};
-  const groupSet = new Set<string>();
-
   reports.forEach((r) => {
     const xKey = (r[fieldX] || "(Empty)").toString();
-    const groupKey = (r[groupBy] || "(Empty)").toString();
-    const value = Number(r[fieldY]) || 0;
+    const yKey = (r[fieldY] || "(Empty)").toString();
 
     if (!dataMap[xKey]) dataMap[xKey] = {};
-    dataMap[xKey][groupKey] = (dataMap[xKey][groupKey] || 0) + value;
-    groupSet.add(groupKey);
+    dataMap[xKey][yKey] = (dataMap[xKey][yKey] || 0) + 1;
   });
 
-  const groups = Array.from(groupSet);
+  // Step 2: Collect all Y categories
+  const yCategories = Array.from(
+    new Set(reports.map((r) => (r[fieldY] || "(Empty)").toString()))
+  );
 
-  // Step 2: Convert to Recharts format and calculate total
-  const data = Object.entries(dataMap).map(([xKey, groupValues]) => {
+  // Step 3: Convert to Recharts format
+  const data = Object.entries(dataMap).map(([xKey, yCounts]) => {
     const row: Record<string, any> = { name: xKey };
     let total = 0;
-    groups.forEach((g) => {
-      const val = groupValues[g] || 0;
-      row[g] = val;
-      total += val;
+    yCategories.forEach((y) => {
+      const count = yCounts[y] || 0;
+      row[y] = count;
+      total += count;
     });
     row.total = total;
     return row;
@@ -91,25 +88,24 @@ const ReportDurationMultipleBarChart: React.FC<ReportDurationMultipleBarChartPro
           margin={{ top: 20, right: 30, left: 40, bottom: 40 }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis type="number" allowDecimals={false} label={{ value: "(hr)", position: "insideBottomRight", offset: -5 }} />
+          <XAxis type="number" allowDecimals={false} />
           <YAxis type="category" dataKey="name" width={120} />
           <Tooltip wrapperStyle={{ zIndex: 1000 }} />
           <Legend verticalAlign="bottom" align="center" wrapperStyle={{ paddingTop: 8 }} />
-          {groups.map((g, idx) => (
-            <Bar key={g} dataKey={g} stackId="a" fill={COLORS[idx % COLORS.length]}>
-              {/* Single bar value */}
+          {yCategories.map((y, idx) => (
+            <Bar key={y} dataKey={y} stackId="a" fill={COLORS[idx % COLORS.length]}>
               <LabelList
-                dataKey={g}
-                content={({ x, y, width, height, value }) => {
+                dataKey={y}
+                content={({ x, y: yCoord, width, height, value }) => {
                   if (!value || value === 0) return null;
                   return (
                     <text
                       x={Number(x) + Number(width) / 2}
-                      y={Number(y) + Number(height) / 2}
+                      y={Number(yCoord) + Number(height) / 2}
                       fill="#fff"
                       textAnchor="middle"
                       dominantBaseline="middle"
-                      fontSize={14}
+                      fontSize={16}
                       fontWeight="bold"
                     >
                       {value}
@@ -117,35 +113,36 @@ const ReportDurationMultipleBarChart: React.FC<ReportDurationMultipleBarChartPro
                   );
                 }}
               />
-
-              {/* The column total */}
-              {/* <LabelList
-                dataKey="total"
-                position="right"
-                content={({ x, y, width, height, value }) => {
-                  if (!value || value === 0) return null;
-                  return (
-                    <text
-                      x={Number(x) + Number(width) + 10}
-                      y={Number(y) + Number(height) / 2}
-                      fill="#000"
-                      textAnchor="start"
-                      dominantBaseline="middle"
-                      fontSize={14}
-                      fontWeight="bold"
-                    >
-                      {value}
-                    </text>
-                  );
-                }}
-              /> */}
-              
             </Bar>
           ))}
+          
+          {/* A separate transparent Bar to place the total label at the true right edge */}
+          {/* <Bar dataKey="total" fill="transparent" stroke="transparent" isAnimationActive={false} legendType="none">
+            <LabelList
+              dataKey="total"
+              position="right"
+              content={({ x, y: yCoord, width, height, value }) => {
+                if (!value || value === 0) return null;
+                return (
+                  <text
+                    x={Number(x) + Number(width) + 10}
+                    y={Number(yCoord) + Number(height) / 2}
+                    fill="#000"
+                    textAnchor="start"
+                    dominantBaseline="middle"
+                    fontSize={16}
+                    fontWeight="bold"
+                  >
+                    {value}
+                  </text>
+                );
+              }}
+            />
+          </Bar> */}
         </BarChart>
       </ResponsiveContainer>
     </div>
   );
 };
 
-export default ReportDurationMultipleBarChart;
+export default ReportMultipleCrossBarChart;

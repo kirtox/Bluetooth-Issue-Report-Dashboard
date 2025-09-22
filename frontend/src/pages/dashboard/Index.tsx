@@ -29,11 +29,11 @@ import { Report } from "types";
 import PlatformStatusDashboard from "sub-components/dashboard/PlatformStatusDashboard";
 
 
-import ReportCrossBarChart from "sub-components/dashboard/ReportCrossBarChart";
+import ReportMultipleCrossBarChart from "sub-components/dashboard/ReportMultipleCrossBarChart";
 // import ReportDurationChart from "sub-components/dashboard/ReportDurationChart";
-import ReportDurationMultipleBarChart from "sub-components/dashboard/ReportDurationMultipleBarChart";
+import ReportMultipleDurationCrossBarChart from "sub-components/dashboard/ReportMultipleDurationCrossBarChart";
 // import ReportGaugeChart from "sub-components/dashboard/ReportGaugeChart";
-import ReportGaugeAreaChart from "sub-components/dashboard/ReportGaugeAreaChart";
+import ReportMultipleGaugeChart from "sub-components/dashboard/ReportMultipleGaugeChart";
 
 const Dashboard = () => {
   const { stats, loading } = useCPUStats();
@@ -250,7 +250,7 @@ const Dashboard = () => {
               </Row> */}
               <Row className="my-4">
                 <Col lg={12} md={12} xs={12}>
-                  <ReportGaugeAreaChart
+                  <ReportMultipleGaugeChart
                     reports={filteredReports}
                     groupBy="bt_driver"
                     calcField="duration"
@@ -267,7 +267,7 @@ const Dashboard = () => {
               </Row>
               <Row className="my-4">
                 <Col lg={12} md={12} xs={12}>
-                  <ReportGaugeAreaChart
+                  <ReportMultipleGaugeChart
                     reports={filteredReports}
                     groupBy="scenario"
                     calcField="duration"
@@ -284,7 +284,7 @@ const Dashboard = () => {
               </Row>
               <Row className="my-4">
                 <Col lg={12} md={12} xs={12}>
-                  <ReportGaugeAreaChart
+                  <ReportMultipleGaugeChart
                     reports={filteredReports}
                     groupBy="platform"
                     calcField="duration"
@@ -301,7 +301,7 @@ const Dashboard = () => {
               </Row>
               <Row className="my-4">
                 <Col lg={12} md={12} xs={12}>
-                  <ReportGaugeAreaChart
+                  <ReportMultipleGaugeChart
                     reports={filteredReports}
                     groupBy="wlan"
                     calcField="duration"
@@ -364,7 +364,7 @@ const Dashboard = () => {
 
               <Row className="my-4">
                 <Col lg={6} md={12} xs={12}>
-                  <ReportCrossBarChart
+                  <ReportMultipleCrossBarChart
                     reports={filteredReports}
                     fieldX="bt_driver"
                     fieldY="scenario"
@@ -372,7 +372,7 @@ const Dashboard = () => {
                   />
                 </Col>
                 <Col lg={6} md={12} xs={12}>
-                  <ReportCrossBarChart
+                  <ReportMultipleCrossBarChart
                     reports={filteredReports}
                     fieldX="platform"
                     fieldY="scenario"
@@ -383,7 +383,7 @@ const Dashboard = () => {
               </Row>
               <Row className="my-4">
                 <Col lg={6} md={12} xs={12}>
-                  <ReportCrossBarChart
+                  <ReportMultipleCrossBarChart
                     reports={filteredReports}
                     fieldX="bt_driver"
                     fieldY="wlan"
@@ -391,7 +391,7 @@ const Dashboard = () => {
                   />
                 </Col>
                 <Col lg={6} md={12} xs={12}>
-                  <ReportCrossBarChart
+                  <ReportMultipleCrossBarChart
                     reports={filteredReports}
                     fieldX="wlan"
                     fieldY="platform"
@@ -411,7 +411,7 @@ const Dashboard = () => {
               
               <Row className="my-4">
                 <Col lg={6} md={12} xs={12}>
-                  <ReportDurationMultipleBarChart
+                  <ReportMultipleDurationCrossBarChart
                     reports={filteredReports}
                     fieldX="bt_driver"
                     fieldY="duration"
@@ -420,7 +420,7 @@ const Dashboard = () => {
                   />
                 </Col>
                 <Col lg={6} md={12} xs={12}>
-                  <ReportDurationMultipleBarChart
+                  <ReportMultipleDurationCrossBarChart
                     reports={filteredReports}
                     fieldX="platform"
                     fieldY="duration"
@@ -431,7 +431,7 @@ const Dashboard = () => {
               </Row>
               <Row className="my-4">
                 <Col lg={6} md={12} xs={12}>
-                  <ReportDurationMultipleBarChart
+                  <ReportMultipleDurationCrossBarChart
                     reports={filteredReports}
                     fieldX="bt_driver"
                     fieldY="duration"
@@ -440,7 +440,7 @@ const Dashboard = () => {
                   />
                 </Col>
                 <Col lg={6} md={12} xs={12}>
-                  <ReportDurationMultipleBarChart
+                  <ReportMultipleDurationCrossBarChart
                     reports={filteredReports}
                     fieldX="wlan"
                     fieldY="duration"
