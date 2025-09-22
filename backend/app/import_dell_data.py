@@ -86,8 +86,8 @@ def simulate_platform_status(serial_num: str):
     """
     while True:
         try:
-            # 1. Query platform (by using API: "/platforms/{serial_num}")
-            response = requests.get(f"{API_PLATFORMS}/{serial_num}", timeout=10)
+            # 1. Query platform (by using API: "/platforms/search_by_sn/{serial_num}")
+            response = requests.get(f"{API_PLATFORMS}/search_by_sn/{serial_num}", timeout=10)
             if response.status_code != 200:
                 print(f"[ERROR] Get platform {serial_num} failed: {response.status_code}, {response.text}")
                 time.sleep(10)
@@ -164,5 +164,7 @@ if __name__ == "__main__":
     # Simulate few platforms simultaneously, and change each platform status
     # simulate_multiple_platforms([
     #     "5RYD064",
-    #     "WWF342X"
+    #     "WWF342X",
+    #     "BITS007",
+    #     "QWER001"
     # ])

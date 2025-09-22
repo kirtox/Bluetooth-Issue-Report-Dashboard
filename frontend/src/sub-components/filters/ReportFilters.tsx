@@ -42,6 +42,9 @@ interface ReportFiltersProps {
   onClear: () => void;
 }
 
+// Define API_BASE_URL
+// const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const ReportFilters: React.FC<ReportFiltersProps> = ({
   searchTerm,
   setSearchTerm,
@@ -79,9 +82,9 @@ const ReportFilters: React.FC<ReportFiltersProps> = ({
   //       params.append('search_term', searchTerm);
   //     }
       
-  //     if (selectedPlatformBrands.length > 0) {
-  //       params.append('platform_brands', selectedPlatformBrands.join(','));
-  //     }
+  //     // if (selectedPlatformBrands.length > 0) {
+  //     //   params.append('platform_brands', selectedPlatformBrands.join(','));
+  //     // }
 
   //     if (selectedPlatforms.length > 0) {
   //       params.append('platforms', selectedPlatforms.join(','));
@@ -116,7 +119,9 @@ const ReportFilters: React.FC<ReportFiltersProps> = ({
   //     }
       
   //     // Send request
-  //     const response = await fetch(`http://localhost:8000/export/excel?${params.toString()}`);
+  //     // const response = await fetch(`http://localhost:8000/export/excel?${params.toString()}`);
+  //     const response = await fetch(`${API_BASE_URL}/export/excel?${params.toString()}`);
+      
       
   //     if (!response.ok) {
   //       throw new Error('Export failed');

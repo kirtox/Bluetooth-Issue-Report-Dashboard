@@ -5,11 +5,84 @@ from .schema_platform_latest_report import PlatformWithLatestReportInDB
 from .schema_user import UserCreate, UserUpdate
 from sqlalchemy.orm import Session, aliased
 from .utils import get_password_hash
-from sqlalchemy import func
+from sqlalchemy import func, or_, String
+from datetime import datetime
+from datetime import datetime, timezone, timedelta
+
+tz_taipei = timezone(timedelta(hours=8))
 
 # Report CRUD
 def get_reports(db: Session):
     return db.query(models.Report).all()
+
+def parse_date(date_str: str) -> datetime:
+    """
+    Parse the ISO8601 date string passed by the front end (which may be Z, UTC, or +08:00)
+    Convert to Taipei time (GMT+8) and return the naive datetime
+    (Because the DB field is TIMESTAMP WITHOUT TIME ZONE)
+    """
+    # 1. Process Z first → treat as UTC
+    if date_str.endswith("Z"):
+        dt = datetime.fromisoformat(date_str.replace("Z", "+00:00"))
+    else:
+        dt = datetime.fromisoformat(date_str)
+
+    # 2. If it is tz-aware, convert it to Taipei time
+    if dt.tzinfo is not None:
+        dt = dt.astimezone(tz_taipei)
+
+    # 3. Remove tzinfo and return naive datetime to align with the DB
+    return dt.replace(tzinfo=None)
+
+def get_reports_filtered(
+    db: Session,
+    search_term: str | None = None,
+    platforms: list[str] | None = None,
+    results: list[str] | None = None,
+    wlans: list[str] | None = None,
+    scenarios: list[str] | None = None,
+    bt_drivers: list[str] | None = None,
+    start_date: str | None = None,
+    end_date: str | None = None,
+):
+    """Return reports filtered by the given optional criteria.
+    Dates should be ISO-8601 strings (e.g., 2025-09-03 or 2025-09-03T10:00:00).
+    """
+    query = db.query(models.Report)
+
+    if search_term:
+        search_filter = f"%{search_term}%"
+        string_columns = [
+            c for c in models.Report.__table__.columns
+            if isinstance(c.type, String)
+        ]
+        if string_columns:
+            query = query.filter(or_(*[col.ilike(search_filter) for col in string_columns]))
+
+    if platforms:
+        query = query.filter(models.Report.platform.in_(platforms))
+
+    if results:
+        query = query.filter(models.Report.result.in_(results))
+
+    if wlans:
+        query = query.filter(models.Report.wlan.in_(wlans))
+
+    if scenarios:
+        query = query.filter(models.Report.scenario.in_(scenarios))
+
+    if bt_drivers:
+        query = query.filter(models.Report.bt_driver.in_(bt_drivers))
+
+    if start_date:
+        query = query.filter(models.Report.date >= parse_date(start_date))
+
+    if end_date:
+        end_datetime = parse_date(end_date)
+        end_datetime = end_datetime.replace(hour=23, minute=59, second=59, microsecond=999999)
+        query = query.filter(models.Report.date <= end_datetime)
+
+    return query.all()
 
 def create_report(db: Session, report: ReportCreate):
     db_report = models.Report(**report.dict())

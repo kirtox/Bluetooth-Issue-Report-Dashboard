@@ -77,11 +77,12 @@ def read_platforms(db: Session = Depends(get_db)):
 
 # /platforms/latest_reports must place before /platform/{serial_num}
 # Otherwise, it would happen internal server error.
+# /platform/{serial_num} add prefix word "search_by_sn", so the issue should be solved.
 @app.get("/platforms/latest_reports", response_model=list[PlatformWithLatestReportInDB])
 def get_platform_latest_reports(db: Session = Depends(get_db)):
     return crud.get_platform_latest_reports(db)
 
-@app.get("/platforms/{serial_num}", response_model=PlatformInDB)
+@app.get("/platforms/search_by_sn/{serial_num}", response_model=PlatformInDB)
 def get_platform_by_serial_num(serial_num: str, db: Session = Depends(get_db)):
     result = crud.get_platform_by_serial_num(db, serial_num)
     if not result:
