@@ -102,25 +102,26 @@ const ReportEditForm: React.FC<ReportEditFormProps> = ({ report, onChange, reado
           <Row>
             {renderField("Date", "date", "datetime-local")}
           </Row>
+          <Card.Title className="fw-bold">Serial Number</Card.Title>
+          <Row>
+            {renderField("Serial Number", "serial_num")}
+          </Row>
         </Card.Body>
       </Card>
 
-      {/* Platform Info. */}
+      {/* System Info. */}
       <Card className="mb-4 shadow-sm">
         <Card.Body>
-          <Card.Title className="fw-bold">Platform Info.</Card.Title>
+            <Card.Title className="fw-bold">System Information</Card.Title>
           <Row>
+            {renderField("OS Version", "os_version")}
             {renderField("Platform Brand", "platform_brand")}
             {renderField("Platform", "platform")}
             {renderField("Platform Phase", "platform_phase")}
-            {renderField("CPU", "cpu")}
-          </Row>
-          <hr></hr>
-          <Card.Title className="fw-bold">System Info.</Card.Title>
-          <Row>
-            {renderField("OS Version", "os_version")}
             {renderField("Platform BIOS", "platform_bios")}
+            {renderField("CPU", "cpu")}
             {renderField("MS Teams Version", "msft_teams_version")}
+            {renderSelectField("Power Type", "power_type", ["AC", "DC"])}
           </Row>
         </Card.Body>
       </Card>
@@ -132,30 +133,14 @@ const ReportEditForm: React.FC<ReportEditFormProps> = ({ report, onChange, reado
           <Row>
             {renderField("WLAN", "wlan")}
             {renderField("WLAN Phase", "wlan_phase")}
-            {renderField("BT Interface", "bt_interface")}
+            {renderField("Bluetooth Interface", "bt_interface")}
           </Row>
           <hr></hr>
           <Card.Title className="fw-bold">Drivers Version</Card.Title>
           <Row>
-            {renderField("BT Driver", "bt_driver")}
+            {renderField("Bluetooth Driver", "bt_driver")}
             {renderField("WiFi Driver", "wifi_driver")}
             {renderField("Audio Driver", "audio_driver")}
-          </Row>
-        </Card.Body>
-      </Card>
-
-      {/* System Info. */}
-      <Card className="mb-4 shadow-sm">
-        <Card.Body>
-            <Card.Title className="fw-bold">System Info.</Card.Title>
-          <Row>
-            {renderField("OS Version", "os_version")}
-            {renderField("Platform Brand", "platform_brand")}
-            {renderField("Platform", "platform")}
-            {renderField("Platform Phase", "platform_phase")}
-            {renderField("Platform BIOS", "platform_bios")}
-            {renderField("CPU", "cpu")}
-            {renderSelectField("Power Type", "power_type", ["AC", "DC"])}
           </Row>
         </Card.Body>
       </Card>
@@ -182,18 +167,22 @@ const ReportEditForm: React.FC<ReportEditFormProps> = ({ report, onChange, reado
           <Card.Title className="fw-bold">Test Accessories</Card.Title>
           <Row>
             {renderField("Mouse Brand", "mouse_brand")}
+            {renderField("Mouse BT", "mouse_bt")}
             {renderField("Mouse", "mouse")}
             {renderField("Mouse Click Period", "mouse_click_period")}
             {renderField("Keyboard Brand", "keyboard_brand")}
+            {renderField("Keyboard BT", "keyboard_bt")}
             {renderField("Keyboard", "keyboard")}
             {renderField("Keyboard Click Period", "keyboard_click_period")}
             {renderField("Headset Brand", "headset_brand")}
+            {renderField("Headset BT", "headset_bt")}
             {renderField("Headset", "headset")}
             {renderField("Speaker Brand", "Speaker_brand")}
+            {renderField("Speaker BT", "Speaker_bt")}
             {renderField("Speaker", "Speaker")}
             {renderField("Phone Brand", "phone_brand")}
             {renderField("Phone", "phone")}
-            {renderField("Other device1 Brand", "device1_brand")}
+            {renderField("Device1 Brand", "device1_brand")}
             {renderField("Device", "device1")}
           </Row>
         </Card.Body>
@@ -252,8 +241,11 @@ const ReportEditForm: React.FC<ReportEditFormProps> = ({ report, onChange, reado
           <Card.Title className="fw-bold">Summary</Card.Title>
           <Row>
             {renderSelectField("Result", "result", ["Pass", "Fail", "On-Going"])}
-            {renderField("Fail Rate", "fail_rate")}
-            {renderSelectField("Current Status", "current_status", ["Finish", "Running", "Stop"])}
+            {renderField("Cycles", "cycles")}
+            {renderField("Fail Cycles", "fail_cycles")}
+            {renderField("Duration", "duration")}
+            {renderField("Log Path", "log_path")}
+            {/* {renderSelectField("Current Status", "current_status", ["Finish", "Running", "Stop"])} */}
           </Row>
         </Card.Body>
       </Card>
