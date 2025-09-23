@@ -183,9 +183,9 @@ const ReportFilters: React.FC<ReportFiltersProps> = ({
           options={wlanOptions.map(w => ({ label: w, value: w }))}
           value={selectedWlans.map(w => ({ label: w, value: w }))}
           onChange={(selected: Option[]) => setSelectedWlans(selected.map(s => s.value))}
-          labelledBy="Select Wlans"
+          labelledBy="Select WLANs"
           className="w-auto"
-          overrideStrings={{ selectSomeItems: 'Select Wlans' }}
+          overrideStrings={{ selectSomeItems: 'Select WLANs' }}
           />
         </div>
 
