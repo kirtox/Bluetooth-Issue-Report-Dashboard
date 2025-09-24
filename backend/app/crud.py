@@ -34,6 +34,7 @@ def parse_date(date_str: str) -> datetime:
     # 3. Remove tzinfo and return naive datetime to align with the DB
     return dt.replace(tzinfo=None)
 
+# To export excel with filter conditions
 def get_reports_filtered(
     db: Session,
     search_term: str | None = None,

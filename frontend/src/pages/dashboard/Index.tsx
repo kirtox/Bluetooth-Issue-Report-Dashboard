@@ -47,7 +47,6 @@ const Dashboard = () => {
   const [selectedScenarios, setSelectedScenarios] = useState<string[]>([]);
   const [selectedBTDrivers, setSelectedBTDrivers] = useState<string[]>([]);
   const [selectedResults, setSelectedResults] = useState<string[]>([]);
-  // const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
   const [dateRange, setDateRange] = useState<{ startDate: Date | null; endDate: Date | null }>({ startDate: null, endDate: null });
 
   // useEffect(() => {
@@ -92,8 +91,6 @@ const Dashboard = () => {
       selectedBTDrivers.length === 0 || selectedBTDrivers.includes(item.bt_driver);
     const matchesResult =
       selectedResults.length === 0 || selectedResults.includes(item.result?.toUpperCase() || '');
-    // const matchesStatus =
-    //   selectedStatuses.length === 0 || selectedStatuses.includes(item.current_status?.toUpperCase() || '');
     const reportDate = new Date(item.date);
     const start = dateRange.startDate;
     const end = dateRange.endDate ? new Date(new Date(dateRange.endDate).setHours(23, 59, 59, 999)) : null;
@@ -111,7 +108,6 @@ const Dashboard = () => {
     setSelectedScenarios([]);
     setSelectedBTDrivers([]);
     setSelectedResults([]);
-    // setSelectedStatuses([]);
     setDateRange({ startDate: null, endDate: null });
   };
 
@@ -209,10 +205,6 @@ const Dashboard = () => {
                 resultOptions={['PASS', 'FAIL', '']}
                 selectedResults={selectedResults}
                 setSelectedResults={setSelectedResults}
-
-                // statusOptions={['FINISH', 'RUNNING', 'STOP', '']}
-                // selectedStatuses={selectedStatuses}
-                // setSelectedStatuses={setSelectedStatuses}
 
                 dateRange={dateRange}
                 setDateRange={setDateRange}
