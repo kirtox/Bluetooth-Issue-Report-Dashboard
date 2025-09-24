@@ -321,7 +321,7 @@ function ReportTable({ reports, onReload }: ReportTableProps) {
           }}
           style={{ width: 70, display: 'inline-block' }}
         >
-          {[5, 10, 20, 50].map(size => (
+          {[5, 10, 15, 20, 50].map(size => (
             <option key={size} value={size}>{size}</option>
           ))}
         </select>

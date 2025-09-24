@@ -164,8 +164,8 @@ const Dashboard = () => {
           </Row>
         </Row>
 
-                {/* Platform Status Area */}
-                <Row className="my-6">
+        {/* Platform Status Area */}
+        <Row className="my-6 scroll-section">
           <Col lg={12} md={12} xs={12}>
             <Card className="p-3 mb-4">
               <h3 className="mb-2">Platform Status Dashboard</h3>
@@ -178,7 +178,7 @@ const Dashboard = () => {
 
 
         {/* Filter area */}
-        <Row className="my-6">
+        <Row className="my-6 scroll-section">
           <Col lg={12} md={12} xs={12}>
             <Card className="p-3 mb-4">
               <h3 className="mb-2">Report Filters</h3>
@@ -229,7 +229,7 @@ const Dashboard = () => {
         </Row>
 
         {/* Gauge chart summary area */}
-        <Row className="my-6">
+        <Row className="my-6 scroll-section">
           <Col lg={12} md={12} xs={12}>
             <Card className="p-3 mb-4">
               {/* <Row className="my-4">
@@ -358,7 +358,7 @@ const Dashboard = () => {
         </Row> */}
 
         {/* Cross Bar (data) summary area */}
-        <Row className="my-6">
+        <Row className="my-6 scroll-section">
           <Col lg={12} md={12} xs={12}>
             <Card className="p-3 mb-4">
               <h3 className="mb-2">Key Experience Indicator Dashboard - Reliability</h3>
@@ -405,7 +405,7 @@ const Dashboard = () => {
         </Row>
 
         {/* Cross Bar (duration) summary area */}
-        <Row className="my-6">
+        <Row className="my-6 scroll-section">
           <Col lg={12} md={12} xs={12}>
             <Card className="p-3 mb-4">
               <h3 className="mb-2">Key Experience Indicator Dashboard - Durability</h3>
