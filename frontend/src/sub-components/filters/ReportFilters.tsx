@@ -20,6 +20,10 @@ interface ReportFiltersProps {
   selectedPlatforms: string[];
   setSelectedPlatforms: (values: string[]) => void;
 
+  cpuOptions: string[];
+  selectedCPUs: string[];
+  setSelectedCPUs: (values: string[]) => void;
+
   wlanOptions: string[];
   selectedWlans: string[];
   setSelectedWlans: (values: string[]) => void;
@@ -54,6 +58,9 @@ const ReportFilters: React.FC<ReportFiltersProps> = ({
   platformOptions,
   selectedPlatforms,
   setSelectedPlatforms,
+  cpuOptions,
+  selectedCPUs,
+  setSelectedCPUs,
   wlanOptions,
   selectedWlans,
   setSelectedWlans,
@@ -175,6 +182,17 @@ const ReportFilters: React.FC<ReportFiltersProps> = ({
           labelledBy="Select Platforms"
           className="w-auto"
           overrideStrings={{ selectSomeItems: 'Select Platforms' }}
+          />
+        </div>
+
+        <div className="w-auto flex-shrink-0" style={{ minWidth: 240 }}>
+          <MultiSelect
+          options={cpuOptions.map(p => ({ label: p, value: p }))}
+          value={selectedCPUs.map(p => ({ label: p, value: p }))}
+          onChange={(selected: Option[]) => setSelectedCPUs(selected.map(s => s.value))}
+          labelledBy="Select CPUs"
+          className="w-auto"
+          overrideStrings={{ selectSomeItems: 'Select CPUs' }}
           />
         </div>
 

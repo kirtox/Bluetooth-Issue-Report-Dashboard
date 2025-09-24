@@ -43,6 +43,7 @@ const Dashboard = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedPlatformBrands, setSelectedPlatformBrands] = useState<string[]>([]);
   const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([]);
+  const [selectedCPUs, setSelectedCPUs] = useState<string[]>([]);
   const [selectedWlans, setSelectedWlans] = useState<string[]>([]);
   const [selectedScenarios, setSelectedScenarios] = useState<string[]>([]);
   const [selectedBTDrivers, setSelectedBTDrivers] = useState<string[]>([]);
@@ -73,6 +74,7 @@ const Dashboard = () => {
       item.op_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.platform_brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.platform.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.cpu.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.wlan.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.scenario.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.bt_driver.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -83,6 +85,8 @@ const Dashboard = () => {
       selectedPlatformBrands.length === 0 || selectedPlatformBrands.includes(item.platform_brand);
     const matchesPlatform =
       selectedPlatforms.length === 0 || selectedPlatforms.includes(item.platform);
+    const matchesCPU =
+      selectedCPUs.length === 0 || selectedCPUs.includes(item.cpu);
     const matchesWlan =
       selectedWlans.length === 0 || selectedWlans.includes(item.wlan);
     const matchesScenario =
@@ -95,7 +99,7 @@ const Dashboard = () => {
     const start = dateRange.startDate;
     const end = dateRange.endDate ? new Date(new Date(dateRange.endDate).setHours(23, 59, 59, 999)) : null;
     const matchesDate = !start || !end || (reportDate >= start && reportDate <= end);
-    return matchesSearch && matchesPlatformBrand && matchesPlatform && matchesWlan && matchesScenario 
+    return matchesSearch && matchesPlatformBrand && matchesPlatform && matchesCPU && matchesWlan && matchesScenario 
             && matchesBTDriver && matchesResult && matchesDate;
   });
 
@@ -104,6 +108,7 @@ const Dashboard = () => {
     setSearchTerm('');
     setSelectedPlatformBrands([]);
     setSelectedPlatforms([]);
+    setSelectedCPUs([]);
     setSelectedWlans([]);
     setSelectedScenarios([]);
     setSelectedBTDrivers([]);
@@ -189,6 +194,10 @@ const Dashboard = () => {
                 platformOptions={[...new Set(reports.map(r => r.platform))]}
                 selectedPlatforms={selectedPlatforms}
                 setSelectedPlatforms={setSelectedPlatforms}
+
+                cpuOptions={[...new Set(reports.map(r => r.cpu))]}
+                selectedCPUs={selectedCPUs}
+                setSelectedCPUs={setSelectedCPUs}
 
                 wlanOptions={[...new Set(reports.map(r => r.wlan))]}
                 selectedWlans={selectedWlans}

@@ -138,6 +138,7 @@ export interface Report {
   date: string;
   platform_brand: string;
   platform: string;
+  cpu: string;
   wlan: string;
   scenario: string;
   bt_driver: string;
