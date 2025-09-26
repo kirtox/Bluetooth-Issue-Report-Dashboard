@@ -262,7 +262,7 @@ const Dashboard = () => {
                       { value: 504, color: "#6FB7B7", label: "Medium" },
                       { value: 720, color: "#408080", label: "High" },
                     ]}
-                    title="Bluetooth Driver Reliability"
+                    title="Bluetooth Driver Durability"
                   />
                 </Col>
               </Row>
@@ -313,7 +313,7 @@ const Dashboard = () => {
                       { value: 504, color: "#2894FF", label: "Medium" },
                       { value: 720, color: "#0066CC", label: "High" },
                     ]}
-                    title="WLAN Reliability"
+                    title="WLAN Durability"
                   />
                 </Col>
               </Row>
@@ -396,7 +396,7 @@ const Dashboard = () => {
                     reports={filteredReports}
                     fieldX="wlan"
                     fieldY="platform"
-                    title="WLAN Relibility"
+                    title="WLAN Reliability"
                   />
                 </Col>
               </Row>
@@ -417,7 +417,7 @@ const Dashboard = () => {
                     fieldX="bt_driver"
                     fieldY="duration"
                     groupBy="scenario"
-                    title="Intgration Test"
+                    title="Integration Test"
                   />
                 </Col>
                 <Col lg={6} md={12} xs={12}>
